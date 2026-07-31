@@ -23,8 +23,9 @@ Each of these is a measured fact from mid-2026, not a mood:
 
 - [`CHARTER.md`](CHARTER.md): the law. Membership, scenes, the five unamendable clauses, governance, money, dissolution. Capture-resistance lives here, as structure rather than intention.
 - [`DESIGN.md`](DESIGN.md): the machine. Every primitive (room, scene, issue, flyer, staple, vouch, guestbook, light, commons, quest), every loop that connects them, the data model on AT Protocol lexicons, moderation, energy, economics, staging.
-- [`demo/`](demo/index.html): the whole system, clickable, in one self-contained file with zero external requests. Seven rooms in seven skins, a scene, a full issue of its zine, the editor's desk, a traveling flyer, the rounds, the public stoop, start-a-scene, and the law. It exists so the whole shape can be felt at once instead of imagined piecewise.
-- [`press/`](press/index.html): Stage 0's entire toolchain. A one-sheet, eight-page, one-cut zine layout with editable panels, fold instructions, a test-sheet mode, and starter prompts for a first issue. Print it, fold it, hand it to somebody. No software exists past this point until Issue #2 earns it.
+- [`index.html`](index.html): Stoop itself, as far as it exists. One self-contained file, zero external requests: seven rooms in seven skins, a scene, a full issue of its zine, the editor's desk, a traveling flyer, the rounds, the public stoop, start-a-scene, and the law. It is inhabited by a model town (Night Bus and its neighbors) until real scenes move in; the fiction is placeholder data, not placeholder software.
+- [`press/`](press/index.html): Stage 0's entire toolchain. A one-sheet, eight-page, one-cut zine layout with editable panels, fold instructions, a test-sheet mode, and starter prompts for a first issue. Print it, fold it, hand it to somebody. No further software gets built until Issue #2 earns it.
+- [`tool/SPEC.md`](tool/SPEC.md): the Stage 1 scene tool, specified on paper so the unlock is a start and not a planning session. Building it stays locked behind the gate.
 
 ## Status
 
@@ -32,4 +33,4 @@ Paper and prototype. Pre-first-scene. The founding gate is not signups or retent
 
 The name is provisional. Naming it is an argument to have with the people who will live in it, on principle.
 
-License intent: AGPL-3.0-or-later for all software, per Charter Article III; the LICENSE file lands with the first code. Prose and design documents: CC BY-SA 4.0 intent, same timing.
+Licenses, landed: software under AGPL-3.0-or-later ([LICENSE](LICENSE)), per Charter Article III; prose and design documents under CC BY-SA 4.0 ([LICENSE-docs](LICENSE-docs)). Copy this repo; that is what it is for.
