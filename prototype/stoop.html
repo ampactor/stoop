@@ -1,0 +1,524 @@
+<!-- stoop prototype: one file, zero external requests. artifact-shaped (no doctype/head/body; a publisher wraps it). opens fine locally too. -->
+<title>STOOP — a folk media prototype</title>
+<style>
+  :root{
+    --night:#0e0e10; --soot:#1a1a1e; --bone:#ece7db; --ink:#141210;
+    --orange:#ff5f1f; --blue:#5aa9d6; --grey:#8a8578; --paper:#e6e0d2;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--night);color:var(--bone);font-family:ui-sans-serif,system-ui,'Helvetica Neue',Arial,sans-serif;line-height:1.45}
+  ::selection{background:var(--orange);color:var(--night)}
+
+  /* ---------- chrome ---------- */
+  header.chrome{position:sticky;top:0;z-index:10;background:var(--night);border-bottom:2px solid var(--bone);
+    display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;padding:.5rem .9rem}
+  .wordmark{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;font-size:1.5rem;letter-spacing:.12em;color:var(--bone);text-decoration:none}
+  .wordmark b{color:var(--orange)}
+  .battery{font-family:'Courier New',monospace;font-size:.75rem;color:var(--grey);border:1px solid var(--grey);padding:.1rem .45rem;cursor:help;white-space:nowrap}
+  .battery em{color:var(--orange);font-style:normal}
+  nav.chrome-nav{display:flex;flex-wrap:wrap;gap:.15rem;margin-left:auto}
+  nav.chrome-nav a{font-family:'Courier New',monospace;font-size:.8rem;color:var(--blue);text-decoration:none;padding:.25rem .5rem;border:1px solid transparent}
+  nav.chrome-nav a:hover{border-color:var(--blue)}
+  nav.chrome-nav a.here{color:var(--night);background:var(--bone);border-color:var(--bone)}
+  nav.chrome-nav a.feedlink{color:var(--grey);text-decoration:line-through}
+
+  main{max-width:860px;margin:0 auto;padding:1.2rem .9rem 4rem}
+  section[data-view]{display:none}
+  section[data-view].on{display:block;animation:flick .12s steps(2) 1}
+  @keyframes flick{0%{opacity:.4}100%{opacity:1}}
+
+  h1,h2,h3{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;letter-spacing:.06em;line-height:1.05;margin:.4rem 0}
+  a{color:var(--blue)}
+  .mono{font-family:'Courier New',monospace}
+  .tag{display:inline-block;font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;
+    border:1px solid var(--bone);padding:.1rem .5rem;margin:.15rem .3rem .15rem 0}
+  .tag.hot{border-color:var(--orange);color:var(--orange)}
+  .tag.cold{border-color:var(--blue);color:var(--blue)}
+
+  .dot{display:inline-block;width:.65em;height:.65em;border-radius:50%;margin-right:.35em;vertical-align:baseline}
+  .dot.on{background:var(--orange);box-shadow:0 0 6px var(--orange)}
+  .dot.off{background:var(--grey);opacity:.5}
+  .lightword{font-family:'Courier New',monospace;font-size:.78rem;letter-spacing:.1em}
+
+  /* photocopy paper panels */
+  .paper{background:var(--paper);color:var(--ink);padding:1.1rem 1.2rem;margin:1rem 0;border:2px solid var(--ink);
+    box-shadow:5px 5px 0 rgba(0,0,0,.55);position:relative;
+    background-image:repeating-linear-gradient(115deg,rgba(20,18,16,.045) 0 2px,transparent 2px 7px)}
+  .paper h2,.paper h3{color:var(--ink)}
+  .paper a{color:#155d80;font-weight:bold}
+  .paper .mono,.paper p,.paper li,.paper td,.paper th{font-family:'Courier New',monospace;font-size:.92rem}
+  .cutline{border-top:2px dashed var(--ink);margin:1.1rem 0;position:relative}
+  .cutline::before{content:"✂";position:absolute;left:.4rem;top:-0.72em;background:var(--paper);padding:0 .3rem;font-size:.8rem}
+
+  .staple::before{content:"⌷⌷";position:absolute;top:-9px;left:46%;color:var(--ink);letter-spacing:2px;font-size:.8rem;transform:rotate(3deg)}
+  .tilt-l{transform:rotate(-1.3deg)} .tilt-r{transform:rotate(1.1deg)}
+
+  .dith{width:100%;display:block;border:2px solid var(--ink);background:var(--paper)}
+  .caption{font-family:'Courier New',monospace;font-size:.78rem;margin:.25rem 0 0;color:inherit;opacity:.85}
+
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+  .crew{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:.5rem;margin:.6rem 0}
+  .crew a{display:block;border:1px solid var(--bone);padding:.45rem .35rem;text-align:center;color:var(--bone);text-decoration:none;
+    font-family:'Courier New',monospace;font-size:.75rem}
+  .crew a:hover{border-color:var(--orange);color:var(--orange)}
+  .crew .glyph{font-size:1.15rem;display:block;margin-bottom:.2rem}
+
+  .gb{border-left:3px solid var(--orange);padding:.5rem .8rem;margin:.7rem 0;background:var(--soot)}
+  .gb .who{font-family:'Courier New',monospace;font-size:.75rem;color:var(--orange);letter-spacing:.08em}
+  .gb p{margin:.25rem 0 0}
+  .paper .gb{background:rgba(20,18,16,.05);border-left-color:var(--ink)}
+  .paper .gb .who{color:var(--ink)}
+
+  .btn{font-family:'Courier New',monospace;font-size:.85rem;background:none;border:2px solid var(--orange);color:var(--orange);
+    padding:.45rem .9rem;cursor:pointer;letter-spacing:.05em}
+  .btn:hover{background:var(--orange);color:var(--night)}
+  .btn[disabled]{border-color:var(--grey);color:var(--grey);cursor:not-allowed}
+  .btn.done{background:var(--orange);color:var(--night)}
+  .paper .btn{border-color:var(--ink);color:var(--ink)}
+  .paper .btn:hover{background:var(--ink);color:var(--paper)}
+
+  .bar{height:14px;border:1px solid var(--ink);background:var(--paper);position:relative}
+  .bar i{position:absolute;inset:1px auto 1px 1px;width:60%;background:var(--orange)}
+  .bar span{position:absolute;right:.3rem;top:-1.35rem;font-family:'Courier New',monospace;font-size:.75rem}
+
+  table{border-collapse:collapse;width:100%;margin:.5rem 0}
+  th,td{border:1px solid var(--ink);padding:.3rem .5rem;text-align:left}
+  th{background:rgba(20,18,16,.08);font-weight:bold}
+
+  .webring{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--grey);margin-top:1.6rem;padding-top:.7rem;
+    font-family:'Courier New',monospace;font-size:.8rem}
+  .pageweight{font-family:'Courier New',monospace;font-size:.7rem;color:var(--grey);text-align:center;margin-top:2.2rem;letter-spacing:.08em}
+
+  /* room: moss (night skin) */
+  .room-banner{border:2px solid var(--bone);padding:1.2rem;position:relative;overflow:hidden;
+    background:repeating-linear-gradient(0deg,#111 0 3px,#0a0a0c 3px 6px)}
+  .room-banner h1{font-size:3.4rem;margin:0;color:var(--bone);text-transform:uppercase}
+  .room-banner h1 span{color:var(--orange)}
+  .player{display:flex;align-items:center;gap:.7rem;border:1px solid var(--bone);padding:.55rem .8rem;margin:.9rem 0;background:var(--soot)}
+  .player .trackline{font-family:'Courier New',monospace;font-size:.82rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .player .pbar{flex:2;height:6px;background:#333;position:relative}
+  .player .pbar i{position:absolute;inset:0 auto 0 0;width:0%;background:var(--orange);transition:width .4s steps(8)}
+
+  /* room: yuki (riso paper skin) */
+  .yuki{background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:1.1rem 1.2rem;
+    background-image:radial-gradient(rgba(21,93,128,.18) 1px,transparent 1px);background-size:5px 5px;box-shadow:5px 5px 0 rgba(0,0,0,.55)}
+  .yuki h1{color:#155d80;font-size:3rem;margin:0;text-transform:lowercase;font-family:'Courier New',monospace;letter-spacing:0}
+  .yuki .mono,.yuki p{font-family:'Courier New',monospace;font-size:.92rem}
+  .yuki a{color:#155d80}
+
+  /* issue */
+  .cover{background:var(--ink);color:var(--paper);border:2px solid var(--paper);padding:1.4rem;text-align:center;position:relative}
+  .cover h1{font-size:4rem;margin:.2rem 0;color:var(--paper)}
+  .cover .iss{color:var(--orange);font-size:5rem;display:block;line-height:.9}
+  .cover .mono{color:var(--paper);opacity:.8}
+  .track{display:flex;justify-content:space-between;border-bottom:1px dotted var(--ink);padding:.15rem 0;font-family:'Courier New',monospace;font-size:.88rem}
+  .theend{border:3px double var(--bone);text-align:center;padding:2rem 1rem;margin:2rem 0 1rem}
+  .theend h2{font-size:2.6rem;color:var(--orange)}
+  .theend p{font-family:'Courier New',monospace;font-size:.9rem}
+
+  /* flyer */
+  .flyer{background:var(--paper);color:var(--ink);border:3px solid var(--ink);max-width:540px;margin:0 auto;padding:1.6rem 1.2rem;text-align:center;
+    box-shadow:7px 7px 0 rgba(0,0,0,.6)}
+  .flyer h1{font-size:3.2rem;text-transform:uppercase;margin:.1rem 0}
+  .flyer h2{font-size:2.1rem;text-transform:uppercase;margin:.1rem 0}
+  .flyer .with{font-family:'Courier New',monospace;letter-spacing:.2em;font-size:.8rem;margin:.5rem 0}
+  .flyer .bigline{border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:.5rem 0;margin:.8rem 0;font-family:'Courier New',monospace;font-weight:bold}
+
+  /* feed gag */
+  .nofeed{text-align:center;padding:3.5rem 1rem}
+  .nofeed h1{font-size:14vw;max-font-size:7rem;color:var(--grey);margin:0;line-height:.95}
+  .nofeed h1 b{color:var(--orange)}
+  .nofeed p{font-family:'Courier New',monospace;color:var(--grey)}
+  .nofeed .p2{color:var(--bone)}
+
+  /* law */
+  .law{counter-reset:cl}
+  .clause{border:2px solid var(--bone);margin:.9rem 0;padding:1rem 1.1rem 1rem 3.4rem;position:relative}
+  .clause::before{counter-increment:cl;content:counter(cl);position:absolute;left:.8rem;top:.55rem;
+    font-family:Impact,'Arial Narrow Bold',sans-serif;font-size:2rem;color:var(--orange)}
+  .clause h3{margin:0 0 .25rem;font-size:1.15rem;letter-spacing:.1em;text-transform:uppercase}
+  .clause p{margin:0;font-family:'Courier New',monospace;font-size:.85rem;color:var(--bone)}
+
+  .toast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);background:var(--orange);color:var(--night);
+    font-family:'Courier New',monospace;font-size:.85rem;padding:.6rem 1rem;border:2px solid var(--night);display:none;z-index:20}
+  @media (max-width:640px){ .room-banner h1{font-size:2.4rem} .cover h1{font-size:2.6rem} .cover .iss{font-size:3.4rem} .flyer h1{font-size:2.3rem} }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="grit"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.9 0.9 0.9 0 0"/>
+      <feComponentTransfer><feFuncA type="discrete" tableValues="0 0 0 1"/></feComponentTransfer>
+      <feComposite operator="in" in2="SourceGraphic"/></filter>
+    <filter id="gritsoft"><feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="3" stitchTiles="stitch"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.75 0.75 0.75 0 0"/>
+      <feComponentTransfer><feFuncA type="discrete" tableValues="0 0 1"/></feComponentTransfer>
+      <feComposite operator="in" in2="SourceGraphic"/></filter>
+    <pattern id="half" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.6" fill="#141210"/></pattern>
+  </defs>
+</svg>
+
+<header class="chrome">
+  <a class="wordmark" href="#room">STOO<b>P</b></a>
+  <span class="battery" title="the flagship runs off-grid. in long rain it goes down, and that is a feature.">☀ <em>78%</em> ▮▮▮▮▯ solar</span>
+  <nav class="chrome-nav">
+    <a href="#room" data-nav="room">moss's room</a>
+    <a href="#scene" data-nav="scene">night bus</a>
+    <a href="#issue" data-nav="issue">issue 03</a>
+    <a href="#flyer" data-nav="flyer">flyer</a>
+    <a href="#rounds" data-nav="rounds">the rounds</a>
+    <a href="#knock" data-nav="knock">knock</a>
+    <a href="#law" data-nav="law">the law</a>
+    <a href="#feed" data-nav="feed" class="feedlink">feed</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============ ROOM: MOSS ============ -->
+<section data-view="room">
+  <div class="room-banner">
+    <h1>mo<span>ss</span></h1>
+    <p class="mono">night bus · rooms are places, not rows in a feed</p>
+    <p class="lightword"><span class="dot on"></span>THE LIGHT IS ON — knock if you're passing
+      <span style="color:var(--grey)"> (manual. never inferred. never logged.)</span></p>
+  </div>
+
+  <div class="player">
+    <button class="btn" id="playbtn" aria-label="play room song">▶</button>
+    <span class="trackline">sodium lamp — counting exits (3:47) · rights-clear or it links out</span>
+    <span class="pbar"><i id="pfill"></i></span>
+  </div>
+
+  <div class="grid2">
+    <div>
+      <h2 style="color:var(--orange)">ABOUT</h2>
+      <p class="mono">i fix bikes badly and CSS well. i think the reverb tail on a room says more than the bio field.
+      currently trying to record the sound of the substation on Halsey with a contact mic. it hums in F.</p>
+      <h2 style="color:var(--orange)">CURRENT OBSESSIONS</h2>
+      <p><span class="tag">tape loops</span><span class="tag">bike polo</span><span class="tag">css as a genre</span>
+         <span class="tag">powdered graphite</span><span class="tag hot">the substation hum</span></p>
+    </div>
+    <div>
+      <h2 style="color:var(--orange)">THE CREW <span class="mono" style="font-size:.7rem;color:var(--grey)">(eight slots. chosen by hand. agonized over.)</span></h2>
+      <div class="crew">
+        <a href="#room2"><span class="glyph">✉</span>yuki</a>
+        <a href="#scene"><span class="glyph">⚙</span>dee</a>
+        <a href="#scene"><span class="glyph">▧</span>ratbag</a>
+        <a href="#scene"><span class="glyph">☖</span>birdie</a>
+        <a href="#scene"><span class="glyph">⌁</span>tam</a>
+        <a href="#scene"><span class="glyph">◫</span>colin</a>
+        <a href="#flyer"><span class="glyph">⌂</span>vera <small>@wet cement</small></a>
+        <a href="#rounds"><span class="glyph">＋</span><small>open slot</small></a>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="color:var(--orange)">GUESTBOOK <span class="mono" style="font-size:.7rem;color:var(--grey)">— signing is visiting. it lives here, under your name.</span></h2>
+  <div class="gb"><span class="who">birdie · tue</span><p>dropped bread by your door. the light was off. it's in the milk crate.</p></div>
+  <div class="gb"><span class="who">vera @ wet cement · mon</span><p>friday. bring the good speakers. tell dee the address is the same basement as march.</p></div>
+  <div class="gb"><span class="who">tam · last week</span><p>your june mix fixed my week. side B especially. what IS track 4</p></div>
+  <div class="gb"><span class="who">dee · last week</span><p>bike #7 is yours if you want it. needs a rear wheel. i have a rear wheel.</p></div>
+  <p><button class="btn" disabled>sign the guestbook (demo)</button></p>
+
+  <div class="webring">
+    <a href="#rounds">◀ tam's room</a>
+    <a href="#rounds">the rounds</a>
+    <a href="#room2">yuki's room ▶</a>
+  </div>
+</section>
+
+<!-- ============ ROOM: YUKI ============ -->
+<section data-view="room2">
+  <div class="yuki tilt-l">
+    <h1>yuki_types</h1>
+    <p class="mono">night bus · editor this cycle <span class="tag cold">ISSUE 04 DESK</span></p>
+    <p class="mono"><span class="dot off"></span><span class="lightword" style="color:#155d80">light's off — leave a note, i'll find it</span></p>
+    <div class="cutline"></div>
+    <p class="mono">every room is its own skin. moss goes night; i go riso. the system ships the sandbox, you ship the self.
+    i letterpress at the shop on 9th on sundays. bring paper, leave with something.</p>
+    <p><span class="tag cold">letterpress</span><span class="tag cold">field recordings</span><span class="tag cold">library holds</span></p>
+    <div class="cutline"></div>
+    <div class="gb"><span class="who">moss · wed</span><p>submitted the substation essay for 04. it's short. be cruel if it's bad.</p></div>
+    <div class="gb"><span class="who">ratbag · sun</span><p>the misprint shirts sold OUT. chaos wins again</p></div>
+    <p><button class="btn" disabled>sign the guestbook (demo)</button></p>
+  </div>
+  <div class="webring">
+    <a href="#room">◀ moss's room</a>
+    <a href="#rounds">the rounds</a>
+    <a href="#rounds">colin's room ▶</a>
+  </div>
+</section>
+
+<!-- ============ SCENE ============ -->
+<section data-view="scene">
+  <h1 style="font-size:3rem">NIGHT BUS <span class="lightword" style="color:var(--grey);font-size:1rem">a scene · est. may 2026 · 7 members · cap 150, fork after</span></h1>
+  <p class="mono" style="color:var(--grey)">a scene is people + an aesthetic + a calendar + a commons + a zine. it governs itself. it owes the world one door.</p>
+
+  <div class="paper tilt-r staple">
+    <h2>ISSUE 04 CYCLE — OPEN</h2>
+    <p class="mono">submissions: <b>4 in</b> (essay, photo set, mix, recipe) · closes thu midnight<br>
+    editor this turn: <a href="#room2">yuki</a> → next turn: dee (rotation is dish duty)<br>
+    drops <b>friday 19:00</b>, the bell hour. everyone reads the same thing.</p>
+    <p><button class="btn" disabled>submit a piece (demo)</button> <a class="mono" href="#issue">read issue 03 →</a></p>
+  </div>
+
+  <h2 style="color:var(--orange)">THE CORKBOARD</h2>
+  <div class="grid2">
+    <div class="paper tilt-l staple">
+      <h3>SUBSTATION / VOLTA COLUMN</h3>
+      <p class="mono">+ night bus DJs · friday · basement show<br><b>stapled from: WET CEMENT</b> (two towns over, by consent)</p>
+      <p><a href="#flyer">see the flyer →</a></p>
+    </div>
+    <div class="paper tilt-r staple">
+      <h3>SKILL-SHARE: TAPE DECK SURGERY</h3>
+      <p class="mono">tam, sunday 2pm, the garage. bring a dying deck, leave with a living one. counts toward the ledger.</p>
+    </div>
+  </div>
+
+  <h2 style="color:var(--orange)">THE COMMONS</h2>
+  <div class="paper">
+    <h3>QUEST: TEN BIKES <span class="mono" style="font-weight:normal">(fix ten, give ten away)</span></h3>
+    <div class="bar"><i style="width:60%"></i><span>6 / 10</span></div>
+    <p class="mono">work day sat. dee has wheels. photos go to colin, colin's photos go to the zine. quests feed issues; that's the loop.</p>
+    <div class="cutline"></div>
+    <h3>SKILL LEDGER <span class="mono" style="font-weight:normal">(who can teach what — capability compounds)</span></h3>
+    <table>
+      <tr><th>member</th><th>teaches</th><th>learned it here?</th></tr>
+      <tr><td>tam</td><td>soldering, tape decks</td><td>—</td></tr>
+      <tr><td>dee</td><td>wheel builds</td><td>—</td></tr>
+      <tr><td>ratbag</td><td>screenprint</td><td>—</td></tr>
+      <tr><td>birdie</td><td>bread</td><td>—</td></tr>
+      <tr><td>moss</td><td>css, contact mics</td><td>mics ← tam</td></tr>
+      <tr><td>yuki</td><td>letterpress</td><td>—</td></tr>
+      <tr><td>colin</td><td>developing film</td><td>—</td></tr>
+    </table>
+    <p class="mono">tool library: 4-track · bike stand · soldering iron · screenprint frame · the good speakers (currently: moss)</p>
+  </div>
+
+  <h2 style="color:var(--orange)">THE SHELF <span class="mono" style="font-size:.7rem;color:var(--grey)">— streams forget. shelves remember.</span></h2>
+  <p class="mono">
+    <span class="tag">ISSUE 01 — "first, the name fight"</span>
+    <span class="tag">ISSUE 02 — "the casserole incident"</span>
+    <a href="#issue" class="tag hot">ISSUE 03 — "power cuts" ← read</a>
+  </p>
+
+  <h2 style="color:var(--orange)">MEMBERS</h2>
+  <p class="mono">
+    <span class="dot on"></span>moss · <span class="dot off"></span>yuki · <span class="dot on"></span>dee ·
+    <span class="dot off"></span>ratbag · <span class="dot on"></span>birdie · <span class="dot off"></span>tam ·
+    <span class="dot off"></span>colin &nbsp; <span style="color:var(--grey)">(lights are manual: orange = sitting out, grey = not. never inferred.)</span>
+  </p>
+  <p class="mono"><a href="#knock">our public stoop — anyone can knock →</a></p>
+</section>
+
+<!-- ============ ISSUE 03 ============ -->
+<section data-view="issue">
+  <div class="cover">
+    <span class="mono">NIGHT BUS · A ZINE BY A SCENE · JULY 2026 · ASSEMBLED BY YUKI</span>
+    <h1>POWER<br>CUTS</h1>
+    <span class="iss">№03</span>
+    <svg class="dith" viewBox="0 0 600 140" role="img" aria-label="dithered artwork: pylons against noise" style="margin-top:1rem;border-color:var(--paper)">
+      <rect width="600" height="140" fill="#141210"/>
+      <rect width="600" height="140" fill="#e6e0d2" filter="url(#gritsoft)"/>
+      <path d="M80 140 L110 30 L140 140 M60 90 L160 90 M70 115 L150 115 M110 30 L110 10" stroke="#141210" stroke-width="7" fill="none"/>
+      <path d="M300 140 L330 40 L360 140 M280 95 L380 95 M290 120 L370 120" stroke="#141210" stroke-width="7" fill="none"/>
+      <path d="M500 140 L530 25 L560 140 M480 85 L580 85 M490 112 L570 112 M530 25 L530 8" stroke="#141210" stroke-width="7" fill="none"/>
+      <path d="M110 30 C 200 60, 240 60, 330 40 C 420 60, 440 55, 530 25" stroke="#141210" stroke-width="3" fill="none"/>
+    </svg>
+    <p class="mono" style="margin:.4rem 0 0">finite. it ends. nothing refreshes after the last page.</p>
+  </div>
+
+  <div class="paper">
+    <h2>EDITOR'S NOTE</h2>
+    <p>the grid blinked twice this month and both times somebody's four-track kept rolling on batteries, which felt like a lesson.
+    six pieces this cycle. i cut one (mine). read the whole thing, then go sign somebody's guestbook about it; that's what the back page is for.
+    dee has the desk next cycle. be kind, submit early. — y.</p>
+  </div>
+
+  <div class="paper">
+    <h2>WALKING HOME FROM THE SUBSTATION SHOW</h2>
+    <p class="caption">essay · moss</p>
+    <p>the sodium lamps on Halsey are being replaced by LEDs, block by block, and you can stand on the seam:
+    orange behind you, white ahead. after the show everyone walked the orange direction, no one deciding it out loud.
+    vera says the hum is the same note as the substation, F, and that the band tuned to it on purpose. i believe her lie completely.
+    a city is a scene that got too big to fit in a basement, and it forked, and forked again, and forgot it ever had a commons.
+    we walked to the all-night place. someone had a printout of the ten-bikes ledger folded in their jacket like a setlist.</p>
+  </div>
+
+  <div class="paper">
+    <h2>FOUR FRAMES FROM THE BIKE QUEST</h2>
+    <p class="caption">photos · colin · developed in the garage sink</p>
+    <div class="grid2">
+      <div><svg class="dith" viewBox="0 0 300 170" role="img" aria-label="dithered photo: bike wheel"><rect width="300" height="170" fill="#e6e0d2"/><rect width="300" height="170" fill="#141210" filter="url(#gritsoft)" opacity=".25"/><circle cx="150" cy="85" r="60" stroke="#141210" stroke-width="6" fill="none"/><circle cx="150" cy="85" r="8" fill="#141210"/><path d="M150 25 V145 M90 85 H210 M108 43 L192 127 M192 43 L108 127" stroke="#141210" stroke-width="2"/></svg>
+      <p class="caption">wheel №7, before. dee called it "a chandelier."</p></div>
+      <div><svg class="dith" viewBox="0 0 300 170" role="img" aria-label="dithered photo: hands and coffee"><rect width="300" height="170" fill="#e6e0d2"/><rect width="300" height="170" fill="#141210" filter="url(#grit)" opacity=".18"/><rect x="40" y="90" width="220" height="50" fill="url(#half)"/><circle cx="240" cy="60" r="22" stroke="#141210" stroke-width="5" fill="none"/><path d="M262 60 q14 0 12 14 q-2 10 -14 8" stroke="#141210" stroke-width="4" fill="none"/></svg>
+      <p class="caption">the work bench. the mug stays in frame; it's load-bearing.</p></div>
+    </div>
+  </div>
+
+  <div class="paper">
+    <h2>SIDE A: POWER CUTS</h2>
+    <p class="caption">mix · tam · dubbed to tape for whoever asks, links for the rest</p>
+    <div class="track"><span>1. volta column — pylon prayer</span><span>4:12</span></div>
+    <div class="track"><span>2. substation — every exit counted</span><span>3:03</span></div>
+    <div class="track"><span>3. wire mothers — plate glass</span><span>2:41</span></div>
+    <div class="track"><span>4. sodium lamp — counting exits</span><span>3:47</span></div>
+    <div class="track"><span>5. council flat — the reservoir</span><span>5:19</span></div>
+    <p class="caption">yes, track 4 is the one from moss's room. now you know, tam.</p>
+  </div>
+
+  <div class="paper">
+    <h2>TEN BIKES: LOG, WEEKS 3–4</h2>
+    <p class="caption">quest log · dee</p>
+    <p>№5 done (new chain, trued the rear). №6 done (that seatpost finally moved; penetrating oil and a personal grudge).
+    №7 is moss's if they claim it. found №8 in a skip, it's a good frame under the rust.
+    two saturdays left. if you've never trued a wheel, come; it's meditation with consequences, and then it goes in the ledger.</p>
+  </div>
+
+  <div class="paper">
+    <h2>HARDTACK FOR THE MERCH TABLE</h2>
+    <p class="caption">recipe · birdie</p>
+    <p>flour, water, salt, 375° until it sounds hollow. survives a tour van indefinitely. sell it next to ratbag's misprints:
+    the shirts that say NIGHT SUB. (he printed twelve, botched four, and the four sold first. there's a design lesson in that
+    i refuse to learn.)</p>
+  </div>
+
+  <div class="paper">
+    <h2>LETTERS / BACK PAGE</h2>
+    <p class="caption">from the guestbooks, with permission</p>
+    <div class="gb"><span class="who">vera @ wet cement</span><p>your issue 02 made our scene start a soup quest. reporting for the record.</p></div>
+    <div class="gb"><span class="who">colin</span><p>correction: issue 02 said the casserole was "unclaimed." it was mine. i stand by it.</p></div>
+    <div class="cutline"></div>
+    <p class="mono">colophon: assembled by hand · this issue as printed: 1.2 MB digital, riso-ready PDF on the shelf ·
+    served from a machine drawing less power than a porch light · no tracker has ever read this page.</p>
+  </div>
+
+  <div class="theend">
+    <h2>THAT'S THE WHOLE ISSUE.</h2>
+    <p>there is nothing to refresh. there is nothing below the back page.<br>
+    №04 drops friday 19:00 — the bell, not the slot machine.</p>
+    <p><a href="#room">sign a guestbook</a> · <a href="#scene">submit for №04</a> · <a href="#flyer">friday's show</a> · go outside</p>
+  </div>
+</section>
+
+<!-- ============ FLYER ============ -->
+<section data-view="flyer">
+  <div class="flyer tilt-l staple">
+    <p class="with">WET CEMENT PRESENTS</p>
+    <h1>Substation</h1>
+    <h2>+ Volta Column</h2>
+    <p class="with">NIGHT BUS DJs AFTER</p>
+    <svg class="dith" viewBox="0 0 500 90" role="img" aria-label="dithered artwork: speaker stack">
+      <rect width="500" height="90" fill="#e6e0d2"/><rect width="500" height="90" fill="#141210" filter="url(#grit)" opacity=".2"/>
+      <rect x="40" y="15" width="60" height="60" fill="none" stroke="#141210" stroke-width="5"/><circle cx="70" cy="45" r="16" fill="url(#half)"/>
+      <rect x="120" y="15" width="60" height="60" fill="none" stroke="#141210" stroke-width="5"/><circle cx="150" cy="45" r="16" fill="url(#half)"/>
+      <path d="M220 70 L480 70 M240 50 L460 50 M260 30 L440 30" stroke="#141210" stroke-width="4"/>
+    </svg>
+    <div class="bigline">FRIDAY · DOORS 8 · ALL AGES<br>$5 OR A ZINE</div>
+    <p class="mono">the basement — <b>ask a member for the address</b><br>("ask a member" is a valid address. precision is the scene's choice.)</p>
+    <p class="mono" style="opacity:.75">provenance: posted by vera · signed WET CEMENT · stapled to NIGHT BUS's corkboard by standing consent, revocable anytime.</p>
+    <button class="btn" id="staplebtn">⌷ staple to your corkboard</button>
+  </div>
+  <p class="mono" style="text-align:center;color:var(--grey);margin-top:1rem">
+    the flyer is the only object that travels between scenes.<br>gossip structurally cannot go viral here. a basement show can.</p>
+</section>
+
+<!-- ============ ROUNDS ============ -->
+<section data-view="rounds">
+  <h1 style="font-size:2.6rem">THE ROUNDS</h1>
+  <p class="mono" style="color:var(--grey)">discovery is walking, not ranking. webring edges, flyer walls, guestbook traces. serendipity via edges.</p>
+  <div class="grid2">
+    <div class="paper tilt-l"><h3><span class="dot on"></span><a href="#room">moss</a> · room</h3><p class="mono">night skin, substation hum, bike №7 pending. light's on.</p></div>
+    <div class="paper tilt-r"><h3><span class="dot off"></span><a href="#room2">yuki</a> · room</h3><p class="mono">riso skin. issue 04 desk. leave a note, she'll find it.</p></div>
+    <div class="paper tilt-r"><h3><span class="dot on"></span>vera · room @ wet cement</h3><p class="mono">two towns over. runs the soup quest. brought you friday's flyer.</p></div>
+    <div class="paper tilt-l"><h3>WET CEMENT · scene</h3><p class="mono">post-industrial, 23 members, monthly zine "AGGREGATE." public stoop open.</p></div>
+    <div class="paper tilt-r"><h3>CASSEROLE UNDERGROUND · scene</h3><p class="mono">cooking scene, 61 members, weekly digest. their commons has 214 recipes.</p></div>
+    <div class="paper tilt-l"><h3>4-TRACK ANONYMOUS · scene</h3><p class="mono">bedroom recordists, 40 members. quest: a compilation nobody's label would sign.</p></div>
+    <div class="paper tilt-r" style="border-style:dashed;opacity:.85"><h3>［unclaimed］· your room</h3><p class="mono">useful at n=1. a room is the personal site you always meant to have. bring a group chat and it becomes a scene.</p></div>
+  </div>
+  <div class="webring">
+    <span>◀ prev on the ring</span><span class="mono" style="color:var(--grey)">the rounds registry: a text file's worth of infrastructure</span><span>next on the ring ▶</span>
+  </div>
+</section>
+
+<!-- ============ KNOCK ============ -->
+<section data-view="knock">
+  <h1 style="font-size:2.6rem">THE PUBLIC STOOP <span class="lightword" style="color:var(--grey);font-size:1rem">night bus's door</span></h1>
+  <div class="paper">
+    <h2>ANYONE CAN KNOCK.</h2>
+    <p>vouching may be selective; reachability may not. every scene owes the world one visible door, and this is ours.
+    a scene with no door is a clique, and cliques are not scenes under the charter (art. II.3).</p>
+    <div class="cutline"></div>
+    <h3>HOW YOU'D GET IN</h3>
+    <p>two members stake their names on you. the vouch is listed on your room for as long as you're here; trust is social collateral,
+    not a CAPTCHA. pseudonyms are protected. nobody will ever ask for your documents or your face. nothing synthetic gets membership:
+    in an internet that is majority bot, <b>everyone here is a human somebody could have dinner with</b>. that's the product.</p>
+    <p class="mono">knock: say who you are, what you make, and which member you've met (or come to a show first — friday works).</p>
+    <p><button class="btn" disabled>knock (demo)</button></p>
+  </div>
+</section>
+
+<!-- ============ LAW ============ -->
+<section data-view="law">
+  <h1 style="font-size:2.6rem">THE LAW <span class="lightword" style="color:var(--grey);font-size:1rem">five clauses no vote can touch</span></h1>
+  <div class="law">
+    <div class="clause"><h3>No advertising</h3><p>no third party may pay for placement, reach, or attention. ever, in any form, under any name.</p></div>
+    <div class="clause"><h3>No engagement metrics</h3><p>no follower counts, like tallies, view counts, trending, or ranking by attention. nothing here may be optimized against a measurement of engagement. the system must never learn what a DAU is.</p></div>
+    <div class="clause"><h3>No sale</h3><p>the co-op, the protocol namespace, and the data cannot be sold, merged into a for-profit, or pledged as collateral. there is no throat to choke and nothing to acquire.</p></div>
+    <div class="clause"><h3>Open everything</h3><p>all software AGPL. all schemas public. all books open to members. a budget that cannot survive being read does not get adopted.</p></div>
+    <div class="clause"><h3>Credible exit</h3><p>any member exports their room and graph at any moment. any scene leaves any host and loses nothing. any design that makes leaving costlier than staying is void.</p></div>
+  </div>
+  <p class="mono" style="color:var(--grey)">the economics under it: ~25 members × ~$3 dues ≈ $75/mo against single-digit hosting,
+  because there is no feed, no video, no global surface — surplus goes to editor tips, the tool library, the print run, the show.
+  capture requires investors or hostages; dues and forks provide neither. full text: CHARTER.md in the repo.</p>
+</section>
+
+<!-- ============ FEED GAG ============ -->
+<section data-view="feed">
+  <div class="nofeed">
+    <h1>THERE IS<br><b>NO FEED.</b></h1>
+    <p>nothing is trending. nobody is counting. nothing refreshes.</p>
+    <p class="p2">the next thing happens <b>friday at 19:00</b>, when №04 drops for everyone at once.</p>
+    <p><a href="#issue">read №03 again</a> · <a href="#rounds">walk the rounds</a> · <a href="#flyer">go to the show</a> · go outside</p>
+  </div>
+</section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+<p class="pageweight">STOOP prototype · one file · zero requests · no trackers · 34 KB before compression · the whole point fits in a pamphlet</p>
+
+<script>
+(function(){
+  var views=document.querySelectorAll('section[data-view]');
+  var navs=document.querySelectorAll('[data-nav]');
+  function show(){
+    var h=(location.hash||'#room').slice(1).split('/')[0];
+    var hit=false;
+    views.forEach(function(v){var on=v.getAttribute('data-view')===h;v.classList.toggle('on',on);if(on)hit=true;});
+    if(!hit){views.forEach(function(v){v.classList.toggle('on',v.getAttribute('data-view')==='room');});h='room';}
+    navs.forEach(function(a){a.classList.toggle('here',a.getAttribute('data-nav')===h);});
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',show); show();
+
+  function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.style.display='block';
+    clearTimeout(t._h);t._h=setTimeout(function(){t.style.display='none'},2600);}
+
+  var play=document.getElementById('playbtn'),fill=document.getElementById('pfill'),playing=false,w=0,tick;
+  if(play){play.addEventListener('click',function(){
+    playing=!playing;play.textContent=playing?'▮▮':'▶';
+    if(playing){tick=setInterval(function(){w=(w+3)%100;fill.style.width=w+'%';},400);
+      toast('(this would play. one song per room, rights-clear. autoplay is an argument you get to have.)');}
+    else clearInterval(tick);
+  });}
+
+  var st=document.getElementById('staplebtn');
+  if(st){st.addEventListener('click',function(){
+    st.classList.add('done');st.textContent='⌷ stapled';
+    toast("stapled to NIGHT BUS's corkboard. that's the only kind of viral this system has.");
+  });}
+})();
+</script>
