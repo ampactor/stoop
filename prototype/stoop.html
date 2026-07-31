@@ -107,6 +107,66 @@
   .yuki .mono,.yuki p{font-family:'Courier New',monospace;font-size:.92rem}
   .yuki a{color:#155d80}
 
+  .skinnote{font-family:'Courier New',monospace;font-size:.7rem;color:var(--grey);margin-top:1rem;letter-spacing:.08em}
+
+  /* room: vera (poured concrete) */
+  .vera{background:#e8e8e6;color:#111;border:8px solid #111;padding:0;box-shadow:8px 8px 0 rgba(0,0,0,.6)}
+  .vera .cell{border-bottom:8px solid #111;padding:1rem 1.15rem}
+  .vera .cell:last-child{border-bottom:0}
+  .vera h1{font-family:Helvetica,Arial,sans-serif;font-weight:900;font-size:4rem;letter-spacing:-.04em;margin:0;text-transform:uppercase;color:#111}
+  .vera h3{font-family:Helvetica,Arial,sans-serif;text-transform:uppercase;letter-spacing:.06em;color:#111}
+  .vera p{font-family:Helvetica,Arial,sans-serif;font-size:.95rem;margin:.3rem 0}
+  .vera .gb{background:#fff;border-left:6px solid #111}
+  .vera .gb .who{color:#111}
+  .vera a{color:#155d80}
+  .vera .num{font-family:Helvetica,Arial,sans-serif;font-weight:900;font-size:2.6rem;line-height:1}
+
+  /* room: ratbag (xerox ransom) */
+  .ratbag{background:var(--paper);color:var(--ink);border:3px solid var(--ink);padding:1.1rem;box-shadow:5px 5px 0 rgba(0,0,0,.55);overflow:hidden;
+    background-image:repeating-linear-gradient(45deg,rgba(20,18,16,.05) 0 12px,transparent 12px 24px)}
+  .ransom{line-height:1.15;margin:0}
+  .ransom span{display:inline-block;padding:.02em .16em;margin:.04em}
+  .tape{background:repeating-linear-gradient(45deg,var(--orange) 0 14px,var(--ink) 14px 28px);height:12px;margin:.9rem -1.1rem}
+  .ticker{overflow:hidden;white-space:nowrap;border:2px solid var(--ink);background:#fff;margin:.7rem 0}
+  .ticker span{display:inline-block;padding-left:100%;animation:tick 14s linear infinite;font-family:'Courier New',monospace;font-weight:bold;letter-spacing:.15em;font-size:.85rem}
+  @keyframes tick{to{transform:translateX(-100%)}}
+  .scrap{border:2px solid var(--ink);background:#fff;padding:.6rem .85rem;margin:.7rem 0;box-shadow:3px 3px 0 rgba(0,0,0,.4);font-family:'Courier New',monospace;font-size:.9rem}
+
+  /* room: opal (parlor) */
+  .opal{background:#f6efdf;color:#3a3226;border:4px double #8a6d4a;padding:1.3rem 1.4rem;position:relative;font-family:Georgia,'Times New Roman',serif;box-shadow:5px 5px 0 rgba(0,0,0,.35)}
+  .opal::before{content:"❀";position:absolute;top:.3rem;left:.55rem;color:#8a6d4a}
+  .opal::after{content:"❀";position:absolute;bottom:.3rem;right:.55rem;color:#8a6d4a}
+  .opal h1{font-family:Georgia,serif;font-weight:normal;font-style:italic;font-size:2.7rem;color:#5a4632;margin:.2rem 0}
+  .opal p,.opal li{font-size:1.13rem;line-height:1.55}
+  .opal .card{background:#fffdf6;border:1px solid #8a6d4a;padding:.9rem 1.1rem;margin:.9rem 0}
+  .opal .card h3{font-family:Georgia,serif;font-style:italic;margin:.1rem 0 .4rem;color:#5a4632}
+  .opal .gb{background:#fffdf6;border-left-color:#8a6d4a}
+  .opal .gb .who{color:#5a4632}
+  .opal .gb p{font-size:1.05rem;font-family:Georgia,serif}
+  .opal a{color:#155d80}
+
+  /* room: static (amber phosphor) */
+  .staticroom{background:#100c00;color:#ffb000;border:2px solid #ffb000;padding:1rem 1.15rem;font-family:'Courier New',monospace;box-shadow:inset 0 0 22px rgba(255,176,0,.18)}
+  .staticroom pre{margin:0 0 .9rem;font-size:.74rem;line-height:1.3;overflow-x:auto;color:#ffb000}
+  .staticroom .dir{border-bottom:1px dotted rgba(255,176,0,.5);display:flex;justify-content:space-between;gap:1rem;padding:.18rem 0;font-size:.85rem}
+  .staticroom a{color:#ffd76a}
+  .staticroom .gb{background:rgba(255,176,0,.07);border-left-color:#ffb000}
+  .staticroom .gb .who{color:#ffd76a}
+  .staticroom .gb p{font-family:'Courier New',monospace;font-size:.85rem}
+  .cursor{display:inline-block;width:.6em;height:1.05em;background:#ffb000;vertical-align:text-bottom;animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* room: wren (velvet) */
+  .wren{background:#0a0710;color:#cdc3e0;border:1px solid #9b7fd4;outline:1px solid #9b7fd4;outline-offset:5px;padding:1.4rem 1.5rem;font-family:Georgia,serif;margin:6px}
+  .wren h1{font-family:Georgia,serif;font-weight:normal;font-size:2.7rem;color:#9b7fd4;letter-spacing:.28em;text-transform:uppercase;margin:.2rem 0}
+  .wren p{line-height:1.6}
+  .wren .orn{text-align:center;color:#9b7fd4;letter-spacing:1.1em;margin:.8rem 0 .8rem 1.1em}
+  .wren .gb{background:rgba(155,127,212,.08);border-left-color:#9b7fd4}
+  .wren .gb .who{color:#b9a5e6}
+  .wren .gb p{font-family:Georgia,serif}
+  .wren a{color:#b9a5e6}
+  .wren em{color:#e6ddf5}
+
   /* issue */
   .cover{background:var(--ink);color:var(--paper);border:2px solid var(--paper);padding:1.4rem;text-align:center;position:relative}
   .cover h1{font-size:4rem;margin:.2rem 0;color:var(--paper)}
@@ -163,7 +223,7 @@
   <a class="wordmark" href="#room">STOO<b>P</b></a>
   <span class="battery" title="the flagship runs off-grid. in long rain it goes down, and that is a feature.">☀ <em>78%</em> ▮▮▮▮▯ solar</span>
   <nav class="chrome-nav">
-    <a href="#room" data-nav="room">moss's room</a>
+    <a href="#room" data-nav="room">rooms</a>
     <a href="#scene" data-nav="scene">night bus</a>
     <a href="#issue" data-nav="issue">issue 03</a>
     <a href="#flyer" data-nav="flyer">flyer</a>
@@ -209,7 +269,7 @@
         <a href="#scene"><span class="glyph">☖</span>birdie</a>
         <a href="#scene"><span class="glyph">⌁</span>tam</a>
         <a href="#scene"><span class="glyph">◫</span>colin</a>
-        <a href="#flyer"><span class="glyph">⌂</span>vera <small>@wet cement</small></a>
+        <a href="#room-vera"><span class="glyph">⌂</span>vera <small>@wet cement</small></a>
         <a href="#rounds"><span class="glyph">＋</span><small>open slot</small></a>
       </div>
     </div>
@@ -222,8 +282,9 @@
   <div class="gb"><span class="who">dee · last week</span><p>bike #7 is yours if you want it. needs a rear wheel. i have a rear wheel.</p></div>
   <p><button class="btn" disabled>sign the guestbook (demo)</button></p>
 
+  <p class="skinnote">skin: NIGHT — scanlines and one orange. every room below is the same primitive wearing a different self; walk the ring with the ▶ links and watch the system disappear behind the people.</p>
   <div class="webring">
-    <a href="#rounds">◀ tam's room</a>
+    <a href="#room-wren">◀ wren's room</a>
     <a href="#rounds">the rounds</a>
     <a href="#room2">yuki's room ▶</a>
   </div>
@@ -244,10 +305,132 @@
     <div class="gb"><span class="who">ratbag · sun</span><p>the misprint shirts sold OUT. chaos wins again</p></div>
     <p><button class="btn" disabled>sign the guestbook (demo)</button></p>
   </div>
+  <p class="skinnote">skin: RISO — one blue, one paper, a dot screen. she prints like she types: lowercase.</p>
   <div class="webring">
     <a href="#room">◀ moss's room</a>
     <a href="#rounds">the rounds</a>
-    <a href="#rounds">colin's room ▶</a>
+    <a href="#room-vera">vera's room ▶</a>
+  </div>
+</section>
+
+<!-- ============ ROOM: VERA ============ -->
+<section data-view="room-vera">
+  <div class="vera">
+    <div class="cell"><h1>VERA</h1>
+      <p class="lightword"><span class="dot on"></span>LIGHT ON · WET CEMENT · soup quest coordinator · the friday show is my fault</p></div>
+    <div class="cell"><h3>Soup ledger</h3>
+      <p><span class="num">214</span> quarts logged since january. 61 this month. broth thickness: disputed (see guestbook).</p></div>
+    <div class="cell"><h3>Friday</h3>
+      <p>SUBSTATION + VOLTA COLUMN in the basement. <a href="#flyer">the flyer traveled, that's the point.</a> Doors 8. Bring nothing but people.</p></div>
+    <div class="cell"><h3>Obsessions</h3>
+      <p><span class="tag" style="border-color:#111;color:#111">breeze blocks</span>
+         <span class="tag" style="border-color:#111;color:#111">tape echo</span>
+         <span class="tag" style="border-color:#111;color:#111">stock, as a concept</span></p></div>
+    <div class="cell"><h3>Guestbook</h3>
+      <div class="gb"><span class="who">moss @ night bus · today</span><p>good speakers confirmed for friday. dee knows the basement.</p></div>
+      <div class="gb"><span class="who">opal @ casserole underground · tue</span><p>Dear, your broth is thin. This is said with love. Come by Sunday; bring a big pot.</p></div>
+      <p class="skinnote">skin: POURED CONCRETE — helvetica and borders, nothing else. 16 lines of css.</p></div>
+  </div>
+  <div class="webring">
+    <a href="#room2">◀ yuki's room</a>
+    <a href="#rounds">the rounds</a>
+    <a href="#room-ratbag">ratbag's room ▶</a>
+  </div>
+</section>
+
+<!-- ============ ROOM: RATBAG ============ -->
+<section data-view="room-ratbag">
+  <div class="ratbag tilt-l">
+    <h1 class="ransom" aria-label="ratbag">
+      <span style="font-family:Impact;font-size:2.6rem;background:#141210;color:#e6e0d2">R</span><span style="font-family:Georgia;font-size:2.1rem;transform:rotate(-6deg);border:2px solid #141210">A</span><span style="font-family:'Courier New';font-size:2.8rem;background:var(--orange);color:#141210">T</span><span style="font-family:Arial;font-weight:900;font-size:2.2rem;transform:rotate(4deg)">B</span><span style="font-family:Georgia;font-style:italic;font-size:2.5rem;background:#141210;color:#e6e0d2;transform:rotate(-3deg)">A</span><span style="font-family:Impact;font-size:2.9rem;border:3px double #141210">G</span>
+    </h1>
+    <p class="mono"><span class="dot off"></span>light off. printing. do not knock, SLIDE notes under the door.</p>
+    <div class="ticker"><span>MISPRINTS $5 ★ "NIGHT SUB" SHIRTS, ALL 4 SOLD, MORE MISTAKES COMING ★ SCREENPRINT SUNDAYS ★ BRING YOUR OWN SHIRT ★ INK IS COMMUNAL ★</span></div>
+    <div class="tape"></div>
+    <div class="scrap tilt-r">printed 12 shirts for the scene. botched 4. the botched ones sold first. i have stopped fighting this and started charging for it.</div>
+    <div class="scrap tilt-l">the screenprint frame lives in the tool library. it comes back with new colors on it every time. this is called interest.</div>
+    <div class="scrap tilt-r">issue 04 cover: yuki says "no glitter." the charter says nothing about glitter. checking with the court.</div>
+    <div class="tape"></div>
+    <div class="gb"><span class="who">birdie · sun</span><p>hardtack sold out next to your misprints. we have invented commerce. feels bad. doing it again friday.</p></div>
+    <div class="gb"><span class="who">yuki · sat</span><p>cover art by THURSDAY. i mean it. (the glitter ruling was: no.)</p></div>
+    <p class="skinnote">skin: XEROX RANSOM — nine fonts, zero apologies. the tape stripe is load-bearing.</p>
+  </div>
+  <div class="webring">
+    <a href="#room-vera">◀ vera's room</a>
+    <a href="#rounds">the rounds</a>
+    <a href="#room-opal">opal's room ▶</a>
+  </div>
+</section>
+
+<!-- ============ ROOM: OPAL ============ -->
+<section data-view="room-opal">
+  <div class="opal">
+    <h1>Opal's Parlor</h1>
+    <p class="lightword" style="color:#5a4632"><span class="dot on"></span>the porch light has been on since 1987 · CASSEROLE UNDERGROUND · 61 members call me grandma; four are correct</p>
+    <div class="card">
+      <h3>This week's card: Funeral Potatoes</h3>
+      <p>Hashbrowns, cream of chicken, sour cream, too much cheese, cornflake lid. 350° for 50 minutes. Serves: the entire scene.
+      Carry it to the show wrapped in a towel and hand the pan to the merch table. The pan comes back. The pan always comes back.</p>
+    </div>
+    <div class="card">
+      <h3>The commons, from where I sit</h3>
+      <p>Our wiki holds 214 recipes and I have argued with 30 of them. I teach Sunday: bread for anyone, knife sharpening for the brave.
+      My granddaughter vouched me in and now I vouch for half the block; my name is on every one of them, which is how names should be spent.</p>
+    </div>
+    <div class="gb"><span class="who">static @ 4-track anonymous · wed</span><p>grandma, your kitchen timer is sampled all over side B. royalties = one pie?</p></div>
+    <div class="gb"><span class="who">vera @ wet cement · tue</span><p>Bringing the big pot Sunday. We will settle the broth question like adults, with ladles.</p></div>
+    <p class="skinnote">skin: PARLOR — serif, cream, doily corners. opal renders her room at 125% and that is the law of her house; skins carry your accessibility settings with them.</p>
+  </div>
+  <div class="webring">
+    <a href="#room-ratbag">◀ ratbag's room</a>
+    <a href="#rounds">the rounds</a>
+    <a href="#room-static">static's room ▶</a>
+  </div>
+</section>
+
+<!-- ============ ROOM: STATIC ============ -->
+<section data-view="room-static">
+  <div class="staticroom">
+<pre aria-hidden="true">+------------------------------------------+
+|  STATIC // node 07 // 4-TRACK ANONYMOUS  |
+|  last login: thu 03:12 (insomnia)        |
+|  light: OFF (recording)                  |
++------------------------------------------+</pre>
+    <p style="font-size:.85rem">A&gt; DIR /demos <span class="cursor"></span></p>
+    <div class="dir"><span>side_a_pylon_hiss.4trk</span><span>4:12</span></div>
+    <div class="dir"><span>kitchen_timer_opal.smp — cleared w/ grandma, fee: 1 pie</span><span>0:19</span></div>
+    <div class="dir"><span>substation_hum_F.wav — traded from moss for a spring reverb</span><span>1:33</span></div>
+    <div class="dir"><span>comp_submission_07of12.4trk</span><span>3:58</span></div>
+    <p style="font-size:.85rem;margin:.9rem 0">QUEST&gt; the compilation nobody's label would sign: <b>7 of 12 tracks in.</b> deadline: when it's done. the zine reviews it either way.</p>
+    <div class="gb"><span class="who">tam @ night bus · mon</span><p>spring reverb received. tascam sent. no backsies. the federation runs on barter and guilt.</p></div>
+    <div class="gb"><span class="who">moss @ night bus · sun</span><p>hum received. it IS in F. vera was right. never tell her.</p></div>
+    <p class="skinnote" style="color:rgba(255,176,0,.6)">skin: AMBER PHOSPHOR — zero images, one animation, courier all the way down. amber is an orange; the palette law is satisfied.</p>
+  </div>
+  <div class="webring">
+    <a href="#room-opal">◀ opal's room</a>
+    <a href="#rounds">the rounds</a>
+    <a href="#room-wren">wren's room ▶</a>
+  </div>
+</section>
+
+<!-- ============ ROOM: WREN ============ -->
+<section data-view="room-wren">
+  <div class="wren">
+    <h1>Wren</h1>
+    <p class="lightword" style="color:#9b7fd4"><span class="dot on"></span>the light is a candle · THE VEIL · we meet at the cemetery gates at dusk <em>(it's a book club)</em></p>
+    <div class="orn">☾ ❦ ✦ ❦ ☽</div>
+    <p>Currently reading: Shirley Jackson, <em>We Have Always Lived in the Castle</em>. Attendance last dusk: nine humans, three crows.
+    The crows are not members. <a href="#law">(charter, article I: nothing that cannot have dinner may vote.)</a></p>
+    <p>Scene quest: embroidering the complete lyrics of <em>Disintegration</em> onto one enormous veil. Progress: 14%. We accept thread donations and grief.</p>
+    <div class="orn">✦</div>
+    <div class="gb"><span class="who">yuki @ night bus · thu</span><p>trade: letterpress bookmarks for a poem for issue 04? something with pylons in it.</p></div>
+    <div class="gb"><span class="who">opal @ casserole underground · mon</span><p>Dear, you left your cardigan at book club. It is VERY black. I washed it with the other darks. It has friends now.</p></div>
+    <p class="skinnote" style="color:rgba(155,127,212,.65)">skin: VELVET — georgia italic, one violet, thin double rules. violet is a blue; the law is satisfied. ☾</p>
+  </div>
+  <div class="webring">
+    <a href="#room-static">◀ static's room</a>
+    <a href="#rounds">the rounds</a>
+    <a href="#room">moss's room ▶</a>
   </div>
 </section>
 
@@ -430,13 +613,14 @@
   <h1 style="font-size:2.6rem">THE ROUNDS</h1>
   <p class="mono" style="color:var(--grey)">discovery is walking, not ranking. webring edges, flyer walls, guestbook traces. serendipity via edges.</p>
   <div class="grid2">
-    <div class="paper tilt-l"><h3><span class="dot on"></span><a href="#room">moss</a> · room</h3><p class="mono">night skin, substation hum, bike №7 pending. light's on.</p></div>
-    <div class="paper tilt-r"><h3><span class="dot off"></span><a href="#room2">yuki</a> · room</h3><p class="mono">riso skin. issue 04 desk. leave a note, she'll find it.</p></div>
-    <div class="paper tilt-r"><h3><span class="dot on"></span>vera · room @ wet cement</h3><p class="mono">two towns over. runs the soup quest. brought you friday's flyer.</p></div>
-    <div class="paper tilt-l"><h3>WET CEMENT · scene</h3><p class="mono">post-industrial, 23 members, monthly zine "AGGREGATE." public stoop open.</p></div>
-    <div class="paper tilt-r"><h3>CASSEROLE UNDERGROUND · scene</h3><p class="mono">cooking scene, 61 members, weekly digest. their commons has 214 recipes.</p></div>
-    <div class="paper tilt-l"><h3>4-TRACK ANONYMOUS · scene</h3><p class="mono">bedroom recordists, 40 members. quest: a compilation nobody's label would sign.</p></div>
-    <div class="paper tilt-r" style="border-style:dashed;opacity:.85"><h3>［unclaimed］· your room</h3><p class="mono">useful at n=1. a room is the personal site you always meant to have. bring a group chat and it becomes a scene.</p></div>
+    <div class="paper tilt-l"><h3><span class="dot on"></span><a href="#room">moss</a> · night bus</h3><p class="mono">skin: NIGHT. substation hum, bike №7 pending. light's on.</p></div>
+    <div class="paper tilt-r"><h3><span class="dot off"></span><a href="#room2">yuki</a> · night bus</h3><p class="mono">skin: RISO. issue 04 desk. leave a note, she'll find it.</p></div>
+    <div class="paper tilt-r"><h3><span class="dot on"></span><a href="#room-vera">vera</a> · wet cement</h3><p class="mono">skin: POURED CONCRETE. 214 quarts of soup. friday is her fault.</p></div>
+    <div class="paper tilt-l"><h3><span class="dot off"></span><a href="#room-ratbag">ratbag</a> · night bus</h3><p class="mono">skin: XEROX RANSOM. misprints $5. slide notes under the door.</p></div>
+    <div class="paper tilt-r"><h3><span class="dot on"></span><a href="#room-opal">opal</a> · casserole underground</h3><p class="mono">skin: PARLOR at 125%. porch light on since 1987. bring a pot.</p></div>
+    <div class="paper tilt-l"><h3><span class="dot off"></span><a href="#room-static">static</a> · 4-track anonymous</h3><p class="mono">skin: AMBER PHOSPHOR. comp 7/12 in. trades in reverbs and guilt.</p></div>
+    <div class="paper tilt-r"><h3><span class="dot on"></span><a href="#room-wren">wren</a> · the veil</h3><p class="mono">skin: VELVET. cemetery-gates book club. crows attend, cannot vote.</p></div>
+    <div class="paper tilt-l" style="border-style:dashed;opacity:.85"><h3>［unclaimed］· your room</h3><p class="mono">useful at n=1: the personal site you always meant to have. default skin is bone and ink until you touch it. bring a group chat and it becomes a scene.</p></div>
   </div>
   <div class="webring">
     <span>◀ prev on the ring</span><span class="mono" style="color:var(--grey)">the rounds registry: a text file's worth of infrastructure</span><span>next on the ring ▶</span>
@@ -488,7 +672,7 @@
 </main>
 
 <div class="toast" id="toast"></div>
-<p class="pageweight">STOOP prototype · one file · zero requests · no trackers · 34 KB before compression · the whole point fits in a pamphlet</p>
+<p class="pageweight">STOOP prototype · one file · zero requests · no trackers · 47 KB before compression · seven rooms, one primitive · the whole point fits in a pamphlet</p>
 
 <script>
 (function(){
@@ -499,7 +683,8 @@
     var hit=false;
     views.forEach(function(v){var on=v.getAttribute('data-view')===h;v.classList.toggle('on',on);if(on)hit=true;});
     if(!hit){views.forEach(function(v){v.classList.toggle('on',v.getAttribute('data-view')==='room');});h='room';}
-    navs.forEach(function(a){a.classList.toggle('here',a.getAttribute('data-nav')===h);});
+    var nk=h.indexOf('room')===0?'room':h;
+    navs.forEach(function(a){a.classList.toggle('here',a.getAttribute('data-nav')===nk);});
     window.scrollTo(0,0);
   }
   window.addEventListener('hashchange',show); show();
