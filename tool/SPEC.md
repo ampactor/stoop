@@ -30,6 +30,10 @@ No accounts beyond the member list in the repo. No feeds, no metrics, no search 
 
 One small box per scene, or the flagship hosting many scenes as sibling repos. Nginx or equivalent serving static output; a single small process for intake (submissions, guestbook, knocks, staples); git as the write log. Target: the whole scene under a megabyte per page and the host under single-digit watts, measured and printed in the colophon.
 
+## Source layout
+
+The repo-wide law in CONTRIBUTING.md applies here from the first commit: source files under 300 lines, split at feature boundaries (one slice per primitive: composer, desk, room editor, intake, corkboard, shelf), colocated with their tests, assembled by a build step. The tool's output is static files; its source is parts; the amalgamation principle holds at both layers.
+
 ## Order of work at unlock
 
 1. Scene repo layout finalized from a real scene's real Issue #1 and #2 (the paper issues become the fixture data; the model town retires to a branch).

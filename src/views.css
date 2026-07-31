@@ -1,0 +1,52 @@
+  /* the desk */
+  .sub{display:flex;align-items:center;gap:.7rem;border:2px solid var(--ink);background:#fff;padding:.5rem .7rem;margin:.5rem 0;font-family:'Courier New',monospace;font-size:.88rem}
+  .sub .ord{font-family:Impact,'Arial Narrow Bold',sans-serif;font-size:1.4rem;min-width:1.4rem;text-align:center}
+  .sub .meta{flex:1}
+  .sub .meta small{display:block;opacity:.7}
+  .sub.cut{opacity:.55;background:transparent;border-style:dashed}
+  .sub.cut .meta{text-decoration:line-through}
+  .subbtn{font-family:'Courier New',monospace;font-size:.72rem;border:2px solid var(--ink);background:none;color:var(--ink);padding:.25rem .5rem;cursor:pointer}
+  .notebox{width:100%;border:2px solid var(--ink);background:#fffdf6;color:var(--ink);font-family:'Courier New',monospace;font-size:.88rem;padding:.6rem;min-height:90px;resize:vertical;box-sizing:border-box}
+  .built{border:3px double var(--ink);text-align:center;padding:1rem;margin-top:.9rem;font-family:'Courier New',monospace;display:none}
+  .built.on{display:block}
+
+  /* start a scene */
+  .field{display:block;width:100%;border:2px solid var(--ink);background:#fffdf6;color:var(--ink);font-family:'Courier New',monospace;font-size:.95rem;padding:.55rem;margin:.3rem 0 1rem;box-sizing:border-box}
+  .stepnum{font-family:Impact,'Arial Narrow Bold',sans-serif;font-size:1.8rem;color:var(--orange);margin-right:.45rem;vertical-align:middle}
+
+  /* issue */
+  .cover{background:var(--ink);color:var(--paper);border:2px solid var(--paper);padding:1.4rem;text-align:center;position:relative}
+  .cover h1{font-size:4rem;margin:.2rem 0;color:var(--paper)}
+  .cover .iss{color:var(--orange);font-size:5rem;display:block;line-height:.9}
+  .cover .mono{color:var(--paper);opacity:.8}
+  .track{display:flex;justify-content:space-between;border-bottom:1px dotted var(--ink);padding:.15rem 0;font-family:'Courier New',monospace;font-size:.88rem}
+  .theend{border:3px double var(--bone);text-align:center;padding:2rem 1rem;margin:2rem 0 1rem}
+  .theend h2{font-size:2.6rem;color:var(--orange)}
+  .theend p{font-family:'Courier New',monospace;font-size:.9rem}
+
+  /* flyer */
+  .flyer{background:var(--paper);color:var(--ink);border:3px solid var(--ink);max-width:540px;margin:0 auto;padding:1.6rem 1.2rem;text-align:center;
+    box-shadow:7px 7px 0 rgba(0,0,0,.6)}
+  .flyer h1{font-size:3.2rem;text-transform:uppercase;margin:.1rem 0}
+  .flyer h2{font-size:2.1rem;text-transform:uppercase;margin:.1rem 0}
+  .flyer .with{font-family:'Courier New',monospace;letter-spacing:.2em;font-size:.8rem;margin:.5rem 0}
+  .flyer .bigline{border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:.5rem 0;margin:.8rem 0;font-family:'Courier New',monospace;font-weight:bold}
+
+  /* feed gag */
+  .nofeed{text-align:center;padding:3.5rem 1rem}
+  .nofeed h1{font-size:14vw;max-font-size:7rem;color:var(--grey);margin:0;line-height:.95}
+  .nofeed h1 b{color:var(--orange)}
+  .nofeed p{font-family:'Courier New',monospace;color:var(--grey)}
+  .nofeed .p2{color:var(--bone)}
+
+  /* law */
+  .law{counter-reset:cl}
+  .clause{border:2px solid var(--bone);margin:.9rem 0;padding:1rem 1.1rem 1rem 3.4rem;position:relative}
+  .clause::before{counter-increment:cl;content:counter(cl);position:absolute;left:.8rem;top:.55rem;
+    font-family:Impact,'Arial Narrow Bold',sans-serif;font-size:2rem;color:var(--orange)}
+  .clause h3{margin:0 0 .25rem;font-size:1.15rem;letter-spacing:.1em;text-transform:uppercase}
+  .clause p{margin:0;font-family:'Courier New',monospace;font-size:.85rem;color:var(--bone)}
+
+  .toast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);background:var(--orange);color:var(--night);
+    font-family:'Courier New',monospace;font-size:.85rem;padding:.6rem 1rem;border:2px solid var(--night);display:none;z-index:20}
+  @media (max-width:640px){ .room-banner h1{font-size:2.4rem} .cover h1{font-size:2.6rem} .cover .iss{font-size:3.4rem} .flyer h1{font-size:2.3rem} }
