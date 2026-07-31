@@ -167,6 +167,22 @@
   .wren a{color:#b9a5e6}
   .wren em{color:#e6ddf5}
 
+  /* the desk */
+  .sub{display:flex;align-items:center;gap:.7rem;border:2px solid var(--ink);background:#fff;padding:.5rem .7rem;margin:.5rem 0;font-family:'Courier New',monospace;font-size:.88rem}
+  .sub .ord{font-family:Impact,'Arial Narrow Bold',sans-serif;font-size:1.4rem;min-width:1.4rem;text-align:center}
+  .sub .meta{flex:1}
+  .sub .meta small{display:block;opacity:.7}
+  .sub.cut{opacity:.55;background:transparent;border-style:dashed}
+  .sub.cut .meta{text-decoration:line-through}
+  .subbtn{font-family:'Courier New',monospace;font-size:.72rem;border:2px solid var(--ink);background:none;color:var(--ink);padding:.25rem .5rem;cursor:pointer}
+  .notebox{width:100%;border:2px solid var(--ink);background:#fffdf6;color:var(--ink);font-family:'Courier New',monospace;font-size:.88rem;padding:.6rem;min-height:90px;resize:vertical;box-sizing:border-box}
+  .built{border:3px double var(--ink);text-align:center;padding:1rem;margin-top:.9rem;font-family:'Courier New',monospace;display:none}
+  .built.on{display:block}
+
+  /* start a scene */
+  .field{display:block;width:100%;border:2px solid var(--ink);background:#fffdf6;color:var(--ink);font-family:'Courier New',monospace;font-size:.95rem;padding:.55rem;margin:.3rem 0 1rem;box-sizing:border-box}
+  .stepnum{font-family:Impact,'Arial Narrow Bold',sans-serif;font-size:1.8rem;color:var(--orange);margin-right:.45rem;vertical-align:middle}
+
   /* issue */
   .cover{background:var(--ink);color:var(--paper);border:2px solid var(--paper);padding:1.4rem;text-align:center;position:relative}
   .cover h1{font-size:4rem;margin:.2rem 0;color:var(--paper)}
@@ -294,7 +310,7 @@
 <section data-view="room2">
   <div class="yuki tilt-l">
     <h1>yuki_types</h1>
-    <p class="mono">night bus · editor this cycle <span class="tag cold">ISSUE 04 DESK</span></p>
+    <p class="mono">night bus · editor this cycle <a href="#desk" class="tag cold" style="text-decoration:none">ISSUE 04 DESK →</a></p>
     <p class="mono"><span class="dot off"></span><span class="lightword" style="color:#155d80">light's off — leave a note, i'll find it</span></p>
     <div class="cutline"></div>
     <p class="mono">every room is its own skin. moss goes night; i go riso. the system ships the sandbox, you ship the self.
@@ -444,7 +460,7 @@
     <p class="mono">submissions: <b>4 in</b> (essay, photo set, mix, recipe) · closes thu midnight<br>
     editor this turn: <a href="#room2">yuki</a> → next turn: dee (rotation is dish duty)<br>
     drops <b>friday 19:00</b>, the bell hour. everyone reads the same thing.</p>
-    <p><button class="btn" disabled>submit a piece (demo)</button> <a class="mono" href="#issue">read issue 03 →</a></p>
+    <p><button class="btn" disabled>submit a piece (demo)</button> <a class="mono" href="#issue">read issue 03 →</a> · <a class="mono" href="#desk">visit the desk →</a></p>
   </div>
 
   <h2 style="color:var(--orange)">THE CORKBOARD</h2>
@@ -620,7 +636,7 @@
     <div class="paper tilt-r"><h3><span class="dot on"></span><a href="#room-opal">opal</a> · casserole underground</h3><p class="mono">skin: PARLOR at 125%. porch light on since 1987. bring a pot.</p></div>
     <div class="paper tilt-l"><h3><span class="dot off"></span><a href="#room-static">static</a> · 4-track anonymous</h3><p class="mono">skin: AMBER PHOSPHOR. comp 7/12 in. trades in reverbs and guilt.</p></div>
     <div class="paper tilt-r"><h3><span class="dot on"></span><a href="#room-wren">wren</a> · the veil</h3><p class="mono">skin: VELVET. cemetery-gates book club. crows attend, cannot vote.</p></div>
-    <div class="paper tilt-l" style="border-style:dashed;opacity:.85"><h3>［unclaimed］· your room</h3><p class="mono">useful at n=1: the personal site you always meant to have. default skin is bone and ink until you touch it. bring a group chat and it becomes a scene.</p></div>
+    <div class="paper tilt-l" style="border-style:dashed;opacity:.85"><h3>［unclaimed］· your room</h3><p class="mono">useful at n=1: the personal site you always meant to have. default skin is bone and ink until you touch it. <a href="#start">bring a group chat and it becomes a scene →</a></p></div>
   </div>
   <div class="webring">
     <span>◀ prev on the ring</span><span class="mono" style="color:var(--grey)">the rounds registry: a text file's worth of infrastructure</span><span>next on the ring ▶</span>
@@ -641,6 +657,52 @@
     in an internet that is majority bot, <b>everyone here is a human somebody could have dinner with</b>. that's the product.</p>
     <p class="mono">knock: say who you are, what you make, and which member you've met (or come to a show first — friday works).</p>
     <p><button class="btn" disabled>knock (demo)</button></p>
+    <p class="mono">or skip the knock and bring your own people: <a href="#start">start a scene →</a></p>
+  </div>
+</section>
+
+<!-- ============ THE DESK ============ -->
+<section data-view="desk">
+  <h1 style="font-size:2.6rem">THE DESK <span class="lightword" style="color:var(--grey);font-size:1rem">issue 04 · yuki's turn · drops friday 19:00</span></h1>
+  <p class="mono" style="color:var(--grey)">the algorithm is a person. this is where they sit. one accountable neighbor, in public, for one cycle; that is the entire moderation stack for an issue.</p>
+
+  <div class="paper">
+    <h2>THE TRAY</h2>
+    <div class="sub"><span class="ord">1</span><span class="meta">the seam — moss<small>essay · 900 words · the sodium/LED line moved two more blocks</small></span><button class="subbtn">CUT</button></div>
+    <div class="sub"><span class="ord">2</span><span class="meta">work day frames — colin<small>photos · 6 frames, dithered · bike №8 emerges from the rust</small></span><button class="subbtn">CUT</button></div>
+    <div class="sub"><span class="ord">3</span><span class="meta">side b: brownouts — tam<small>mix · 5 tracks · features grandma's kitchen timer (cleared, fee: 1 pie)</small></span><button class="subbtn">CUT</button></div>
+    <div class="sub"><span class="ord">4</span><span class="meta">show-night stew — birdie<small>recipe · feeds the basement · pairs with vera's disputed broth</small></span><button class="subbtn">CUT</button></div>
+    <div class="sub cut"><span class="ord">–</span><span class="meta">on cutting your own piece — yuki<small>essay · she cut it herself. again. next cycle, yuki.</small></span><button class="subbtn">RESTORE</button></div>
+    <p class="mono">sequence is taste. there are no metrics to consult and nothing to A/B; that machinery is unconstitutional. cuts are conversations, not deletions: the maker keeps the piece, and it can run next cycle.</p>
+    <div class="cutline"></div>
+    <h3>EDITOR'S NOTE (DRAFT)</h3>
+    <textarea class="notebox">the grid held all month, which after issue 03 reads like an apology. four pieces this cycle, one cut (mine, again; someone stop me). read it whole, then go knock on somebody. — y.</textarea>
+    <p style="margin-top:.9rem"><button class="btn" id="buildbtn">BUILD ISSUE 04</button></p>
+    <div class="built" id="built">ISSUE 04 ASSEMBLED (demo) · queued for friday 19:00 · the bell rings once, for everyone.<br>rotation: dee has the desk for №05. the chore is the honor.</div>
+  </div>
+</section>
+
+<!-- ============ START A SCENE ============ -->
+<section data-view="start">
+  <h1 style="font-size:2.6rem">START A SCENE</h1>
+  <p class="mono" style="color:var(--grey)">the entire onboarding. your group chat deserves a zine.</p>
+  <div class="paper">
+    <h3><span class="stepnum">1</span>NAME THE CREW</h3>
+    <input class="field" placeholder="whatever the group chat is already called" disabled>
+    <h3><span class="stepnum">2</span>PICK THE BELL</h3>
+    <select class="field" disabled>
+      <option>friday 19:00, weekly</option>
+      <option>every other friday</option>
+      <option>monthly, near the full moon</option>
+      <option>quarterly, harvest-slow</option>
+    </select>
+    <h3><span class="stepnum">3</span>VOUCH YOUR PEOPLE</h3>
+    <p class="mono">two names on every member, listed on their room. paste no contact list; invite by hand. eight is plenty to start; the cap is 150 and then you fork like a good scene.</p>
+    <div class="cutline"></div>
+    <p class="mono">everyone gets a room (default skin: bone and ink until they touch it). the group chat stays where it is; it becomes the backstage.
+    dues of about $3 a month once it's real, books open, surplus buys the print run. first issue within one cycle.</p>
+    <p><button class="btn" id="foundbtn">FOUND IT (demo)</button></p>
+    <p class="mono" style="opacity:.8">nothing here is real until issue #2 ships. that is the founding law of growth.</p>
   </div>
 </section>
 
@@ -665,14 +727,14 @@
     <h1>THERE IS<br><b>NO FEED.</b></h1>
     <p>nothing is trending. nobody is counting. nothing refreshes.</p>
     <p class="p2">the next thing happens <b>friday at 19:00</b>, when №04 drops for everyone at once.</p>
-    <p><a href="#issue">read №03 again</a> · <a href="#rounds">walk the rounds</a> · <a href="#flyer">go to the show</a> · go outside</p>
+    <p><a href="#issue">read №03 again</a> · <a href="#rounds">walk the rounds</a> · <a href="#flyer">go to the show</a> · <a href="#start">start a scene</a> · go outside</p>
   </div>
 </section>
 
 </main>
 
 <div class="toast" id="toast"></div>
-<p class="pageweight">STOOP prototype · one file · zero requests · no trackers · 47 KB before compression · seven rooms, one primitive · the whole point fits in a pamphlet</p>
+<p class="pageweight">STOOP prototype · one file · zero requests · no trackers · 54 KB before compression · sixteen views, one primitive per idea · the whole point fits in a pamphlet</p>
 
 <script>
 (function(){
@@ -704,6 +766,28 @@
   if(st){st.addEventListener('click',function(){
     st.classList.add('done');st.textContent='⌷ stapled';
     toast("stapled to NIGHT BUS's corkboard. that's the only kind of viral this system has.");
+  });}
+
+  document.querySelectorAll('.subbtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var row=b.closest('.sub');row.classList.toggle('cut');
+      var cut=row.classList.contains('cut');
+      b.textContent=cut?'RESTORE':'CUT';
+      toast(cut?'cut. it goes back to the maker; it can run next cycle.':'restored to the tray.');
+    });
+  });
+
+  var bb=document.getElementById('buildbtn');
+  if(bb){bb.addEventListener('click',function(){
+    document.getElementById('built').classList.add('on');
+    bb.disabled=true;bb.textContent='BUILT';
+    toast('assembled. no push notification fired; friday the bell rings once.');
+  });}
+
+  var fb=document.getElementById('foundbtn');
+  if(fb){fb.addEventListener('click',function(){
+    fb.classList.add('done');fb.textContent='FOUNDED (demo)';
+    toast('scene founded. first issue within one cycle; the gate is issue #2.');
   });}
 })();
 </script>
