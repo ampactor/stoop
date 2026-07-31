@@ -23,7 +23,8 @@ Each of these is a measured fact from mid-2026, not a mood:
 
 - [`CHARTER.md`](CHARTER.md): the law. Membership, scenes, the five unamendable clauses, governance, money, dissolution. Capture-resistance lives here, as structure rather than intention.
 - [`DESIGN.md`](DESIGN.md): the machine. Every primitive (room, scene, issue, flyer, staple, vouch, guestbook, light, commons, quest), every loop that connects them, the data model on AT Protocol lexicons, moderation, energy, economics, staging.
-- [`prototype/stoop.html`](prototype/stoop.html): one self-contained file, zero external requests. Click through a room, its scene, a full issue of the scene's zine, a traveling flyer, the rounds, the public stoop, and the law. It exists so the whole shape can be felt at once instead of imagined piecewise.
+- [`prototype/stoop.html`](prototype/stoop.html): one self-contained file, zero external requests. Click through seven rooms in seven skins, a scene, a full issue of its zine, the editor's desk, a traveling flyer, the rounds, the public stoop, start-a-scene, and the law. It exists so the whole shape can be felt at once instead of imagined piecewise.
+- [`zine/print-kit.html`](zine/print-kit.html): Stage 0's entire toolchain. A one-sheet, eight-page, one-cut zine layout with editable panels, fold instructions, a test-sheet mode, and starter prompts for a first issue. Print it, fold it, hand it to somebody. No software exists past this point until Issue #2 earns it.
 
 ## Status
 

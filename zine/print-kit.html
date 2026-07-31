@@ -1,0 +1,245 @@
+<!-- stoop press: one-sheet zine kit. one file, zero requests. print letter/landscape/100%/no margins. -->
+<title>STOOP PRESS — one-sheet zine kit</title>
+<style>
+  :root{
+    --night:#0e0e10; --soot:#1a1a1e; --bone:#ece7db; --ink:#141210;
+    --orange:#ff5f1f; --blue:#5aa9d6; --grey:#8a8578;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--night);color:var(--bone);font-family:'Courier New',monospace;line-height:1.45}
+  ::selection{background:var(--orange);color:var(--night)}
+  a{color:var(--blue)}
+  button:focus-visible,[contenteditable]:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+
+  header.chrome{display:flex;flex-wrap:wrap;align-items:baseline;gap:.6rem 1rem;padding:.7rem 1rem;border-bottom:2px solid var(--bone)}
+  .wordmark{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;font-size:1.5rem;letter-spacing:.12em}
+  .wordmark b{color:var(--orange)}
+  .sub{font-size:.78rem;color:var(--grey)}
+
+  .wrap{display:grid;grid-template-columns:290px 1fr;gap:1.2rem;padding:1.2rem;max-width:1400px;margin:0 auto}
+  @media (max-width:900px){.wrap{grid-template-columns:1fr}}
+
+  .panelbox{border:1px solid var(--grey);padding:1rem;background:var(--soot)}
+  .panelbox h2{font-family:Impact,'Arial Narrow Bold',sans-serif;letter-spacing:.08em;font-size:1.05rem;margin:.1rem 0 .6rem;color:var(--bone)}
+  .panelbox p,.panelbox li{font-size:.8rem;margin:.35rem 0}
+  .panelbox ol{padding-left:1.2rem;margin:.4rem 0}
+  .panelbox li{margin:.55rem 0}
+  .btn{font-family:'Courier New',monospace;font-size:.85rem;background:none;border:2px solid var(--orange);color:var(--orange);padding:.5rem .9rem;cursor:pointer;letter-spacing:.05em;margin:.2rem .3rem .2rem 0}
+  .btn:hover{background:var(--orange);color:var(--night)}
+  .btn.quiet{border-color:var(--blue);color:var(--blue)}
+  .btn.quiet:hover{background:var(--blue);color:var(--night)}
+  .btn.on{background:var(--orange);color:var(--night)}
+  .foldnote{color:var(--grey);font-size:.72rem;border-top:1px dashed var(--grey);padding-top:.6rem;margin-top:.6rem}
+
+  .diagram{display:block;margin:.3rem 0 .1rem;background:#fff;border:1px solid var(--grey)}
+
+  /* ---------- the sheet ---------- */
+  .sheetzone{min-width:0}
+  .sheetwrap{transform-origin:top left}
+  .sheet{width:11in;height:8.5in;background:#fff;color:var(--ink);display:flex;flex-wrap:wrap;box-shadow:0 0 0 1px #000,8px 8px 0 rgba(0,0,0,.6)}
+  .panel{width:25%;height:50%;border:1px dashed #bbb;padding:.28in .3in;overflow:hidden;position:relative;background:#fff}
+  .panel.flip{transform:rotate(180deg)}
+  .panel h3{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;font-size:22px;letter-spacing:.04em;margin:0 0 8px;text-transform:uppercase;color:var(--ink);text-wrap:balance}
+  .panel .body{font-family:'Courier New',monospace;font-size:12.5px;line-height:1.5;color:var(--ink);min-height:60%}
+  .panel .prompt{color:#666;font-size:11px}
+  .panel .lines{background:repeating-linear-gradient(#fff 0 22px,#fff 22px,#999 22px,#999 23px);height:120px;margin-top:6px}
+  .panel .pgtag{position:absolute;bottom:4px;right:8px;font-size:9px;color:#aaa;font-family:'Courier New',monospace}
+  .cover h3{font-size:26px}
+  .cover .no{font-family:Impact,'Arial Narrow Bold',sans-serif;font-size:110px;line-height:.9;color:var(--ink);margin:6px 0}
+  .cover .rule{border-top:3px solid var(--ink);margin:8px 0}
+  .backcover .body{font-size:11px}
+  .testnum{display:none;position:absolute;inset:0;background:#fff;z-index:2;align-items:center;justify-content:center;flex-direction:column;gap:6px}
+  .testnum b{font-family:Impact,'Arial Narrow Bold',sans-serif;font-size:150px;color:var(--ink)}
+  .testnum small{font-family:'Courier New',monospace;font-size:12px;color:#666}
+  .testing .testnum{display:flex}
+
+  @media print{
+    @page{size:letter landscape;margin:0}
+    body{background:#fff}
+    header.chrome,.panelbox,.pgtag{display:none!important}
+    .wrap{display:block;padding:0;max-width:none}
+    .sheetwrap{transform:none!important}
+    .sheet{box-shadow:none}
+    .panel{border-color:#ddd}
+  }
+</style>
+
+<header class="chrome">
+  <span class="wordmark">STOO<b>P</b> PRESS</span>
+  <span class="sub">one sheet → eight pages → one cut → your first issue. no software after this point.</span>
+</header>
+
+<div class="wrap">
+  <aside>
+    <div class="panelbox">
+      <h2>PRINT</h2>
+      <p><button class="btn" id="printbtn">PRINT THE SHEET</button></p>
+      <p class="sub">letter · landscape · scale 100% · margins none. click any panel text to edit it before printing; better yet, print the headers and fill the rest by hand. pens beat keyboards here.</p>
+      <p><button class="btn quiet" id="testbtn">TEST SHEET: OFF</button> <button class="btn quiet" id="swapbtn">SWAP LAYOUT (A)</button></p>
+      <p class="sub">honesty clause: printers and folding hands vary. print ONE test sheet, fold it, check the pages read 1→8. wrong order? swap layout, reprint. then print the run.</p>
+    </div>
+
+    <div class="panelbox" style="margin-top:1rem">
+      <h2>FOLD (five steps)</h2>
+      <ol>
+        <li>Fold in half the long way. Crease hard. Unfold.
+          <svg class="diagram" width="120" height="46" viewBox="0 0 120 46" role="img" aria-label="sheet with horizontal center crease"><rect x="8" y="6" width="104" height="34" fill="#fff" stroke="#141210" stroke-width="2"/><line x1="8" y1="23" x2="112" y2="23" stroke="#141210" stroke-width="1.5" stroke-dasharray="4 3"/></svg></li>
+        <li>Fold in half the short way, then each end back to the middle. Unfold everything: eight panels.
+          <svg class="diagram" width="120" height="46" viewBox="0 0 120 46" role="img" aria-label="sheet creased into eight panels"><rect x="8" y="6" width="104" height="34" fill="#fff" stroke="#141210" stroke-width="2"/><line x1="8" y1="23" x2="112" y2="23" stroke="#141210" stroke-width="1" stroke-dasharray="3 3"/><line x1="34" y1="6" x2="34" y2="40" stroke="#141210" stroke-width="1" stroke-dasharray="3 3"/><line x1="60" y1="6" x2="60" y2="40" stroke="#141210" stroke-width="1" stroke-dasharray="3 3"/><line x1="86" y1="6" x2="86" y2="40" stroke="#141210" stroke-width="1" stroke-dasharray="3 3"/></svg></li>
+        <li>Fold the long way again. Cut along the crease from the folded edge, across the middle two panels only. Stop at the quarter creases.
+          <svg class="diagram" width="120" height="46" viewBox="0 0 120 46" role="img" aria-label="folded sheet with center slit cut"><rect x="8" y="14" width="104" height="18" fill="#fff" stroke="#141210" stroke-width="2"/><line x1="34" y1="14" x2="86" y2="14" stroke="#ff5f1f" stroke-width="3"/><text x="90" y="12" font-family="Courier New" font-size="9" fill="#141210">✂ cut</text></svg></li>
+        <li>Unfold. Fold the long way, slit on top. Hold both ends, push toward the middle: the slit opens; four wings make a plus sign.
+          <svg class="diagram" width="120" height="46" viewBox="0 0 120 46" role="img" aria-label="wings pushed into a plus shape"><rect x="48" y="4" width="24" height="38" fill="#fff" stroke="#141210" stroke-width="1.5"/><rect x="20" y="15" width="80" height="16" fill="#fff" stroke="#141210" stroke-width="1.5"/><path d="M10 23 L18 23 M110 23 L102 23" stroke="#ff5f1f" stroke-width="2.5"/><path d="M14 19 L18 23 L14 27 M106 19 L102 23 L106 27" fill="none" stroke="#ff5f1f" stroke-width="2.5"/></svg></li>
+        <li>Collapse the wings around one panel and crease it into a book. The №01 cover should land on front. Read it once, then hand it to somebody.</li>
+      </ol>
+      <p class="foldnote">this layout prints the top row upside-down on purpose. that's not a bug; that's the fold. staples optional, one in the spine if you're feeling official.</p>
+    </div>
+  </aside>
+
+  <main class="sheetzone">
+    <div class="sheetwrap" id="sheetwrap">
+      <div class="sheet" id="sheet">
+
+        <div class="panel cover" data-page="1">
+          <div class="testnum"><b>1</b><small>FRONT COVER</small></div>
+          <div class="body" contenteditable="true">
+            <h3>_______ _______</h3>
+            <div class="no">№01</div>
+            <div class="rule"></div>
+            a zine by ______ &amp; ______<br>
+            print run: ____ · given, not sold
+          </div>
+          <span class="pgtag">front cover</span>
+        </div>
+
+        <div class="panel" data-page="2">
+          <div class="testnum"><b>2</b></div>
+          <h3>The house, now that it's clean</h3>
+          <div class="body" contenteditable="true">
+            <span class="prompt">(draw the room you're proudest of. label one object that earned its place.)</span>
+            <div class="lines" style="height:70%"></div>
+          </div>
+          <span class="pgtag">p.2</span>
+        </div>
+
+        <div class="panel" data-page="3">
+          <div class="testnum"><b>3</b></div>
+          <h3>One recipe we actually make</h3>
+          <div class="body" contenteditable="true">
+            <span class="prompt">(the real one, with the shortcut you're slightly ashamed of.)</span>
+            <div class="lines" style="height:70%"></div>
+          </div>
+          <span class="pgtag">p.3</span>
+        </div>
+
+        <div class="panel" data-page="4">
+          <div class="testnum"><b>4</b></div>
+          <h3>Field notes</h3>
+          <div class="body" contenteditable="true">
+            <span class="prompt">(what the neighborhood said this week: overheard lines, the cat census, which porch lights were on.)</span>
+            <div class="lines" style="height:70%"></div>
+          </div>
+          <span class="pgtag">p.4</span>
+        </div>
+
+        <div class="panel" data-page="5">
+          <div class="testnum"><b>5</b></div>
+          <h3>A mix for doing dishes — side A</h3>
+          <div class="body" contenteditable="true">
+            1. ______________________<br>
+            2. ______________________<br>
+            3. ______________________<br>
+            4. ______________________<br>
+            5. ______________________<br>
+            <span class="prompt">(one track each, alternating. no skips allowed once it's inked.)</span>
+          </div>
+          <span class="pgtag">p.5</span>
+        </div>
+
+        <div class="panel" data-page="6">
+          <div class="testnum"><b>6</b></div>
+          <h3>One argument I lost, happily</h3>
+          <div class="body" contenteditable="true">
+            <span class="prompt">(each of you writes one. no rebuttals. that's the whole rule.)</span>
+            <div class="lines" style="height:70%"></div>
+          </div>
+          <span class="pgtag">p.6</span>
+        </div>
+
+        <div class="panel" data-page="7">
+          <div class="testnum"><b>7</b></div>
+          <h3>Next issue promises</h3>
+          <div class="body" contenteditable="true">
+            №02 will contain: ______________<br><br>
+            submissions close: ______________<br><br>
+            the bell (when №02 drops): ______________<br><br>
+            <span class="prompt">(a zine that names its next issue is a zine that ships it. issue #2 is the law of growth.)</span>
+          </div>
+          <span class="pgtag">p.7</span>
+        </div>
+
+        <div class="panel backcover" data-page="8">
+          <div class="testnum"><b>8</b><small>BACK COVER</small></div>
+          <h3>Colophon</h3>
+          <div class="body" contenteditable="true">
+            made by hand · STOOP PRESS<br>
+            no feed · no metrics · no lie<br><br>
+            everything in here belongs to the people in it.
+            copy this zine. that's what it's for.<br><br>
+            ______________________________<br>
+            (where to knock)
+          </div>
+          <span class="pgtag">back cover</span>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  // slot order: 0..3 top row L→R (printed upside-down), 4..7 bottom row L→R.
+  var presetA=[5,4,3,2, 6,7,8,1];
+  var presetB=[2,3,4,5, 1,8,7,6];
+  var current='A';
+  var sheet=document.getElementById('sheet');
+
+  function layout(){
+    var map=current==='A'?presetA:presetB;
+    map.forEach(function(page,slot){
+      var p=sheet.querySelector('[data-page="'+page+'"]');
+      p.style.order=slot;
+      p.classList.toggle('flip',slot<4);
+    });
+  }
+  layout();
+
+  var swap=document.getElementById('swapbtn');
+  swap.addEventListener('click',function(){
+    current=current==='A'?'B':'A';
+    swap.textContent='SWAP LAYOUT ('+current+')';
+    layout();
+  });
+
+  var testing=false,tb=document.getElementById('testbtn');
+  tb.addEventListener('click',function(){
+    testing=!testing;
+    sheet.classList.toggle('testing',testing);
+    tb.textContent='TEST SHEET: '+(testing?'ON':'OFF');
+    tb.classList.toggle('on',testing);
+  });
+
+  document.getElementById('printbtn').addEventListener('click',function(){window.print();});
+
+  var wrap=document.getElementById('sheetwrap');
+  function scale(){
+    var w=wrap.parentElement.clientWidth;
+    var s=Math.min(1,w/(11*96));
+    wrap.style.transform='scale('+s+')';
+    wrap.style.height=(8.5*96*s)+'px';
+  }
+  window.addEventListener('resize',scale);scale();
+})();
+</script>
