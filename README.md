@@ -26,11 +26,15 @@ Each of these is a measured fact from mid-2026, not a mood:
 - [`index.html`](index.html): Stoop itself, as far as it exists. One self-contained file, zero external requests: seven rooms in seven skins, a scene, a full issue of its zine, the editor's desk, a traveling flyer, the rounds, the public stoop, start-a-scene, and the law. It is inhabited by a model town (Night Bus and its neighbors) until real scenes move in; the fiction is placeholder data, not placeholder software.
 - [`src/`](src/) with [`build.sh`](build.sh) and [`check.sh`](check.sh): the development format. Parts under 300 lines, split at view boundaries, assembled into the shipped one-file artifacts the way SQLite's hundred source files ship as one amalgamation. `check.sh` makes the laws mechanical: outputs reproducible from source, the size ceiling, the zero-external-requests rule, and the page-weight badge telling the truth. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 - [`press/`](press/index.html): Stage 0's entire toolchain. A one-sheet, eight-page, one-cut zine layout with editable panels, fold instructions, a test-sheet mode, and starter prompts for a first issue. Print it, fold it, hand it to somebody. No further software gets built until Issue #2 earns it.
-- [`tool/SPEC.md`](tool/SPEC.md): the Stage 1 scene tool, specified on paper so the unlock is a start and not a planning session. Building it stays locked behind the gate.
+- [`tool/SPEC.md`](tool/SPEC.md): the Stage 1 scene tool, specified on paper so the unlock is a start and not a planning session, including the scene layout that doubles as the URL layout. Building it stays locked behind the gate.
+
+A scene lives at an address: `<host>/stoop/<scene>/03/` is issue №03, `/03/sheet` is the same issue imposed for a printer, and the scene root is both its public door and its shelf. The model town is live at [ampactor.dev/stoop/nightbus](https://ampactor.dev/stoop/nightbus/), which is a demonstration of the shape rather than a real scene, and says so on the page. Links inside a scene are relative, so the whole directory moves hosts by being copied.
 
 ## Status
 
 Paper and prototype. Pre-first-scene. The founding gate is not signups or retention; it is whether the first scene ships Issue #2. Publication continuity is the only metric this project respects.
+
+Two people are a scene. There is no minimum size anywhere in this design: vouching scales down to a founding pair, the editor's chair alternates instead of rotating, and a scene with no costs owes no dues. The first scene is expected to be two people and a copier, because two people ship on a deadline and eight people with no habit miss the first bell.
 
 The name is provisional. Naming it is an argument to have with the people who will live in it, on principle.
 
