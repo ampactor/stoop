@@ -1,6 +1,5 @@
-<!-- stoop: one file, zero external requests. artifact-shaped (no doctype/head/body; a publisher wraps it). opens fine locally too.
-     this is the thing itself, as far as it exists — inhabited by a model town until real scenes move in. -->
-<title>STOOP — folk media</title>
+<!-- stoop: personal log, shared lists, project spaces, journal, and 8-page zine press. one file, zero requests. -->
+<title>STOOP — personal log & zine press</title>
 <style>
   :root{
     --night:#0e0e10; --soot:#1a1a1e; --bone:#ece7db; --ink:#141210;
@@ -91,135 +90,198 @@
     font-family:'Courier New',monospace;font-size:.8rem}
   .pageweight{font-family:'Courier New',monospace;font-size:.7rem;color:var(--grey);text-align:center;margin-top:2.2rem;letter-spacing:.08em}
 
-  /* room: moss (night skin) */
-  .room-banner{border:2px solid var(--bone);padding:1.2rem;position:relative;overflow:hidden;
-    background:repeating-linear-gradient(0deg,#111 0 3px,#0a0a0c 3px 6px)}
-  .room-banner h1{font-size:3.4rem;margin:0;color:var(--bone);text-transform:uppercase}
-  .room-banner h1 span{color:var(--orange)}
-  .player{display:flex;align-items:center;gap:.7rem;border:1px solid var(--bone);padding:.55rem .8rem;margin:.9rem 0;background:var(--soot)}
-  .player .trackline{font-family:'Courier New',monospace;font-size:.82rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .player .pbar{flex:2;height:6px;background:#333;position:relative}
-  .player .pbar i{position:absolute;inset:0 auto 0 0;width:0%;background:var(--orange);transition:width .4s steps(8)}
+/* stoop components & layout additions */
+.author-toggle {
+  font-family: 'Courier New', monospace;
+  font-size: .8rem;
+  background: var(--soot);
+  color: var(--orange);
+  border: 1px solid var(--orange);
+  padding: .2rem .55rem;
+  cursor: pointer;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+}
+.author-toggle:hover {
+  background: var(--orange);
+  color: var(--night);
+}
+.view-head {
+  margin-bottom: 1.2rem;
+  border-bottom: 1px dashed var(--grey);
+  padding-bottom: .6rem;
+}
+.view-head h1 {
+  font-size: 2.2rem;
+  margin: 0;
+  color: var(--bone);
+  letter-spacing: .08em;
+}
+.view-sub {
+  font-family: 'Courier New', monospace;
+  font-size: .82rem;
+  color: var(--grey);
+  margin: .3rem 0 0;
+}
+.sub {
+  font-family: 'Courier New', monospace;
+  font-size: .78rem;
+  color: var(--grey);
+}
+.text-input, .select-input, .textarea-input {
+  font-family: 'Courier New', monospace;
+  font-size: .88rem;
+  background: #fffdf8;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  padding: .45rem .65rem;
+  box-sizing: border-box;
+}
+.text-input:focus, .select-input:focus, .textarea-input:focus {
+  outline: 2px solid var(--orange);
+}
+.text-input { flex: 1; min-width: 160px; }
+.select-input { min-width: 110px; cursor: pointer; }
+.textarea-input { width: 100%; resize: vertical; }
 
-  /* room: yuki (riso paper skin) */
-  .yuki{background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:1.1rem 1.2rem;
-    background-image:radial-gradient(rgba(21,93,128,.18) 1px,transparent 1px);background-size:5px 5px;box-shadow:5px 5px 0 rgba(0,0,0,.55)}
-  .yuki h1{color:#155d80;font-size:3rem;margin:0;text-transform:lowercase;font-family:'Courier New',monospace;letter-spacing:0}
-  .yuki .mono,.yuki p{font-family:'Courier New',monospace;font-size:.92rem}
-  .yuki a{color:#155d80}
+.form-row {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+.filter-row {
+  display: flex;
+  gap: .35rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: .8rem;
+  padding-top: .6rem;
+  border-top: 1px dashed rgba(20,18,16,.2);
+}
+.chip {
+  font-family: 'Courier New', monospace;
+  font-size: .72rem;
+  background: none;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  padding: .15rem .45rem;
+  cursor: pointer;
+  text-transform: lowercase;
+}
+.chip:hover, .chip.on {
+  background: var(--ink);
+  color: var(--paper);
+}
+/* Log stream */
+.log-stream { display: flex; flex-direction: column; gap: .7rem; margin-top: 1rem; }
+.log-card {
+  background: var(--soot);
+  border: 1px solid var(--grey);
+  border-left: 4px solid var(--orange);
+  padding: .75rem .9rem;
+  position: relative;
+}
+.log-card.author-Partner { border-left-color: var(--blue); }
+.log-card.author-Both { border-left-color: #5cd685; }
+.log-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Courier New', monospace;
+  font-size: .72rem;
+  color: var(--grey);
+  margin-bottom: .3rem;
+}
+.log-author { font-weight: bold; color: var(--orange); }
+.author-Partner .log-author { color: var(--blue); }
+.author-Both .log-author { color: #5cd685; }
+.log-body { font-family: 'Courier New', monospace; font-size: .88rem; color: var(--bone); line-height: 1.4; word-break: break-word; }
+.log-del { background: none; border: none; color: var(--grey); cursor: pointer; font-size: .8rem; }
+.log-del:hover { color: var(--orange); }
 
-  .skinnote{font-family:'Courier New',monospace;font-size:.7rem;color:var(--grey);margin-top:1rem;letter-spacing:.08em}
+/* Todos */
+.todolist-container { margin-top: 1rem; }
+.todolist { display: flex; flex-direction: column; gap: .4rem; }
+.todo-item {
+  background: var(--soot);
+  border: 1px solid var(--grey);
+  padding: .5rem .75rem;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-family: 'Courier New', monospace;
+  font-size: .88rem;
+}
+.todo-item.done { opacity: .5; background: transparent; border-style: dashed; }
+.todo-item.done .todo-text { text-decoration: line-through; }
+.todo-check { cursor: pointer; width: 1.1rem; height: 1.1rem; accent-color: var(--orange); }
+.todo-text { flex: 1; color: var(--bone); }
+.todo-tag { font-size: .7rem; border: 1px solid var(--grey); padding: .05rem .35rem; color: var(--grey); }
+.todo-footer-row { margin-top: .8rem; display: flex; justify-content: flex-end; }
 
-  /* room: vera (poured concrete) */
-  .vera{background:#e8e8e6;color:#111;border:8px solid #111;padding:0;box-shadow:8px 8px 0 rgba(0,0,0,.6)}
-  .vera .cell{border-bottom:8px solid #111;padding:1rem 1.15rem}
-  .vera .cell:last-child{border-bottom:0}
-  .vera h1{font-family:Helvetica,Arial,sans-serif;font-weight:900;font-size:4rem;letter-spacing:-.04em;margin:0;text-transform:uppercase;color:#111}
-  .vera h3{font-family:Helvetica,Arial,sans-serif;text-transform:uppercase;letter-spacing:.06em;color:#111}
-  .vera p{font-family:Helvetica,Arial,sans-serif;font-size:.95rem;margin:.3rem 0}
-  .vera .gb{background:#fff;border-left:6px solid #111}
-  .vera .gb .who{color:#111}
-  .vera a{color:#155d80}
-  .vera .num{font-family:Helvetica,Arial,sans-serif;font-weight:900;font-size:2.6rem;line-height:1}
+/* Projects */
+.project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
+.project-card {
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  padding: .9rem 1rem;
+  box-shadow: 4px 4px 0 rgba(0,0,0,.5);
+}
+.project-card h3 { margin: 0 0 .4rem; font-size: 1.3rem; }
+.project-card p { font-family: 'Courier New', monospace; font-size: .85rem; margin: 0 0 .7rem; line-height: 1.4; }
+.project-card-foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--ink); padding-top: .45rem; font-size: .75rem; font-family: 'Courier New', monospace; }
 
-  /* room: ratbag (xerox ransom) */
-  .ratbag{background:var(--paper);color:var(--ink);border:3px solid var(--ink);padding:1.1rem;box-shadow:5px 5px 0 rgba(0,0,0,.55);overflow:hidden;
-    background-image:repeating-linear-gradient(45deg,rgba(20,18,16,.05) 0 12px,transparent 12px 24px)}
-  .ransom{line-height:1.15;margin:0}
-  .ransom span{display:inline-block;padding:.02em .16em;margin:.04em}
-  .tape{background:repeating-linear-gradient(45deg,var(--orange) 0 14px,var(--ink) 14px 28px);height:12px;margin:.9rem -1.1rem}
-  .ticker{overflow:hidden;white-space:nowrap;border:2px solid var(--ink);background:#fff;margin:.7rem 0}
-  .ticker span{display:inline-block;padding-left:100%;animation:tick 14s linear infinite;font-family:'Courier New',monospace;font-weight:bold;letter-spacing:.15em;font-size:.85rem}
-  @keyframes tick{to{transform:translateX(-100%)}}
-  .scrap{border:2px solid var(--ink);background:#fff;padding:.6rem .85rem;margin:.7rem 0;box-shadow:3px 3px 0 rgba(0,0,0,.4);font-family:'Courier New',monospace;font-size:.9rem}
+/* Journal */
+.journal-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+.journal-card {
+  background: var(--soot);
+  border: 2px solid var(--bone);
+  padding: 1rem 1.2rem;
+}
+.journal-card-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dashed var(--grey); padding-bottom: .4rem; margin-bottom: .6rem; }
+.journal-card-head h2 { margin: 0; font-size: 1.35rem; color: var(--bone); }
+.journal-card-body { font-family: 'Courier New', monospace; font-size: .9rem; color: var(--bone); line-height: 1.55; white-space: pre-wrap; }
 
-  /* room: opal (parlor) */
-  .opal{background:#f6efdf;color:#3a3226;border:4px double #8a6d4a;padding:1.3rem 1.4rem;position:relative;font-family:Georgia,'Times New Roman',serif;box-shadow:5px 5px 0 rgba(0,0,0,.35)}
-  .opal::before{content:"❀";position:absolute;top:.3rem;left:.55rem;color:#8a6d4a}
-  .opal::after{content:"❀";position:absolute;bottom:.3rem;right:.55rem;color:#8a6d4a}
-  .opal h1{font-family:Georgia,serif;font-weight:normal;font-style:italic;font-size:2.7rem;color:#5a4632;margin:.2rem 0}
-  .opal p,.opal li{font-size:1.13rem;line-height:1.55}
-  .opal .card{background:#fffdf6;border:1px solid #8a6d4a;padding:.9rem 1.1rem;margin:.9rem 0}
-  .opal .card h3{font-family:Georgia,serif;font-style:italic;margin:.1rem 0 .4rem;color:#5a4632}
-  .opal .gb{background:#fffdf6;border-left-color:#8a6d4a}
-  .opal .gb .who{color:#5a4632}
-  .opal .gb p{font-size:1.05rem;font-family:Georgia,serif}
-  .opal a{color:#155d80}
+/* Zine Sheet */
+.press-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+.sheetzone { margin-top: 1rem; overflow-x: auto; padding-bottom: 1rem; }
+.sheetwrap { transform-origin: top left; min-width: 1056px; }
+.sheet { width: 11in; height: 8.5in; background: #fff; color: var(--ink); display: flex; flex-wrap: wrap; box-shadow: 0 0 0 1px #000, 8px 8px 0 rgba(0,0,0,.6); }
+.panel { width: 25%; height: 50%; border: 1px dashed #bbb; padding: .28in .3in; overflow: hidden; position: relative; background: #fff; box-sizing: border-box; }
+.panel.flip { transform: rotate(180deg); }
+.panel h3 { font-family: Impact, sans-serif; font-size: 20px; letter-spacing: .04em; margin: 0 0 6px; text-transform: uppercase; color: var(--ink); }
+.panel .body { font-family: 'Courier New', monospace; font-size: 11.5px; line-height: 1.45; color: var(--ink); min-height: 60%; outline: none; }
+.panel .pgtag { position: absolute; bottom: 4px; right: 8px; font-size: 9px; color: #aaa; font-family: 'Courier New', monospace; }
+.cover h3 { font-size: 24px; }
+.cover .no { font-family: Impact, sans-serif; font-size: 80px; line-height: .9; color: var(--ink); margin: 4px 0; }
+.cover .rule { border-top: 3px solid var(--ink); margin: 6px 0; }
+.fold-guide { margin-top: 1.4rem; }
+.fold-steps { font-family: 'Courier New', monospace; font-size: .85rem; line-height: 1.5; padding-left: 1.2rem; }
+.fold-steps li { margin-bottom: .5rem; }
 
-  /* room: static (amber phosphor) */
-  .staticroom{background:#100c00;color:#ffb000;border:2px solid #ffb000;padding:1rem 1.15rem;font-family:'Courier New',monospace;box-shadow:inset 0 0 22px rgba(255,176,0,.18)}
-  .staticroom pre{margin:0 0 .9rem;font-size:.74rem;line-height:1.3;overflow-x:auto;color:#ffb000}
-  .staticroom .dir{border-bottom:1px dotted rgba(255,176,0,.5);display:flex;justify-content:space-between;gap:1rem;padding:.18rem 0;font-size:.85rem}
-  .staticroom a{color:#ffd76a}
-  .staticroom .gb{background:rgba(255,176,0,.07);border-left-color:#ffb000}
-  .staticroom .gb .who{color:#ffd76a}
-  .staticroom .gb p{font-family:'Courier New',monospace;font-size:.85rem}
-  .cursor{display:inline-block;width:.6em;height:1.05em;background:#ffb000;vertical-align:text-bottom;animation:blink 1.1s steps(1) infinite}
-  @keyframes blink{50%{opacity:0}}
+/* Toast */
+.toast { position: fixed; left: 50%; bottom: 1.2rem; transform: translateX(-50%); background: var(--orange); color: var(--night); font-family: 'Courier New', monospace; font-size: .85rem; padding: .5rem .9rem; border: 2px solid var(--night); display: none; z-index: 50; }
 
-  /* room: wren (velvet) */
-  .wren{background:#0a0710;color:#cdc3e0;border:1px solid #9b7fd4;outline:1px solid #9b7fd4;outline-offset:5px;padding:1.4rem 1.5rem;font-family:Georgia,serif;margin:6px}
-  .wren h1{font-family:Georgia,serif;font-weight:normal;font-size:2.7rem;color:#9b7fd4;letter-spacing:.28em;text-transform:uppercase;margin:.2rem 0}
-  .wren p{line-height:1.6}
-  .wren .orn{text-align:center;color:#9b7fd4;letter-spacing:1.1em;margin:.8rem 0 .8rem 1.1em}
-  .wren .gb{background:rgba(155,127,212,.08);border-left-color:#9b7fd4}
-  .wren .gb .who{color:#b9a5e6}
-  .wren .gb p{font-family:Georgia,serif}
-  .wren a{color:#b9a5e6}
-  .wren em{color:#e6ddf5}
-
-  /* the desk */
-  .sub{display:flex;align-items:center;gap:.7rem;border:2px solid var(--ink);background:#fff;padding:.5rem .7rem;margin:.5rem 0;font-family:'Courier New',monospace;font-size:.88rem}
-  .sub .ord{font-family:Impact,'Arial Narrow Bold',sans-serif;font-size:1.4rem;min-width:1.4rem;text-align:center}
-  .sub .meta{flex:1}
-  .sub .meta small{display:block;opacity:.7}
-  .sub.cut{opacity:.55;background:transparent;border-style:dashed}
-  .sub.cut .meta{text-decoration:line-through}
-  .subbtn{font-family:'Courier New',monospace;font-size:.72rem;border:2px solid var(--ink);background:none;color:var(--ink);padding:.25rem .5rem;cursor:pointer}
-  .notebox{width:100%;border:2px solid var(--ink);background:#fffdf6;color:var(--ink);font-family:'Courier New',monospace;font-size:.88rem;padding:.6rem;min-height:90px;resize:vertical;box-sizing:border-box}
-  .built{border:3px double var(--ink);text-align:center;padding:1rem;margin-top:.9rem;font-family:'Courier New',monospace;display:none}
-  .built.on{display:block}
-
-  /* start a scene */
-  .field{display:block;width:100%;border:2px solid var(--ink);background:#fffdf6;color:var(--ink);font-family:'Courier New',monospace;font-size:.95rem;padding:.55rem;margin:.3rem 0 1rem;box-sizing:border-box}
-  .stepnum{font-family:Impact,'Arial Narrow Bold',sans-serif;font-size:1.8rem;color:var(--orange);margin-right:.45rem;vertical-align:middle}
-
-  /* issue */
-  .cover{background:var(--ink);color:var(--paper);border:2px solid var(--paper);padding:1.4rem;text-align:center;position:relative}
-  .cover h1{font-size:4rem;margin:.2rem 0;color:var(--paper)}
-  .cover .iss{color:var(--orange);font-size:5rem;display:block;line-height:.9}
-  .cover .mono{color:var(--paper);opacity:.8}
-  .track{display:flex;justify-content:space-between;border-bottom:1px dotted var(--ink);padding:.15rem 0;font-family:'Courier New',monospace;font-size:.88rem}
-  .theend{border:3px double var(--bone);text-align:center;padding:2rem 1rem;margin:2rem 0 1rem}
-  .theend h2{font-size:2.6rem;color:var(--orange)}
-  .theend p{font-family:'Courier New',monospace;font-size:.9rem}
-
-  /* flyer */
-  .flyer{background:var(--paper);color:var(--ink);border:3px solid var(--ink);max-width:540px;margin:0 auto;padding:1.6rem 1.2rem;text-align:center;
-    box-shadow:7px 7px 0 rgba(0,0,0,.6)}
-  .flyer h1{font-size:3.2rem;text-transform:uppercase;margin:.1rem 0}
-  .flyer h2{font-size:2.1rem;text-transform:uppercase;margin:.1rem 0}
-  .flyer .with{font-family:'Courier New',monospace;letter-spacing:.2em;font-size:.8rem;margin:.5rem 0}
-  .flyer .bigline{border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:.5rem 0;margin:.8rem 0;font-family:'Courier New',monospace;font-weight:bold}
-
-  /* feed gag */
-  .nofeed{text-align:center;padding:3.5rem 1rem}
-  .nofeed h1{font-size:14vw;max-font-size:7rem;color:var(--grey);margin:0;line-height:.95}
-  .nofeed h1 b{color:var(--orange)}
-  .nofeed p{font-family:'Courier New',monospace;color:var(--grey)}
-  .nofeed .p2{color:var(--bone)}
-
-  /* law */
-  .law{counter-reset:cl}
-  .clause{border:2px solid var(--bone);margin:.9rem 0;padding:1rem 1.1rem 1rem 3.4rem;position:relative}
-  .clause::before{counter-increment:cl;content:counter(cl);position:absolute;left:.8rem;top:.55rem;
-    font-family:Impact,'Arial Narrow Bold',sans-serif;font-size:2rem;color:var(--orange)}
-  .clause h3{margin:0 0 .25rem;font-size:1.15rem;letter-spacing:.1em;text-transform:uppercase}
-  .clause p{margin:0;font-family:'Courier New',monospace;font-size:.85rem;color:var(--bone)}
-
-  .toast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);background:var(--orange);color:var(--night);
-    font-family:'Courier New',monospace;font-size:.85rem;padding:.6rem 1rem;border:2px solid var(--night);display:none;z-index:20}
-  @media (max-width:640px){ .room-banner h1{font-size:2.4rem} .cover h1{font-size:2.6rem} .cover .iss{font-size:3.4rem} .flyer h1{font-size:2.3rem} }
+@media print {
+  @page { size: letter landscape; margin: 0; }
+  body { background: #fff; color: #000; }
+  header.chrome, .view-head, .paper:not(.sheetzone), .fold-guide, .press-actions, .pgtag { display: none !important; }
+  main { max-width: none; padding: 0; margin: 0; }
+  section[data-view]:not([data-view="press"]) { display: none !important; }
+  section[data-view="press"] { display: block !important; }
+  .sheetzone { margin: 0; padding: 0; overflow: visible; }
+  .sheetwrap { transform: none !important; min-width: 0; }
+  .sheet { box-shadow: none; width: 11in; height: 8.5in; }
+  .panel { border-color: #ddd; }
+}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -237,575 +299,469 @@
 </svg>
 
 <header class="chrome">
-  <a class="wordmark" href="#room">STOO<b>P</b></a>
-  <span class="battery" title="the flagship runs off-grid. in long rain it goes down, and that is a feature.">☀ <em>78%</em> ▮▮▮▮▯ solar</span>
+  <a class="wordmark" href="#log">STOO<b>P</b></a>
+  <button class="author-toggle" id="authortoggle" title="Switch active author">✍ <span id="authorname">Suds</span></button>
   <nav class="chrome-nav">
-    <a href="#room" data-nav="room">rooms</a>
-    <a href="#scene" data-nav="scene">night bus</a>
-    <a href="#issue" data-nav="issue">issue 03</a>
-    <a href="#flyer" data-nav="flyer">flyer</a>
-    <a href="#rounds" data-nav="rounds">the rounds</a>
-    <a href="#knock" data-nav="knock">knock</a>
-    <a href="#law" data-nav="law">the law</a>
-    <a href="#feed" data-nav="feed" class="feedlink">feed</a>
+    <a href="#log" data-nav="log">log</a>
+    <a href="#todos" data-nav="todos">todos</a>
+    <a href="#projects" data-nav="projects">projects</a>
+    <a href="#journal" data-nav="journal">journal</a>
+    <a href="#press" data-nav="press">zine press</a>
+    <a href="#backup" data-nav="backup">sync / export</a>
   </nav>
 </header>
 
 <main>
 
-<!-- ============ ROOM: MOSS ============ -->
-<section data-view="room">
-  <div class="room-banner">
-    <h1>mo<span>ss</span></h1>
-    <p class="mono">night bus · rooms are places, not rows in a feed</p>
-    <p class="lightword"><span class="dot on"></span>THE LIGHT IS ON — knock if you're passing
-      <span style="color:var(--grey)"> (manual. never inferred. never logged.)</span></p>
+<section data-view="log">
+  <div class="view-head">
+    <h1>DAILY LOG</h1>
+    <p class="view-sub">Quick timestamped notes, quotes, moments, links, and ideas.</p>
   </div>
 
-  <div class="player">
-    <button class="btn" id="playbtn" aria-label="play room song">▶</button>
-    <span class="trackline">sodium lamp — counting exits (3:47) · rights-clear or it links out</span>
-    <span class="pbar"><i id="pfill"></i></span>
-  </div>
-
-  <div class="grid2">
-    <div>
-      <h2 style="color:var(--orange)">ABOUT</h2>
-      <p class="mono">i fix bikes badly and CSS well. i think the reverb tail on a room says more than the bio field.
-      currently trying to record the sound of the substation on Halsey with a contact mic. it hums in F.</p>
-      <h2 style="color:var(--orange)">CURRENT OBSESSIONS</h2>
-      <p><span class="tag">tape loops</span><span class="tag">bike polo</span><span class="tag">css as a genre</span>
-         <span class="tag">powdered graphite</span><span class="tag hot">the substation hum</span></p>
+  <div class="paper">
+    <div class="form-row">
+      <input type="text" id="loginput" class="text-input" placeholder="Drop a thought, link, or note..." maxlength="280">
+      <select id="logtag" class="select-input">
+        <option value="moment">⚡ moment</option>
+        <option value="quote">💬 quote</option>
+        <option value="idea">💡 idea</option>
+        <option value="link">🔗 link</option>
+        <option value="photo">📷 photo</option>
+      </select>
+      <button class="btn" id="logaddbtn">POST</button>
     </div>
-    <div>
-      <h2 style="color:var(--orange)">THE CREW <span class="mono" style="font-size:.7rem;color:var(--grey)">(eight slots. chosen by hand. agonized over.)</span></h2>
-      <div class="crew">
-        <a href="#room2"><span class="glyph">✉</span>yuki</a>
-        <a href="#scene"><span class="glyph">⚙</span>dee</a>
-        <a href="#scene"><span class="glyph">▧</span>ratbag</a>
-        <a href="#scene"><span class="glyph">☖</span>birdie</a>
-        <a href="#scene"><span class="glyph">⌁</span>tam</a>
-        <a href="#scene"><span class="glyph">◫</span>colin</a>
-        <a href="#room-vera"><span class="glyph">⌂</span>vera <small>@wet cement</small></a>
-        <a href="#rounds"><span class="glyph">＋</span><small>open slot</small></a>
+    <div class="filter-row">
+      <span class="sub">filter:</span>
+      <button class="chip on" data-logfilter="all">all</button>
+      <button class="chip" data-logfilter="Suds">Suds</button>
+      <button class="chip" data-logfilter="Partner">Partner</button>
+      <button class="chip" data-logfilter="Both">Both</button>
+    </div>
+  </div>
+
+  <div id="loglist" class="log-stream">
+    <!-- Rendered dynamically from stoop_data -->
+  </div>
+</section>
+<section data-view="todos">
+  <div class="view-head">
+    <h1>TODOS & LISTS</h1>
+    <p class="view-sub">Shared errands, groceries, packing, house fixes, and tasks.</p>
+  </div>
+
+  <div class="paper">
+    <div class="form-row">
+      <input type="text" id="todoinput" class="text-input" placeholder="New task or list item..." maxlength="140">
+      <select id="todocat" class="select-input">
+        <option value="shared">👥 shared</option>
+        <option value="groceries">🛒 groceries</option>
+        <option value="weekend">☀️ weekend</option>
+        <option value="house">🏠 house</option>
+        <option value="Suds">👤 Suds</option>
+        <option value="Partner">👤 Partner</option>
+      </select>
+      <button class="btn" id="todoaddbtn">ADD</button>
+    </div>
+    <div class="filter-row">
+      <span class="sub">list:</span>
+      <button class="chip on" data-todofilter="all">all</button>
+      <button class="chip" data-todofilter="shared">shared</button>
+      <button class="chip" data-todofilter="groceries">groceries</button>
+      <button class="chip" data-todofilter="weekend">weekend</button>
+      <button class="chip" data-todofilter="house">house</button>
+      <button class="chip" data-todofilter="Suds">Suds</button>
+      <button class="chip" data-todofilter="Partner">Partner</button>
+    </div>
+  </div>
+
+  <div class="todolist-container">
+    <div id="todolist" class="todolist">
+      <!-- Active items rendered here -->
+    </div>
+    <div class="todo-footer-row">
+      <button class="btn quiet" id="clearcompletedbtn">CLEAR COMPLETED</button>
+    </div>
+  </div>
+</section>
+<section data-view="projects">
+  <div class="view-head">
+    <h1>PROJECT SPACES</h1>
+    <p class="view-sub">Mini workspaces for music, trips, woodworking, builds, and joint plans.</p>
+  </div>
+
+  <div class="paper">
+    <div class="form-grid">
+      <input type="text" id="projecttitle" class="text-input" placeholder="Project name (e.g. Backyard Garden, Noodles Synth)...">
+      <textarea id="projectdesc" class="textarea-input" rows="2" placeholder="Summary, notes, materials or next steps..."></textarea>
+      <div style="display:flex;justify-content:flex-end;">
+        <button class="btn" id="projectaddbtn">CREATE PROJECT</button>
       </div>
     </div>
   </div>
 
-  <h2 style="color:var(--orange)">GUESTBOOK <span class="mono" style="font-size:.7rem;color:var(--grey)">— signing is visiting. it lives here, under your name.</span></h2>
-  <div class="gb"><span class="who">birdie · tue</span><p>dropped bread by your door. the light was off. it's in the milk crate.</p></div>
-  <div class="gb"><span class="who">vera @ wet cement · mon</span><p>friday. bring the good speakers. tell dee the address is the same basement as march.</p></div>
-  <div class="gb"><span class="who">tam · last week</span><p>your june mix fixed my week. side B especially. what IS track 4</p></div>
-  <div class="gb"><span class="who">dee · last week</span><p>bike #7 is yours if you want it. needs a rear wheel. i have a rear wheel.</p></div>
-  <p><button class="btn" disabled>sign the guestbook (demo)</button></p>
-
-  <p class="skinnote">skin: NIGHT — scanlines and one orange. every room below is the same primitive wearing a different self; walk the ring with the ▶ links and watch the system disappear behind the people.</p>
-  <div class="webring">
-    <a href="#room-wren">◀ wren's room</a>
-    <a href="#rounds">the rounds</a>
-    <a href="#room2">yuki's room ▶</a>
+  <div id="projectlist" class="project-grid">
+    <!-- Rendered dynamically -->
   </div>
 </section>
-
-<!-- ============ ROOM: YUKI ============ -->
-<section data-view="room2">
-  <div class="yuki tilt-l">
-    <h1>yuki_types</h1>
-    <p class="mono">night bus · editor this cycle <a href="#desk" class="tag cold" style="text-decoration:none">ISSUE 04 DESK →</a></p>
-    <p class="mono"><span class="dot off"></span><span class="lightword" style="color:#155d80">light's off — leave a note, i'll find it</span></p>
-    <div class="cutline"></div>
-    <p class="mono">every room is its own skin. moss goes night; i go riso. the system ships the sandbox, you ship the self.
-    i letterpress at the shop on 9th on sundays. bring paper, leave with something.</p>
-    <p><span class="tag cold">letterpress</span><span class="tag cold">field recordings</span><span class="tag cold">library holds</span></p>
-    <div class="cutline"></div>
-    <div class="gb"><span class="who">moss · wed</span><p>submitted the substation essay for 04. it's short. be cruel if it's bad.</p></div>
-    <div class="gb"><span class="who">ratbag · sun</span><p>the misprint shirts sold OUT. chaos wins again</p></div>
-    <p><button class="btn" disabled>sign the guestbook (demo)</button></p>
-  </div>
-  <p class="skinnote">skin: RISO — one blue, one paper, a dot screen. she prints like she types: lowercase.</p>
-  <div class="webring">
-    <a href="#room">◀ moss's room</a>
-    <a href="#rounds">the rounds</a>
-    <a href="#room-vera">vera's room ▶</a>
-  </div>
-</section>
-
-<!-- ============ ROOM: VERA ============ -->
-<section data-view="room-vera">
-  <div class="vera">
-    <div class="cell"><h1>VERA</h1>
-      <p class="lightword"><span class="dot on"></span>LIGHT ON · WET CEMENT · soup quest coordinator · the friday show is my fault</p></div>
-    <div class="cell"><h3>Soup ledger</h3>
-      <p><span class="num">214</span> quarts logged since january. 61 this month. broth thickness: disputed (see guestbook).</p></div>
-    <div class="cell"><h3>Friday</h3>
-      <p>SUBSTATION + VOLTA COLUMN in the basement. <a href="#flyer">the flyer traveled, that's the point.</a> Doors 8. Bring nothing but people.</p></div>
-    <div class="cell"><h3>Obsessions</h3>
-      <p><span class="tag" style="border-color:#111;color:#111">breeze blocks</span>
-         <span class="tag" style="border-color:#111;color:#111">tape echo</span>
-         <span class="tag" style="border-color:#111;color:#111">stock, as a concept</span></p></div>
-    <div class="cell"><h3>Guestbook</h3>
-      <div class="gb"><span class="who">moss @ night bus · today</span><p>good speakers confirmed for friday. dee knows the basement.</p></div>
-      <div class="gb"><span class="who">opal @ casserole underground · tue</span><p>Dear, your broth is thin. This is said with love. Come by Sunday; bring a big pot.</p></div>
-      <p class="skinnote">skin: POURED CONCRETE — helvetica and borders, nothing else. 16 lines of css.</p></div>
-  </div>
-  <div class="webring">
-    <a href="#room2">◀ yuki's room</a>
-    <a href="#rounds">the rounds</a>
-    <a href="#room-ratbag">ratbag's room ▶</a>
-  </div>
-</section>
-
-<!-- ============ ROOM: RATBAG ============ -->
-<section data-view="room-ratbag">
-  <div class="ratbag tilt-l">
-    <h1 class="ransom" aria-label="ratbag">
-      <span style="font-family:Impact;font-size:2.6rem;background:#141210;color:#e6e0d2">R</span><span style="font-family:Georgia;font-size:2.1rem;transform:rotate(-6deg);border:2px solid #141210">A</span><span style="font-family:'Courier New';font-size:2.8rem;background:var(--orange);color:#141210">T</span><span style="font-family:Arial;font-weight:900;font-size:2.2rem;transform:rotate(4deg)">B</span><span style="font-family:Georgia;font-style:italic;font-size:2.5rem;background:#141210;color:#e6e0d2;transform:rotate(-3deg)">A</span><span style="font-family:Impact;font-size:2.9rem;border:3px double #141210">G</span>
-    </h1>
-    <p class="mono"><span class="dot off"></span>light off. printing. do not knock, SLIDE notes under the door.</p>
-    <div class="ticker"><span>MISPRINTS $5 ★ "NIGHT SUB" SHIRTS, ALL 4 SOLD, MORE MISTAKES COMING ★ SCREENPRINT SUNDAYS ★ BRING YOUR OWN SHIRT ★ INK IS COMMUNAL ★</span></div>
-    <div class="tape"></div>
-    <div class="scrap tilt-r">printed 12 shirts for the scene. botched 4. the botched ones sold first. i have stopped fighting this and started charging for it.</div>
-    <div class="scrap tilt-l">the screenprint frame lives in the tool library. it comes back with new colors on it every time. this is called interest.</div>
-    <div class="scrap tilt-r">issue 04 cover: yuki says "no glitter." the charter says nothing about glitter. checking with the court.</div>
-    <div class="tape"></div>
-    <div class="gb"><span class="who">birdie · sun</span><p>hardtack sold out next to your misprints. we have invented commerce. feels bad. doing it again friday.</p></div>
-    <div class="gb"><span class="who">yuki · sat</span><p>cover art by THURSDAY. i mean it. (the glitter ruling was: no.)</p></div>
-    <p class="skinnote">skin: XEROX RANSOM — nine fonts, zero apologies. the tape stripe is load-bearing.</p>
-  </div>
-  <div class="webring">
-    <a href="#room-vera">◀ vera's room</a>
-    <a href="#rounds">the rounds</a>
-    <a href="#room-opal">opal's room ▶</a>
-  </div>
-</section>
-
-<!-- ============ ROOM: OPAL ============ -->
-<section data-view="room-opal">
-  <div class="opal">
-    <h1>Opal's Parlor</h1>
-    <p class="lightword" style="color:#5a4632"><span class="dot on"></span>the porch light has been on since 1987 · CASSEROLE UNDERGROUND · 61 members call me grandma; four are correct</p>
-    <div class="card">
-      <h3>This week's card: Funeral Potatoes</h3>
-      <p>Hashbrowns, cream of chicken, sour cream, too much cheese, cornflake lid. 350° for 50 minutes. Serves: the entire scene.
-      Carry it to the show wrapped in a towel and hand the pan to the merch table. The pan comes back. The pan always comes back.</p>
-    </div>
-    <div class="card">
-      <h3>The commons, from where I sit</h3>
-      <p>Our wiki holds 214 recipes and I have argued with 30 of them. I teach Sunday: bread for anyone, knife sharpening for the brave.
-      My granddaughter vouched me in and now I vouch for half the block; my name is on every one of them, which is how names should be spent.</p>
-    </div>
-    <div class="gb"><span class="who">static @ 4-track anonymous · wed</span><p>grandma, your kitchen timer is sampled all over side B. royalties = one pie?</p></div>
-    <div class="gb"><span class="who">vera @ wet cement · tue</span><p>Bringing the big pot Sunday. We will settle the broth question like adults, with ladles.</p></div>
-    <p class="skinnote">skin: PARLOR — serif, cream, doily corners. opal renders her room at 125% and that is the law of her house; skins carry your accessibility settings with them.</p>
-  </div>
-  <div class="webring">
-    <a href="#room-ratbag">◀ ratbag's room</a>
-    <a href="#rounds">the rounds</a>
-    <a href="#room-static">static's room ▶</a>
-  </div>
-</section>
-
-<!-- ============ ROOM: STATIC ============ -->
-<section data-view="room-static">
-  <div class="staticroom">
-<pre aria-hidden="true">+------------------------------------------+
-|  STATIC // node 07 // 4-TRACK ANONYMOUS  |
-|  last login: thu 03:12 (insomnia)        |
-|  light: OFF (recording)                  |
-+------------------------------------------+</pre>
-    <p style="font-size:.85rem">A&gt; DIR /demos <span class="cursor"></span></p>
-    <div class="dir"><span>side_a_pylon_hiss.4trk</span><span>4:12</span></div>
-    <div class="dir"><span>kitchen_timer_opal.smp — cleared w/ grandma, fee: 1 pie</span><span>0:19</span></div>
-    <div class="dir"><span>substation_hum_F.wav — traded from moss for a spring reverb</span><span>1:33</span></div>
-    <div class="dir"><span>comp_submission_07of12.4trk</span><span>3:58</span></div>
-    <p style="font-size:.85rem;margin:.9rem 0">QUEST&gt; the compilation nobody's label would sign: <b>7 of 12 tracks in.</b> deadline: when it's done. the zine reviews it either way.</p>
-    <div class="gb"><span class="who">tam @ night bus · mon</span><p>spring reverb received. tascam sent. no backsies. the federation runs on barter and guilt.</p></div>
-    <div class="gb"><span class="who">moss @ night bus · sun</span><p>hum received. it IS in F. vera was right. never tell her.</p></div>
-    <p class="skinnote" style="color:rgba(255,176,0,.6)">skin: AMBER PHOSPHOR — zero images, one animation, courier all the way down. amber is an orange; the palette law is satisfied.</p>
-  </div>
-  <div class="webring">
-    <a href="#room-opal">◀ opal's room</a>
-    <a href="#rounds">the rounds</a>
-    <a href="#room-wren">wren's room ▶</a>
-  </div>
-</section>
-
-<!-- ============ ROOM: WREN ============ -->
-<section data-view="room-wren">
-  <div class="wren">
-    <h1>Wren</h1>
-    <p class="lightword" style="color:#9b7fd4"><span class="dot on"></span>the light is a candle · THE VEIL · we meet at the cemetery gates at dusk <em>(it's a book club)</em></p>
-    <div class="orn">☾ ❦ ✦ ❦ ☽</div>
-    <p>Currently reading: Shirley Jackson, <em>We Have Always Lived in the Castle</em>. Attendance last dusk: nine humans, three crows.
-    The crows are not members. <a href="#law">(charter, article I: nothing that cannot have dinner may vote.)</a></p>
-    <p>Scene quest: embroidering the complete lyrics of <em>Disintegration</em> onto one enormous veil. Progress: 14%. We accept thread donations and grief.</p>
-    <div class="orn">✦</div>
-    <div class="gb"><span class="who">yuki @ night bus · thu</span><p>trade: letterpress bookmarks for a poem for issue 04? something with pylons in it.</p></div>
-    <div class="gb"><span class="who">opal @ casserole underground · mon</span><p>Dear, you left your cardigan at book club. It is VERY black. I washed it with the other darks. It has friends now.</p></div>
-    <p class="skinnote" style="color:rgba(155,127,212,.65)">skin: VELVET — georgia italic, one violet, thin double rules. violet is a blue; the law is satisfied. ☾</p>
-  </div>
-  <div class="webring">
-    <a href="#room-static">◀ static's room</a>
-    <a href="#rounds">the rounds</a>
-    <a href="#room">moss's room ▶</a>
-  </div>
-</section>
-
-<!-- ============ SCENE ============ -->
-<section data-view="scene">
-  <h1 style="font-size:3rem">NIGHT BUS <span class="lightword" style="color:var(--grey);font-size:1rem">a scene · est. may 2026 · 7 members · no floor, cap 150, fork after</span></h1>
-  <p class="mono" style="color:var(--grey)">a scene is people + an aesthetic + a calendar + a commons + a zine. it governs itself. it owes the world one door.
-  it started as two people and a copier, which is the only size a scene has to be.</p>
-  <p class="mono" style="color:var(--grey)">address: <b>/stoop/nightbus/</b> · this shelf · issues at <b>/03/</b>, printable at <b>/03/sheet</b> · relative links, so it moves hosts by being copied</p>
-
-  <div class="paper tilt-r staple">
-    <h2>ISSUE 04 CYCLE — OPEN</h2>
-    <p class="mono">submissions: <b>4 in</b> (essay, photo set, mix, recipe) · closes thu midnight<br>
-    editor this turn: <a href="#room2">yuki</a> → next turn: dee (rotation is dish duty; at two people it just alternates)<br>
-    drops <b>friday 19:00</b>, the bell hour. everyone reads the same thing.</p>
-    <p><button class="btn" disabled>submit a piece (demo)</button> <a class="mono" href="#issue">read issue 03 →</a> · <a class="mono" href="#desk">visit the desk →</a></p>
+<section data-view="journal">
+  <div class="view-head">
+    <h1>JOURNAL & MEMORIES</h1>
+    <p class="view-sub">Longer reflections, date night recaps, milestones, and shared gratitude.</p>
   </div>
 
-  <h2 style="color:var(--orange)">THE CORKBOARD</h2>
-  <div class="grid2">
-    <div class="paper tilt-l staple">
-      <h3>SUBSTATION / VOLTA COLUMN</h3>
-      <p class="mono">+ night bus DJs · friday · basement show<br><b>stapled from: WET CEMENT</b> (two towns over, by consent)</p>
-      <p><a href="#flyer">see the flyer →</a></p>
-    </div>
-    <div class="paper tilt-r staple">
-      <h3>SKILL-SHARE: TAPE DECK SURGERY</h3>
-      <p class="mono">tam, sunday 2pm, the garage. bring a dying deck, leave with a living one. counts toward the ledger.</p>
+  <div class="paper">
+    <div class="form-grid">
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+        <input type="text" id="journaltitle" class="text-input" style="flex:1;" placeholder="Entry title (e.g. Sunday Walk & Tacos, Moving the Workbench)...">
+        <select id="journalauthor" class="select-input">
+          <option value="Suds">✍ Suds</option>
+          <option value="Partner">✍ Partner</option>
+          <option value="Together">✍ Together</option>
+        </select>
+      </div>
+      <textarea id="journalbody" class="textarea-input" rows="4" placeholder="Write thoughts, memories, reflections, what went well..."></textarea>
+      <div style="display:flex;justify-content:flex-end;">
+        <button class="btn" id="journaladdbtn">SAVE ENTRY</button>
+      </div>
     </div>
   </div>
 
-  <h2 style="color:var(--orange)">THE COMMONS</h2>
-  <div class="paper">
-    <h3>QUEST: TEN BIKES <span class="mono" style="font-weight:normal">(fix ten, give ten away)</span></h3>
-    <div class="bar"><i style="width:60%"></i><span>6 / 10</span></div>
-    <p class="mono">work day sat. dee has wheels. photos go to colin, colin's photos go to the zine. quests feed issues; that's the loop.</p>
-    <div class="cutline"></div>
-    <h3>SKILL LEDGER <span class="mono" style="font-weight:normal">(who can teach what — capability compounds)</span></h3>
-    <table>
-      <tr><th>member</th><th>teaches</th><th>learned it here?</th></tr>
-      <tr><td>tam</td><td>soldering, tape decks</td><td>—</td></tr>
-      <tr><td>dee</td><td>wheel builds</td><td>—</td></tr>
-      <tr><td>ratbag</td><td>screenprint</td><td>—</td></tr>
-      <tr><td>birdie</td><td>bread</td><td>—</td></tr>
-      <tr><td>moss</td><td>css, contact mics</td><td>mics ← tam</td></tr>
-      <tr><td>yuki</td><td>letterpress</td><td>—</td></tr>
-      <tr><td>colin</td><td>developing film</td><td>—</td></tr>
-    </table>
-    <p class="mono">tool library: 4-track · bike stand · soldering iron · screenprint frame · the good speakers (currently: moss)</p>
+  <div id="journallist" class="journal-list">
+    <!-- Rendered dynamically -->
   </div>
-
-  <h2 style="color:var(--orange)">THE SHELF <span class="mono" style="font-size:.7rem;color:var(--grey)">— streams forget. shelves remember.</span></h2>
-  <p class="mono">
-    <span class="tag">ISSUE 01 — "first, the name fight"</span>
-    <span class="tag">ISSUE 02 — "the casserole incident"</span>
-    <a href="#issue" class="tag hot">ISSUE 03 — "power cuts" ← read</a>
-  </p>
-  <p class="mono" style="color:var(--grey)">every issue keeps its number and its link forever: /stoop/nightbus/01/, /02/, /03/ · titles change, numbers are the spine</p>
-
-  <h2 style="color:var(--orange)">MEMBERS</h2>
-  <p class="mono">
-    <span class="dot on"></span>moss · <span class="dot off"></span>yuki · <span class="dot on"></span>dee ·
-    <span class="dot off"></span>ratbag · <span class="dot on"></span>birdie · <span class="dot off"></span>tam ·
-    <span class="dot off"></span>colin &nbsp; <span style="color:var(--grey)">(lights are manual: orange = sitting out, grey = not. never inferred.)</span>
-  </p>
-  <p class="mono"><a href="#knock">our public stoop — anyone can knock →</a></p>
 </section>
-
-<!-- ============ ISSUE 03 ============ -->
-<section data-view="issue">
-  <div class="cover">
-    <span class="mono">NIGHT BUS · A ZINE BY A SCENE · JULY 2026 · ASSEMBLED BY YUKI</span>
-    <h1>POWER<br>CUTS</h1>
-    <span class="iss">№03</span>
-    <svg class="dith" viewBox="0 0 600 140" role="img" aria-label="dithered artwork: pylons against noise" style="margin-top:1rem;border-color:var(--paper)">
-      <rect width="600" height="140" fill="#141210"/>
-      <rect width="600" height="140" fill="#e6e0d2" filter="url(#gritsoft)"/>
-      <path d="M80 140 L110 30 L140 140 M60 90 L160 90 M70 115 L150 115 M110 30 L110 10" stroke="#141210" stroke-width="7" fill="none"/>
-      <path d="M300 140 L330 40 L360 140 M280 95 L380 95 M290 120 L370 120" stroke="#141210" stroke-width="7" fill="none"/>
-      <path d="M500 140 L530 25 L560 140 M480 85 L580 85 M490 112 L570 112 M530 25 L530 8" stroke="#141210" stroke-width="7" fill="none"/>
-      <path d="M110 30 C 200 60, 240 60, 330 40 C 420 60, 440 55, 530 25" stroke="#141210" stroke-width="3" fill="none"/>
-    </svg>
-    <p class="mono" style="margin:.4rem 0 0">finite. it ends. nothing refreshes after the last page.</p>
-    <p class="mono" style="margin:.3rem 0 0;opacity:.85">/stoop/nightbus/03/ &nbsp;·&nbsp; same issue on paper: /stoop/nightbus/03/sheet</p>
+<section data-view="press">
+  <div class="view-head">
+    <h1>ZINE PRESS</h1>
+    <p class="view-sub">Turn your logs, journal, and lists into a physical, 8-page, 1-sheet folded zine.</p>
   </div>
 
   <div class="paper">
-    <h2>EDITOR'S NOTE</h2>
-    <p>the grid blinked twice this month and both times somebody's four-track kept rolling on batteries, which felt like a lesson.
-    six pieces this cycle. i cut one (mine). read the whole thing, then go sign somebody's guestbook about it; that's what the back page is for.
-    dee has the desk next cycle. be kind, submit early. — y.</p>
+    <div class="press-actions">
+      <button class="btn" id="compilezinebtn">⚡ AUTO-COMPILE FROM LOG & JOURNAL</button>
+      <button class="btn done" id="printzinebtn">🖨️ PRINT ZINE SHEET</button>
+      <button class="btn quiet" id="clearzinebtn">CLEAR SHEET</button>
+    </div>
+    <p class="sub" style="margin-top:.6rem;">Print setting: <strong>Letter · Landscape · 100% Scale · Margins None</strong>. Click any panel text below to customize it directly before printing.</p>
   </div>
 
-  <div class="paper">
-    <h2>WALKING HOME FROM THE SUBSTATION SHOW</h2>
-    <p class="caption">essay · moss</p>
-    <p>the sodium lamps on Halsey are being replaced by LEDs, block by block, and you can stand on the seam:
-    orange behind you, white ahead. after the show everyone walked the orange direction, no one deciding it out loud.
-    vera says the hum is the same note as the substation, F, and that the band tuned to it on purpose. i believe her lie completely.
-    a city is a scene that got too big to fit in a basement, and it forked, and forked again, and forgot it ever had a commons.
-    we walked to the all-night place. someone had a printout of the ten-bikes ledger folded in their jacket like a setlist.</p>
-  </div>
+  <div class="sheetzone">
+    <div class="sheetwrap">
+      <div class="sheet" id="zinesheet">
+        <!-- Top Row (Pages 8, 1 Cover, 2, 7) - Flipped for folding -->
+        <div class="panel flip" id="p_8"><div class="pgtag">p. 8 (back)</div><h3 contenteditable="true">BACK COVER</h3><div class="body" contenteditable="true">Stoop Issue #01<br><br>Compiled by Suds & Partner.<br>Printed on a single sheet of paper.</div></div>
+        <div class="panel flip cover" id="p_1"><div class="pgtag">p. 1 (front)</div><h3 contenteditable="true">STOOP ZINE</h3><div class="no" contenteditable="true">№01</div><div class="rule"></div><div class="body" contenteditable="true">Our personal dispatch.<br>Life, projects & notes.</div></div>
+        <div class="panel flip" id="p_2"><div class="pgtag">p. 2</div><h3 contenteditable="true">THE WEEK</h3><div class="body" contenteditable="true">Moments, highlights & quotes from our daily log.</div></div>
+        <div class="panel flip" id="p_7"><div class="pgtag">p. 7</div><h3 contenteditable="true">LOOKING AHEAD</h3><div class="body" contenteditable="true">Next week's plans, goals, and upcoming experiments.</div></div>
 
-  <div class="paper">
-    <h2>FOUR FRAMES FROM THE BIKE QUEST</h2>
-    <p class="caption">photos · colin · developed in the garage sink</p>
-    <div class="grid2">
-      <div><svg class="dith" viewBox="0 0 300 170" role="img" aria-label="dithered photo: bike wheel"><rect width="300" height="170" fill="#e6e0d2"/><rect width="300" height="170" fill="#141210" filter="url(#gritsoft)" opacity=".25"/><circle cx="150" cy="85" r="60" stroke="#141210" stroke-width="6" fill="none"/><circle cx="150" cy="85" r="8" fill="#141210"/><path d="M150 25 V145 M90 85 H210 M108 43 L192 127 M192 43 L108 127" stroke="#141210" stroke-width="2"/></svg>
-      <p class="caption">wheel №7, before. dee called it "a chandelier."</p></div>
-      <div><svg class="dith" viewBox="0 0 300 170" role="img" aria-label="dithered photo: hands and coffee"><rect width="300" height="170" fill="#e6e0d2"/><rect width="300" height="170" fill="#141210" filter="url(#grit)" opacity=".18"/><rect x="40" y="90" width="220" height="50" fill="url(#half)"/><circle cx="240" cy="60" r="22" stroke="#141210" stroke-width="5" fill="none"/><path d="M262 60 q14 0 12 14 q-2 10 -14 8" stroke="#141210" stroke-width="4" fill="none"/></svg>
-      <p class="caption">the work bench. the mug stays in frame; it's load-bearing.</p></div>
+        <!-- Bottom Row (Pages 6, 3, 4, 5) - Right-side up -->
+        <div class="panel" id="p_6"><div class="pgtag">p. 6</div><h3 contenteditable="true">SCRATCHPAD</h3><div class="body" contenteditable="true">Ideas, sketches, recipes, and recommendations.</div></div>
+        <div class="panel" id="p_3"><div class="pgtag">p. 3</div><h3 contenteditable="true">PROJECTS</h3><div class="body" contenteditable="true">Active builds, shop progress, and creative work.</div></div>
+        <div class="panel" id="p_4"><div class="pgtag">p. 4 (center)</div><h3 contenteditable="true">REFLECTIONS</h3><div class="body" contenteditable="true">Thoughts, milestones, and what we learned this week.</div></div>
+        <div class="panel" id="p_5"><div class="pgtag">p. 5</div><h3 contenteditable="true">TODO & RUNS</h3><div class="body" contenteditable="true">Shared tasks checked off and what's on deck.</div></div>
+      </div>
     </div>
   </div>
 
-  <div class="paper">
-    <h2>SIDE A: POWER CUTS</h2>
-    <p class="caption">mix · tam · dubbed to tape for whoever asks, links for the rest</p>
-    <div class="track"><span>1. volta column — pylon prayer</span><span>4:12</span></div>
-    <div class="track"><span>2. substation — every exit counted</span><span>3:03</span></div>
-    <div class="track"><span>3. wire mothers — plate glass</span><span>2:41</span></div>
-    <div class="track"><span>4. sodium lamp — counting exits</span><span>3:47</span></div>
-    <div class="track"><span>5. council flat — the reservoir</span><span>5:19</span></div>
-    <p class="caption">yes, track 4 is the one from moss's room. now you know, tam.</p>
+  <div class="paper fold-guide">
+    <h2>HOW TO FOLD (5 Steps)</h2>
+    <ol class="fold-steps">
+      <li><strong>Fold in half lengthwise (hot dog fold):</strong> Crease sharply and unfold.</li>
+      <li><strong>Fold in half widthwise (hamburger fold):</strong> Then fold each outer edge to the center crease to make 8 equal panels. Unfold.</li>
+      <li><strong>Cut the center slit:</strong> Fold in half widthwise again, and cut along the center horizontal crease across the two inner panels only. Stop at the quarter creases.</li>
+      <li><strong>Pop into a plus sign:</strong> Unfold, fold lengthwise with the cut slit on top. Push both outer ends inward so the slit opens into a diamond and then a 4-winged plus sign (+).</li>
+      <li><strong>Fold into a booklet:</strong> Collapse the wings around the front cover. You now have an 8-page pocket zine!</li>
+    </ol>
   </div>
-
-  <div class="paper">
-    <h2>TEN BIKES: LOG, WEEKS 3–4</h2>
-    <p class="caption">quest log · dee</p>
-    <p>№5 done (new chain, trued the rear). №6 done (that seatpost finally moved; penetrating oil and a personal grudge).
-    №7 is moss's if they claim it. found №8 in a skip, it's a good frame under the rust.
-    two saturdays left. if you've never trued a wheel, come; it's meditation with consequences, and then it goes in the ledger.</p>
+</section>
+<section data-view="backup">
+  <div class="view-head">
+    <h1>SYNC, BACKUP & DATA</h1>
+    <p class="view-sub">Local-first, private, zero-cloud storage. Your data lives on your device.</p>
   </div>
 
   <div class="paper">
-    <h2>HARDTACK FOR THE MERCH TABLE</h2>
-    <p class="caption">recipe · birdie</p>
-    <p>flour, water, salt, 375° until it sounds hollow. survives a tour van indefinitely. sell it next to ratbag's misprints:
-    the shirts that say NIGHT SUB. (he printed twelve, botched four, and the four sold first. there's a design lesson in that
-    i refuse to learn.)</p>
+    <h2>EXPORT / BACKUP</h2>
+    <p class="sub">Download your entire log, todos, projects, and journal as a single JSON file. You can save this to your cloud drive, email it, or transfer it to another phone or laptop.</p>
+    <button class="btn" id="exportbtn">📥 EXPORT BACKUP JSON</button>
   </div>
 
-  <div class="paper">
-    <h2>LETTERS / BACK PAGE</h2>
-    <p class="caption">from the guestbooks, with permission</p>
-    <div class="gb"><span class="who">vera @ wet cement</span><p>your issue 02 made our scene start a soup quest. reporting for the record.</p></div>
-    <div class="gb"><span class="who">colin</span><p>correction: issue 02 said the casserole was "unclaimed." it was mine. i stand by it.</p></div>
-    <div class="cutline"></div>
-    <p class="mono">colophon: assembled by hand · one source, two substrates: this page and the folded sheet at /03/sheet are the same issue ·
-    nothing goes in here that can't survive a photocopier · served from a machine drawing less power than a porch light ·
-    no tracker has ever read this page.</p>
+  <div class="paper" style="margin-top:1rem;">
+    <h2>IMPORT / RESTORE</h2>
+    <p class="sub">Load a previously exported backup file to restore or sync your notes.</p>
+    <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;">
+      <input type="file" id="importfile" accept=".json" style="display:none;">
+      <button class="btn quiet" id="importbtn">📂 CHOOSE JSON BACKUP</button>
+      <span id="importstatus" class="sub"></span>
+    </div>
   </div>
 
-  <div class="theend">
-    <h2>THAT'S THE WHOLE ISSUE.</h2>
-    <p>there is nothing to refresh. there is nothing below the back page.<br>
-    №04 drops friday 19:00 — the bell, not the slot machine.</p>
-    <p><a href="#room">sign a guestbook</a> · <a href="#scene">submit for №04</a> · <a href="#flyer">friday's show</a> · go outside</p>
+  <div class="paper" style="margin-top:1rem;">
+    <h2>RESET SAMPLE DATA</h2>
+    <p class="sub">Reset local storage to fresh example items.</p>
+    <button class="btn quiet" id="resetbtn" style="border-color:#d65a5a;color:#d65a5a;">RESET TO DEFAULTS</button>
   </div>
 </section>
-
-<!-- ============ FLYER ============ -->
-<section data-view="flyer">
-  <div class="flyer tilt-l staple">
-    <p class="with">WET CEMENT PRESENTS</p>
-    <h1>Substation</h1>
-    <h2>+ Volta Column</h2>
-    <p class="with">NIGHT BUS DJs AFTER</p>
-    <svg class="dith" viewBox="0 0 500 90" role="img" aria-label="dithered artwork: speaker stack">
-      <rect width="500" height="90" fill="#e6e0d2"/><rect width="500" height="90" fill="#141210" filter="url(#grit)" opacity=".2"/>
-      <rect x="40" y="15" width="60" height="60" fill="none" stroke="#141210" stroke-width="5"/><circle cx="70" cy="45" r="16" fill="url(#half)"/>
-      <rect x="120" y="15" width="60" height="60" fill="none" stroke="#141210" stroke-width="5"/><circle cx="150" cy="45" r="16" fill="url(#half)"/>
-      <path d="M220 70 L480 70 M240 50 L460 50 M260 30 L440 30" stroke="#141210" stroke-width="4"/>
-    </svg>
-    <div class="bigline">FRIDAY · DOORS 8 · ALL AGES<br>$5 OR A ZINE</div>
-    <p class="mono">the basement — <b>ask a member for the address</b><br>("ask a member" is a valid address. precision is the scene's choice.)</p>
-    <p class="mono" style="opacity:.75">provenance: posted by vera · signed WET CEMENT · stapled to NIGHT BUS's corkboard by standing consent, revocable anytime.</p>
-    <button class="btn" id="staplebtn">⌷ staple to your corkboard</button>
-  </div>
-  <p class="mono" style="text-align:center;color:var(--grey);margin-top:1rem">
-    the flyer is the only object that travels between scenes.<br>gossip structurally cannot go viral here. a basement show can.</p>
-</section>
-
-<!-- ============ ROUNDS ============ -->
-<section data-view="rounds">
-  <h1 style="font-size:2.6rem">THE ROUNDS</h1>
-  <p class="mono" style="color:var(--grey)">discovery is walking, not ranking. webring edges, flyer walls, guestbook traces. serendipity via edges.</p>
-  <div class="grid2">
-    <div class="paper tilt-l"><h3><span class="dot on"></span><a href="#room">moss</a> · night bus</h3><p class="mono">skin: NIGHT. substation hum, bike №7 pending. light's on.</p></div>
-    <div class="paper tilt-r"><h3><span class="dot off"></span><a href="#room2">yuki</a> · night bus</h3><p class="mono">skin: RISO. issue 04 desk. leave a note, she'll find it.</p></div>
-    <div class="paper tilt-r"><h3><span class="dot on"></span><a href="#room-vera">vera</a> · wet cement</h3><p class="mono">skin: POURED CONCRETE. 214 quarts of soup. friday is her fault.</p></div>
-    <div class="paper tilt-l"><h3><span class="dot off"></span><a href="#room-ratbag">ratbag</a> · night bus</h3><p class="mono">skin: XEROX RANSOM. misprints $5. slide notes under the door.</p></div>
-    <div class="paper tilt-r"><h3><span class="dot on"></span><a href="#room-opal">opal</a> · casserole underground</h3><p class="mono">skin: PARLOR at 125%. porch light on since 1987. bring a pot.</p></div>
-    <div class="paper tilt-l"><h3><span class="dot off"></span><a href="#room-static">static</a> · 4-track anonymous</h3><p class="mono">skin: AMBER PHOSPHOR. comp 7/12 in. trades in reverbs and guilt.</p></div>
-    <div class="paper tilt-r"><h3><span class="dot on"></span><a href="#room-wren">wren</a> · the veil</h3><p class="mono">skin: VELVET. cemetery-gates book club. crows attend, cannot vote.</p></div>
-    <div class="paper tilt-l" style="border-style:dashed;opacity:.85"><h3>［unclaimed］· your room</h3><p class="mono">useful at n=1: the personal site you always meant to have. default skin is bone and ink until you touch it. <a href="#start">bring a group chat and it becomes a scene →</a></p></div>
-  </div>
-  <div class="webring">
-    <span>◀ prev on the ring</span><span class="mono" style="color:var(--grey)">the rounds registry: a text file's worth of infrastructure</span><span>next on the ring ▶</span>
-  </div>
-</section>
-
-<!-- ============ KNOCK ============ -->
-<section data-view="knock">
-  <h1 style="font-size:2.6rem">THE PUBLIC STOOP <span class="lightword" style="color:var(--grey);font-size:1rem">night bus's door</span></h1>
-  <div class="paper">
-    <h2>ANYONE CAN KNOCK.</h2>
-    <p>vouching may be selective; reachability may not. every scene owes the world one visible door, and this is ours.
-    a scene with no door is a clique, and cliques are not scenes under the charter (art. II.4).</p>
-    <div class="cutline"></div>
-    <h3>HOW YOU'D GET IN</h3>
-    <p>members stake their names on you: two of them, or half the scene, whichever is smaller — one name in a young scene,
-    two once it reaches four. the vouch is listed on your room for as long as you're here; trust is social collateral,
-    not a CAPTCHA. pseudonyms are protected. nobody will ever ask for your documents or your face. nothing synthetic gets membership:
-    in an internet that is majority bot, <b>everyone here is a human somebody could have dinner with</b>. that's the product.</p>
-    <p class="mono">knock: say who you are, what you make, and which member you've met (or come to a show first — friday works).</p>
-    <p><button class="btn" disabled>knock (demo)</button></p>
-    <p class="mono">or skip the knock and bring your own people: <a href="#start">start a scene →</a></p>
-  </div>
-</section>
-
-<!-- ============ THE DESK ============ -->
-<section data-view="desk">
-  <h1 style="font-size:2.6rem">THE DESK <span class="lightword" style="color:var(--grey);font-size:1rem">issue 04 · yuki's turn · drops friday 19:00</span></h1>
-  <p class="mono" style="color:var(--grey)">the algorithm is a person. this is where they sit. one accountable neighbor, in public, for one cycle; that is the entire moderation stack for an issue.</p>
-
-  <div class="paper">
-    <h2>THE TRAY</h2>
-    <div class="sub"><span class="ord">1</span><span class="meta">the seam — moss<small>essay · 900 words · the sodium/LED line moved two more blocks</small></span><button class="subbtn">CUT</button></div>
-    <div class="sub"><span class="ord">2</span><span class="meta">work day frames — colin<small>photos · 6 frames, dithered · bike №8 emerges from the rust</small></span><button class="subbtn">CUT</button></div>
-    <div class="sub"><span class="ord">3</span><span class="meta">side b: brownouts — tam<small>mix · 5 tracks · features grandma's kitchen timer (cleared, fee: 1 pie)</small></span><button class="subbtn">CUT</button></div>
-    <div class="sub"><span class="ord">4</span><span class="meta">show-night stew — birdie<small>recipe · feeds the basement · pairs with vera's disputed broth</small></span><button class="subbtn">CUT</button></div>
-    <div class="sub cut"><span class="ord">–</span><span class="meta">on cutting your own piece — yuki<small>essay · she cut it herself. again. next cycle, yuki.</small></span><button class="subbtn">RESTORE</button></div>
-    <p class="mono">sequence is taste. there are no metrics to consult and nothing to A/B; that machinery is unconstitutional. cuts are conversations, not deletions: the maker keeps the piece, and it can run next cycle.</p>
-    <div class="cutline"></div>
-    <h3>EDITOR'S NOTE (DRAFT)</h3>
-    <textarea class="notebox">the grid held all month, which after issue 03 reads like an apology. four pieces this cycle, one cut (mine, again; someone stop me). read it whole, then go knock on somebody. — y.</textarea>
-    <p style="margin-top:.9rem"><button class="btn" id="buildbtn">BUILD ISSUE 04</button></p>
-    <div class="built" id="built">ISSUE 04 ASSEMBLED (demo) · queued for friday 19:00 · the bell rings once, for everyone.<br>rotation: dee has the desk for №05. the chore is the honor.</div>
-  </div>
-</section>
-
-<!-- ============ START A SCENE ============ -->
-<section data-view="start">
-  <h1 style="font-size:2.6rem">START A SCENE</h1>
-  <p class="mono" style="color:var(--grey)">the entire onboarding. your group chat deserves a zine.</p>
-  <div class="paper">
-    <h3><span class="stepnum">1</span>NAME THE CREW</h3>
-    <input class="field" placeholder="whatever the group chat is already called" disabled>
-    <h3><span class="stepnum">2</span>PICK THE BELL</h3>
-    <select class="field" disabled>
-      <option>friday 19:00, weekly</option>
-      <option>every other friday</option>
-      <option>monthly, near the full moon</option>
-      <option>quarterly, harvest-slow</option>
-    </select>
-    <h3><span class="stepnum">3</span>VOUCH YOUR PEOPLE</h3>
-    <p class="mono"><b>two is a scene.</b> there is no minimum here and never will be: you and one other person publishing on a rhythm is the whole
-    thing working. two people ship on a deadline; eight people with no habit miss the first bell. add person three when person three
-    can be handed a back issue.</p>
-    <p class="mono">names on every member, listed on their room: two vouchers, or half the scene, whichever is smaller. founders vouch themselves.
-    paste no contact list; invite by hand. the cap is 150 and then you fork like a good scene.</p>
-    <h3><span class="stepnum">4</span>TAKE YOUR ADDRESS</h3>
-    <p class="mono">every issue gets a permanent link, because a zine you can't hand to somebody isn't doing its job.
-    <b>/stoop/&lt;your scene&gt;/01/</b> is issue one, <b>/01/sheet</b> is the same issue imposed for a printer, and the scene root is
-    your public door and your shelf. the paper prints the link; the page prints the paper. links inside are relative, so the whole
-    thing moves hosts by being copied.</p>
-    <div class="cutline"></div>
-    <p class="mono">everyone gets a room (default skin: bone and ink until they touch it). the group chat stays where it is; it becomes the backstage.
-    dues start when there's a bill, not before; a scene of two costs nothing but paper. books open, surplus buys the print run. first issue within one cycle.</p>
-    <p><button class="btn" id="foundbtn">FOUND IT (demo)</button></p>
-    <p class="mono" style="opacity:.8">nothing here is real until issue #2 ships. that is the founding law of growth.</p>
-  </div>
-</section>
-
-<!-- ============ LAW ============ -->
-<section data-view="law">
-  <h1 style="font-size:2.6rem">THE LAW <span class="lightword" style="color:var(--grey);font-size:1rem">five clauses no vote can touch</span></h1>
-  <div class="law">
-    <div class="clause"><h3>No advertising</h3><p>no third party may pay for placement, reach, or attention. ever, in any form, under any name.</p></div>
-    <div class="clause"><h3>No engagement metrics</h3><p>no follower counts, like tallies, view counts, trending, or ranking by attention. nothing here may be optimized against a measurement of engagement. the system must never learn what a DAU is.</p></div>
-    <div class="clause"><h3>No sale</h3><p>the co-op, the protocol namespace, and the data cannot be sold, merged into a for-profit, or pledged as collateral. there is no throat to choke and nothing to acquire.</p></div>
-    <div class="clause"><h3>Open everything</h3><p>all software AGPL. all schemas public. all books open to members. a budget that cannot survive being read does not get adopted.</p></div>
-    <div class="clause"><h3>Credible exit</h3><p>any member exports their room and graph at any moment. any scene leaves any host and loses nothing. any design that makes leaving costlier than staying is void.</p></div>
-  </div>
-  <p class="mono" style="color:var(--grey)">no floor on a scene: two people who publish are a scene, and the roll of who belongs is theirs to keep unpublished
-  (art. I.3) — a roster is a list that gets used.</p>
-  <p class="mono" style="color:var(--grey)">the economics under it: a scene of two costs nothing but paper; ~25 members × ~$3 dues ≈ $75/mo against single-digit hosting,
-  because there is no feed, no video, no global surface — surplus goes to editor tips, the tool library, the print run, the show.
-  capture requires investors or hostages; dues and forks provide neither. full text: CHARTER.md in the repo.</p>
-</section>
-
-<!-- ============ FEED GAG ============ -->
-<section data-view="feed">
-  <div class="nofeed">
-    <h1>THERE IS<br><b>NO FEED.</b></h1>
-    <p>nothing is trending. nobody is counting. nothing refreshes.</p>
-    <p class="p2">the next thing happens <b>friday at 19:00</b>, when №04 drops for everyone at once.</p>
-    <p><a href="#issue">read №03 again</a> · <a href="#rounds">walk the rounds</a> · <a href="#flyer">go to the show</a> · <a href="#start">start a scene</a> · go outside</p>
-  </div>
-</section>
-
 </main>
-
 <div class="toast" id="toast"></div>
-<p class="pageweight">STOOP · one file · zero requests · no trackers · 55 KB before compression · sixteen views, one primitive per idea · a model town lives here until real scenes move in · the whole point fits in a pamphlet</p>
-
+<p class="pageweight">STOOP · personal log & zine press · one file · zero requests · no trackers · 38 KB before compression · your data stays on your device</p>
 <script>
 (function(){
-  var views=document.querySelectorAll('section[data-view]');
-  var navs=document.querySelectorAll('[data-nav]');
-  function show(){
-    var h=(location.hash||'#room').slice(1).split('/')[0];
-    var hit=false;
-    views.forEach(function(v){var on=v.getAttribute('data-view')===h;v.classList.toggle('on',on);if(on)hit=true;});
-    if(!hit){views.forEach(function(v){v.classList.toggle('on',v.getAttribute('data-view')==='room');});h='room';}
-    var nk=h.indexOf('room')===0?'room':h;
-    navs.forEach(function(a){a.classList.toggle('here',a.getAttribute('data-nav')===nk);});
-    window.scrollTo(0,0);
+  const STORAGE_KEY = 'stoop_data_v2';
+  const AUTHORS = ['Suds', 'Partner', 'Together'];
+  let currentAuthor = localStorage.getItem('stoop_active_author') || 'Suds';
+  let activeLogFilter = 'all', activeTodoFilter = 'all';
+
+  const defaultData = {
+    logs: [
+      { id: 'l1', author: 'Suds', tag: 'moment', text: 'First clean run of the shop workbench setup. Smooth edges on the steel cut.', time: 'Aug 24 · 4:30 PM' },
+      { id: 'l2', author: 'Partner', tag: 'quote', text: '"The only way out is through, and the best way through is together."', time: 'Aug 24 · 7:15 PM' },
+      { id: 'l3', author: 'Together', tag: 'idea', text: 'Weekend road trip sketch: farm stand cider, thrift store run, back before sunset.', time: 'Aug 25 · 9:00 AM' }
+    ],
+    todos: [
+      { id: 't1', cat: 'groceries', text: 'Coffee beans (dark roast)', done: false },
+      { id: 't2', cat: 'house', text: 'Hang kitchen spice shelf', done: false },
+      { id: 't3', cat: 'shared', text: 'Plan Friday dinner & movie', done: false },
+      { id: 't4', cat: 'Suds', text: 'Oil shop drill press & clamps', done: true },
+      { id: 't5', cat: 'Partner', text: 'Pick up sketchbook paper', done: false }
+    ],
+    projects: [
+      { id: 'p1', title: 'Pocket Synth (Noodles)', desc: 'Web Audio polyphonic sketchpad. Dialing in chord voicings and tactile groove controls.', updated: 'Aug 25' },
+      { id: 'p2', title: 'Backyard Herb Garden', desc: 'Raised cedar bed: basil, rosemary, thyme, cherry tomatoes. Drip irrigation line.', updated: 'Aug 23' },
+      { id: 'p3', title: 'Zine Issue #01', desc: 'First monthly digest of thoughts, photos, and project notes. 8-page 1-sheet fold.', updated: 'Aug 25' }
+    ],
+    journal: [
+      { id: 'j1', author: 'Together', title: 'Sunday Morning Coffee & Quiet', body: 'Made pour-overs, sat on the porch while the sun came up over the street. Talked about where we want our time to go this autumn. Fewer distractions, more physical making.', time: 'Aug 24' }
+    ]
+  };
+
+  let state = (() => {
+    try { const r = localStorage.getItem(STORAGE_KEY); if (r) return JSON.parse(r); } catch {}
+    return JSON.parse(JSON.stringify(defaultData));
+  })();
+
+  const saveState = () => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {} };
+  const toast = (msg) => {
+    const t = document.getElementById('toast'); if (!t) return;
+    t.textContent = msg; t.style.display = 'block'; clearTimeout(t._h);
+    t._h = setTimeout(() => { t.style.display = 'none'; }, 2400);
+  };
+  const esc = (s) => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+  function renderAuthor() {
+    const el = document.getElementById('authorname'); if (el) el.textContent = currentAuthor;
+    const jAuth = document.getElementById('journalauthor'); if (jAuth) jAuth.value = currentAuthor;
   }
-  window.addEventListener('hashchange',show); show();
+  function toggleAuthor() {
+    currentAuthor = AUTHORS[(AUTHORS.indexOf(currentAuthor) + 1) % AUTHORS.length];
+    localStorage.setItem('stoop_active_author', currentAuthor);
+    renderAuthor(); toast(`Active author: ${currentAuthor}`);
+  }
 
-  function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.style.display='block';
-    clearTimeout(t._h);t._h=setTimeout(function(){t.style.display='none'},2600);}
-
-  var play=document.getElementById('playbtn'),fill=document.getElementById('pfill'),playing=false,w=0,tick;
-  if(play){play.addEventListener('click',function(){
-    playing=!playing;play.textContent=playing?'▮▮':'▶';
-    if(playing){tick=setInterval(function(){w=(w+3)%100;fill.style.width=w+'%';},400);
-      toast('(this would play. one song per room, rights-clear. autoplay is an argument you get to have.)');}
-    else clearInterval(tick);
-  });}
-
-  var st=document.getElementById('staplebtn');
-  if(st){st.addEventListener('click',function(){
-    st.classList.add('done');st.textContent='⌷ stapled';
-    toast("stapled to NIGHT BUS's corkboard. that's the only kind of viral this system has.");
-  });}
-
-  document.querySelectorAll('.subbtn').forEach(function(b){
-    b.addEventListener('click',function(){
-      var row=b.closest('.sub');row.classList.toggle('cut');
-      var cut=row.classList.contains('cut');
-      b.textContent=cut?'RESTORE':'CUT';
-      toast(cut?'cut. it goes back to the maker; it can run next cycle.':'restored to the tray.');
+  // --- LOGS ---
+  function renderLogs() {
+    const list = document.getElementById('loglist'); if (!list) return;
+    const filtered = state.logs.filter(l => activeLogFilter === 'all' || l.author === activeLogFilter);
+    if (!filtered.length) { list.innerHTML = '<div class="paper sub" style="text-align:center;">No logs matching filter.</div>'; return; }
+    list.innerHTML = filtered.map(l => `
+      <div class="log-card author-${esc(l.author)}">
+        <div class="log-meta">
+          <span><span class="log-author">${esc(l.author)}</span> · <span class="tag cold" style="margin:0;">${esc(l.tag)}</span> · ${esc(l.time)}</span>
+          <button class="log-del" data-dellog="${esc(l.id)}" title="Delete">✕</button>
+        </div>
+        <div class="log-body">${esc(l.text)}</div>
+      </div>
+    `).join('');
+  }
+  function addLog() {
+    const inp = document.getElementById('loginput'), tag = document.getElementById('logtag');
+    if (!inp || !inp.value.trim()) return;
+    const d = new Date();
+    state.logs.unshift({
+      id: 'l_' + Date.now(), author: currentAuthor, tag: tag?.value || 'moment',
+      text: inp.value.trim(),
+      time: `${d.toLocaleString('en-US', { month: 'short', day: 'numeric' })} · ${d.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit' })}`
     });
+    inp.value = ''; saveState(); renderLogs(); toast('Posted to log');
+  }
+
+  // --- TODOS ---
+  function renderTodos() {
+    const list = document.getElementById('todolist'); if (!list) return;
+    const filtered = state.todos.filter(t => activeTodoFilter === 'all' || t.cat === activeTodoFilter);
+    if (!filtered.length) { list.innerHTML = '<div class="sub" style="padding:1rem;text-align:center;">All caught up! No items here.</div>'; return; }
+    list.innerHTML = filtered.map(t => `
+      <div class="todo-item ${t.done ? 'done' : ''}">
+        <input type="checkbox" class="todo-check" data-toggletodo="${esc(t.id)}" ${t.done ? 'checked' : ''}>
+        <span class="todo-text">${esc(t.text)}</span>
+        <span class="todo-tag">${esc(t.cat)}</span>
+        <button class="log-del" data-deltodo="${esc(t.id)}">✕</button>
+      </div>
+    `).join('');
+  }
+  function addTodo() {
+    const inp = document.getElementById('todoinput'), cat = document.getElementById('todocat');
+    if (!inp || !inp.value.trim()) return;
+    state.todos.unshift({ id: 't_' + Date.now(), cat: cat?.value || 'shared', text: inp.value.trim(), done: false });
+    inp.value = ''; saveState(); renderTodos(); toast('Added todo');
+  }
+  function clearCompletedTodos() {
+    state.todos = state.todos.filter(t => !t.done);
+    saveState(); renderTodos(); toast('Cleared completed items');
+  }
+
+  // --- PROJECTS ---
+  function renderProjects() {
+    const list = document.getElementById('projectlist'); if (!list) return;
+    if (!state.projects.length) { list.innerHTML = '<div class="sub" style="padding:1rem;">No active projects. Start one above!</div>'; return; }
+    list.innerHTML = state.projects.map(p => `
+      <div class="project-card">
+        <h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p>
+        <div class="project-card-foot">
+          <span>Updated ${esc(p.updated)}</span>
+          <button class="log-del" data-delproject="${esc(p.id)}">DELETE</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  function addProject() {
+    const titleInp = document.getElementById('projecttitle'), descInp = document.getElementById('projectdesc');
+    if (!titleInp || !titleInp.value.trim()) return;
+    state.projects.unshift({
+      id: 'p_' + Date.now(), title: titleInp.value.trim(), desc: descInp?.value.trim() || '',
+      updated: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric' })
+    });
+    titleInp.value = ''; if (descInp) descInp.value = '';
+    saveState(); renderProjects(); toast('Created project');
+  }
+
+  // --- JOURNAL ---
+  function renderJournal() {
+    const list = document.getElementById('journallist'); if (!list) return;
+    if (!state.journal.length) { list.innerHTML = '<div class="paper sub" style="text-align:center;">No journal entries yet.</div>'; return; }
+    list.innerHTML = state.journal.map(j => `
+      <div class="journal-card">
+        <div class="journal-card-head">
+          <h2>${esc(j.title)}</h2>
+          <span class="sub">${esc(j.author)} · ${esc(j.time)} <button class="log-del" data-deljournal="${esc(j.id)}" style="margin-left:.6rem;">✕</button></span>
+        </div>
+        <div class="journal-card-body">${esc(j.body)}</div>
+      </div>
+    `).join('');
+  }
+  function addJournal() {
+    const titleInp = document.getElementById('journaltitle'), authorInp = document.getElementById('journalauthor'), bodyInp = document.getElementById('journalbody');
+    if (!titleInp || !titleInp.value.trim() || !bodyInp || !bodyInp.value.trim()) { toast('Please enter title and content'); return; }
+    state.journal.unshift({
+      id: 'j_' + Date.now(), author: authorInp?.value || currentAuthor,
+      title: titleInp.value.trim(), body: bodyInp.value.trim(),
+      time: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    });
+    titleInp.value = ''; bodyInp.value = '';
+    saveState(); renderJournal(); toast('Saved journal entry');
+  }
+
+  // --- ZINE COMPILER ---
+  function compileZine() {
+    const recentLogs = state.logs.slice(0, 3).map(l => `• [${l.author}] ${l.text}`).join('\n');
+    const activeTodos = state.todos.filter(t => !t.done).slice(0, 4).map(t => `[ ] ${t.text}`).join('\n');
+    const topProjects = state.projects.slice(0, 2).map(p => `★ ${p.title}: ${p.desc.slice(0, 60)}...`).join('\n\n');
+    const topJournal = state.journal[0] ? `${state.journal[0].title}\n\n${state.journal[0].body.slice(0, 180)}...` : 'Keep writing together.';
+    const setBody = (id, text) => { const p = document.getElementById(id); if (p) { const b = p.querySelector('.body'); if (b) b.innerText = text; } };
+
+    setBody('p_2', recentLogs || 'No log entries this week.');
+    setBody('p_3', topProjects || 'Working on new ideas.');
+    setBody('p_4', topJournal);
+    setBody('p_5', activeTodos || 'All errands checked off!');
+    setBody('p_6', 'Recommendations, recipes, and notes to remember.');
+    setBody('p_7', 'Goals & plans for the upcoming week.');
+    toast('Compiled latest logs & journal into zine sheet!');
+  }
+
+  // --- BACKUP & SYNC ---
+  function exportBackup() {
+    const a = document.createElement('a');
+    a.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state, null, 2)));
+    a.setAttribute('download', `stoop-backup-${new Date().toISOString().slice(0,10)}.json`);
+    document.body.appendChild(a); a.click(); a.remove(); toast('Backup downloaded');
+  }
+  function handleImport(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const parsed = JSON.parse(e.target.result);
+        if (parsed.logs && parsed.todos) { state = parsed; saveState(); renderAll(); toast('Restored backup!'); }
+        else toast('Invalid backup format');
+      } catch { toast('Failed to read JSON'); }
+    };
+    reader.readAsText(file);
+  }
+  function resetData() {
+    if (confirm('Reset to sample data? Current local data will be replaced.')) {
+      state = JSON.parse(JSON.stringify(defaultData)); saveState(); renderAll(); toast('Reset to defaults');
+    }
+  }
+
+  function renderAll() {
+    renderAuthor(); renderLogs(); renderTodos(); renderProjects(); renderJournal();
+  }
+
+  // --- NAVIGATION ---
+  const views = document.querySelectorAll('section[data-view]'), navs = document.querySelectorAll('[data-nav]');
+  function showView() {
+    let h = (location.hash || '#log').slice(1).split('/')[0], hit = false;
+    views.forEach(v => { const on = v.getAttribute('data-view') === h; v.classList.toggle('on', on); if (on) hit = true; });
+    if (!hit) { views.forEach(v => { v.classList.toggle('on', v.getAttribute('data-view') === 'log'); }); h = 'log'; }
+    navs.forEach(a => { a.classList.toggle('here', a.getAttribute('data-nav') === h); });
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', showView);
+
+  // --- EVENT DELEGATION ---
+  document.addEventListener('click', (e) => {
+    const t = e.target;
+    if (t.id === 'authortoggle' || t.closest('#authortoggle')) toggleAuthor();
+    else if (t.id === 'logaddbtn') addLog();
+    else if (t.dataset.dellog) { state.logs = state.logs.filter(l => l.id !== t.dataset.dellog); saveState(); renderLogs(); }
+    else if (t.dataset.logfilter) {
+      activeLogFilter = t.dataset.logfilter;
+      document.querySelectorAll('[data-logfilter]').forEach(b => b.classList.toggle('on', b.dataset.logfilter === activeLogFilter));
+      renderLogs();
+    }
+    else if (t.id === 'todoaddbtn') addTodo();
+    else if (t.dataset.toggletodo) {
+      const item = state.todos.find(i => i.id === t.dataset.toggletodo);
+      if (item) { item.done = t.checked; saveState(); renderTodos(); }
+    }
+    else if (t.dataset.deltodo) { state.todos = state.todos.filter(i => i.id !== t.dataset.deltodo); saveState(); renderTodos(); }
+    else if (t.dataset.todofilter) {
+      activeTodoFilter = t.dataset.todofilter;
+      document.querySelectorAll('[data-todofilter]').forEach(b => b.classList.toggle('on', b.dataset.todofilter === activeTodoFilter));
+      renderTodos();
+    }
+    else if (t.id === 'clearcompletedbtn') clearCompletedTodos();
+    else if (t.id === 'projectaddbtn') addProject();
+    else if (t.dataset.delproject) { state.projects = state.projects.filter(p => p.id !== t.dataset.delproject); saveState(); renderProjects(); }
+    else if (t.id === 'journaladdbtn') addJournal();
+    else if (t.dataset.deljournal) { state.journal = state.journal.filter(j => j.id !== t.dataset.deljournal); saveState(); renderJournal(); }
+    else if (t.id === 'compilezinebtn') compileZine();
+    else if (t.id === 'printzinebtn') window.print();
+    else if (t.id === 'clearzinebtn') { document.querySelectorAll('.panel .body').forEach(b => b.innerText = ''); toast('Cleared zine panels'); }
+    else if (t.id === 'exportbtn') exportBackup();
+    else if (t.id === 'importbtn') document.getElementById('importfile')?.click();
+    else if (t.id === 'resetbtn') resetData();
   });
 
-  var bb=document.getElementById('buildbtn');
-  if(bb){bb.addEventListener('click',function(){
-    document.getElementById('built').classList.add('on');
-    bb.disabled=true;bb.textContent='BUILT';
-    toast('assembled. no push notification fired; friday the bell rings once.');
-  });}
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.id === 'loginput') addLog();
+    else if (e.key === 'Enter' && e.target.id === 'todoinput') addTodo();
+  });
 
-  var fb=document.getElementById('foundbtn');
-  if(fb){fb.addEventListener('click',function(){
-    fb.classList.add('done');fb.textContent='FOUNDED (demo)';
-    toast('scene founded. first issue within one cycle; the gate is issue #2.');
-  });}
+  const importInp = document.getElementById('importfile');
+  if (importInp) importInp.addEventListener('change', (e) => { if (e.target.files?.[0]) handleImport(e.target.files[0]); });
+
+  renderAll();
+  showView();
 })();
 </script>

@@ -1,0 +1,44 @@
+<section data-view="press">
+  <div class="view-head">
+    <h1>ZINE PRESS</h1>
+    <p class="view-sub">Turn your logs, journal, and lists into a physical, 8-page, 1-sheet folded zine.</p>
+  </div>
+
+  <div class="paper">
+    <div class="press-actions">
+      <button class="btn" id="compilezinebtn">⚡ AUTO-COMPILE FROM LOG & JOURNAL</button>
+      <button class="btn done" id="printzinebtn">🖨️ PRINT ZINE SHEET</button>
+      <button class="btn quiet" id="clearzinebtn">CLEAR SHEET</button>
+    </div>
+    <p class="sub" style="margin-top:.6rem;">Print setting: <strong>Letter · Landscape · 100% Scale · Margins None</strong>. Click any panel text below to customize it directly before printing.</p>
+  </div>
+
+  <div class="sheetzone">
+    <div class="sheetwrap">
+      <div class="sheet" id="zinesheet">
+        <!-- Top Row (Pages 8, 1 Cover, 2, 7) - Flipped for folding -->
+        <div class="panel flip" id="p_8"><div class="pgtag">p. 8 (back)</div><h3 contenteditable="true">BACK COVER</h3><div class="body" contenteditable="true">Stoop Issue #01<br><br>Compiled by Suds & Partner.<br>Printed on a single sheet of paper.</div></div>
+        <div class="panel flip cover" id="p_1"><div class="pgtag">p. 1 (front)</div><h3 contenteditable="true">STOOP ZINE</h3><div class="no" contenteditable="true">№01</div><div class="rule"></div><div class="body" contenteditable="true">Our personal dispatch.<br>Life, projects & notes.</div></div>
+        <div class="panel flip" id="p_2"><div class="pgtag">p. 2</div><h3 contenteditable="true">THE WEEK</h3><div class="body" contenteditable="true">Moments, highlights & quotes from our daily log.</div></div>
+        <div class="panel flip" id="p_7"><div class="pgtag">p. 7</div><h3 contenteditable="true">LOOKING AHEAD</h3><div class="body" contenteditable="true">Next week's plans, goals, and upcoming experiments.</div></div>
+
+        <!-- Bottom Row (Pages 6, 3, 4, 5) - Right-side up -->
+        <div class="panel" id="p_6"><div class="pgtag">p. 6</div><h3 contenteditable="true">SCRATCHPAD</h3><div class="body" contenteditable="true">Ideas, sketches, recipes, and recommendations.</div></div>
+        <div class="panel" id="p_3"><div class="pgtag">p. 3</div><h3 contenteditable="true">PROJECTS</h3><div class="body" contenteditable="true">Active builds, shop progress, and creative work.</div></div>
+        <div class="panel" id="p_4"><div class="pgtag">p. 4 (center)</div><h3 contenteditable="true">REFLECTIONS</h3><div class="body" contenteditable="true">Thoughts, milestones, and what we learned this week.</div></div>
+        <div class="panel" id="p_5"><div class="pgtag">p. 5</div><h3 contenteditable="true">TODO & RUNS</h3><div class="body" contenteditable="true">Shared tasks checked off and what's on deck.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="paper fold-guide">
+    <h2>HOW TO FOLD (5 Steps)</h2>
+    <ol class="fold-steps">
+      <li><strong>Fold in half lengthwise (hot dog fold):</strong> Crease sharply and unfold.</li>
+      <li><strong>Fold in half widthwise (hamburger fold):</strong> Then fold each outer edge to the center crease to make 8 equal panels. Unfold.</li>
+      <li><strong>Cut the center slit:</strong> Fold in half widthwise again, and cut along the center horizontal crease across the two inner panels only. Stop at the quarter creases.</li>
+      <li><strong>Pop into a plus sign:</strong> Unfold, fold lengthwise with the cut slit on top. Push both outer ends inward so the slit opens into a diamond and then a 4-winged plus sign (+).</li>
+      <li><strong>Fold into a booklet:</strong> Collapse the wings around the front cover. You now have an 8-page pocket zine!</li>
+    </ol>
+  </div>
+</section>

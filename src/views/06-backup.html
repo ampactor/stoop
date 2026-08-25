@@ -1,0 +1,28 @@
+<section data-view="backup">
+  <div class="view-head">
+    <h1>SYNC, BACKUP & DATA</h1>
+    <p class="view-sub">Local-first, private, zero-cloud storage. Your data lives on your device.</p>
+  </div>
+
+  <div class="paper">
+    <h2>EXPORT / BACKUP</h2>
+    <p class="sub">Download your entire log, todos, projects, and journal as a single JSON file. You can save this to your cloud drive, email it, or transfer it to another phone or laptop.</p>
+    <button class="btn" id="exportbtn">📥 EXPORT BACKUP JSON</button>
+  </div>
+
+  <div class="paper" style="margin-top:1rem;">
+    <h2>IMPORT / RESTORE</h2>
+    <p class="sub">Load a previously exported backup file to restore or sync your notes.</p>
+    <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;">
+      <input type="file" id="importfile" accept=".json" style="display:none;">
+      <button class="btn quiet" id="importbtn">📂 CHOOSE JSON BACKUP</button>
+      <span id="importstatus" class="sub"></span>
+    </div>
+  </div>
+
+  <div class="paper" style="margin-top:1rem;">
+    <h2>RESET SAMPLE DATA</h2>
+    <p class="sub">Reset local storage to fresh example items.</p>
+    <button class="btn quiet" id="resetbtn" style="border-color:#d65a5a;color:#d65a5a;">RESET TO DEFAULTS</button>
+  </div>
+</section>

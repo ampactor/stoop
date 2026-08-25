@@ -1,0 +1,31 @@
+<section data-view="log">
+  <div class="view-head">
+    <h1>DAILY LOG</h1>
+    <p class="view-sub">Quick timestamped notes, quotes, moments, links, and ideas.</p>
+  </div>
+
+  <div class="paper">
+    <div class="form-row">
+      <input type="text" id="loginput" class="text-input" placeholder="Drop a thought, link, or note..." maxlength="280">
+      <select id="logtag" class="select-input">
+        <option value="moment">⚡ moment</option>
+        <option value="quote">💬 quote</option>
+        <option value="idea">💡 idea</option>
+        <option value="link">🔗 link</option>
+        <option value="photo">📷 photo</option>
+      </select>
+      <button class="btn" id="logaddbtn">POST</button>
+    </div>
+    <div class="filter-row">
+      <span class="sub">filter:</span>
+      <button class="chip on" data-logfilter="all">all</button>
+      <button class="chip" data-logfilter="Suds">Suds</button>
+      <button class="chip" data-logfilter="Partner">Partner</button>
+      <button class="chip" data-logfilter="Both">Both</button>
+    </div>
+  </div>
+
+  <div id="loglist" class="log-stream">
+    <!-- Rendered dynamically from stoop_data -->
+  </div>
+</section>
