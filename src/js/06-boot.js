@@ -34,7 +34,7 @@ document.addEventListener('click', function (e) {
   }
   if ((el = hit(t, '[data-delpanelpic]'))) {
     pressState().panels[Number(el.getAttribute('data-delpanelpic')) - 1].photo = null;
-    saveState(); renderPress(); return;
+    savePress(); renderPress(); return;
   }
 
   if (hit(t, '#authortoggle')) return toggleAuthor();

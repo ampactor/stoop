@@ -110,5 +110,4 @@
   .sheetwrap { transform: none !important; min-width: 0; }
   .sheet { box-shadow: none; width: 11in; height: 8.5in; }
   .panel { border-color: #eee; }
-  .panel-photo, .log-photo { image-rendering: auto; }
 }

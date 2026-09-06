@@ -65,7 +65,9 @@ function importBackup(raw, mode) {
     state.todos = mergeList(state.todos, incoming.todos);
     state.projects = mergeList(state.projects, incoming.projects);
     state.journal = mergeList(state.journal, incoming.journal);
-    if (!state.press && incoming.press) state.press = incoming.press;
+    if (incoming.press && (!state.press || (incoming.press.ts || 0) > (state.press.ts || 0))) {
+      state.press = incoming.press;
+    }
     var after = state.logs.length + state.todos.length + state.projects.length + state.journal.length;
     added = Math.max(0, after - before) + added;
   }

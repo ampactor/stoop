@@ -106,7 +106,7 @@
 .tray-box { padding-bottom: .8rem; }
 .tray-head { display: flex; align-items: baseline; gap: .8rem; flex-wrap: wrap; }
 .tray-head h2 { margin: 0; }
-#trayhint.on { color: #9c2b2b; font-weight: bold; }
+#trayhint.on { color: #a8380f; font-weight: bold; }
 .phototray {
   display: flex;
   gap: .5rem;

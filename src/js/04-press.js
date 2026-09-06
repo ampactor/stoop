@@ -33,6 +33,11 @@ function pressState() {
 
 // Assign each page to its slot. Nothing about the sheet's DOM order changes;
 // only CSS order and the 180-degree flip on the top row.
+function savePress() {
+  pressState().ts = Date.now();
+  saveState();
+}
+
 function layoutSheet() {
   var ps = pressState();
   var map = ps.layout === 'B' ? PRESET_B : PRESET_A;
@@ -125,7 +130,7 @@ function placePhoto(page) {
   if (!armedPhoto) return false;
   pressState().panels[page - 1].photo = armedPhoto;
   armPhoto(null);
-  saveState();
+  savePress();
   renderPress();
   toast('Placed photo on p.' + page);
   return true;
@@ -147,7 +152,7 @@ function capturePanels() {
   });
   var num = document.getElementById('issueno');
   if (num) ps.issue = num.innerText.trim().replace(/^№/, '');
-  saveState();
+  savePress();
 }
 
 function setPanel(page, body) {
@@ -181,7 +186,7 @@ function compileZine() {
   var newest = logs.filter(function (l) { return l.photo && photoCache[l.photo]; })[0];
   if (newest && !ps.panels[0].photo) ps.panels[0].photo = newest.photo;
 
-  saveState();
+  savePress();
   renderPress();
   toast('Compiled the issue from your log, journal, and lists');
 }
@@ -189,7 +194,7 @@ function compileZine() {
 function clearSheet() {
   var ps = pressState();
   ps.panels.forEach(function (p) { p.body = ''; p.photo = null; });
-  saveState();
+  savePress();
   renderPress();
   toast('Cleared the sheet');
 }
@@ -197,7 +202,7 @@ function clearSheet() {
 function swapLayout() {
   var ps = pressState();
   ps.layout = ps.layout === 'A' ? 'B' : 'A';
-  saveState();
+  savePress();
   layoutSheet();
   toast('Fold layout ' + ps.layout + ' — print a test sheet before committing');
 }

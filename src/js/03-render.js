@@ -102,7 +102,7 @@ function renderTodos() {
       '<input type="checkbox" class="todo-check" data-toggletodo="' + esc(t.id) + '"' +
       (t.done ? ' checked' : '') + '>' +
       '<span class="todo-text">' + esc(t.text) + '</span>' +
-      '<span class="todo-tag">' + esc(nameOf(t.cat) === t.cat ? t.cat : nameOf(t.cat)) + '</span>' +
+      '<span class="todo-tag">' + esc(nameOf(t.cat)) + '</span>' +
       '<button class="log-del" data-deltodo="' + esc(t.id) + '">✕</button></div>';
   }).join('');
 }
