@@ -1,27 +1,25 @@
 <section data-view="journal">
   <div class="view-head">
-    <h1>JOURNAL & MEMORIES</h1>
+    <h1>JOURNAL &amp; MEMORIES</h1>
     <p class="view-sub">Longer reflections, date night recaps, milestones, and shared gratitude.</p>
   </div>
 
   <div class="paper">
     <div class="form-grid">
-      <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-        <input type="text" id="journaltitle" class="text-input" style="flex:1;" placeholder="Entry title (e.g. Sunday Walk & Tacos, Moving the Workbench)...">
+      <div class="form-row">
+        <input type="text" id="journaltitle" class="text-input" placeholder="Entry title (e.g. Sunday Walk &amp; Tacos)...">
         <select id="journalauthor" class="select-input">
-          <option value="Suds">✍ Suds</option>
-          <option value="Partner">✍ Partner</option>
-          <option value="Together">✍ Together</option>
+          <option value="a" data-nameopt="a" data-pen>Me</option>
+          <option value="b" data-nameopt="b" data-pen>JJ</option>
+          <option value="both" data-nameopt="both" data-pen>Both</option>
         </select>
       </div>
       <textarea id="journalbody" class="textarea-input" rows="4" placeholder="Write thoughts, memories, reflections, what went well..."></textarea>
-      <div style="display:flex;justify-content:flex-end;">
+      <div class="form-actions">
         <button class="btn" id="journaladdbtn">SAVE ENTRY</button>
       </div>
     </div>
   </div>
 
-  <div id="journallist" class="journal-list">
-    <!-- Rendered dynamically -->
-  </div>
+  <div id="journallist" class="journal-list"></div>
 </section>

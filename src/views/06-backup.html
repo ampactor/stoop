@@ -1,28 +1,39 @@
 <section data-view="backup">
   <div class="view-head">
-    <h1>SYNC, BACKUP & DATA</h1>
-    <p class="view-sub">Local-first, private, zero-cloud storage. Your data lives on your device.</p>
+    <h1>SETTINGS &amp; SYNC</h1>
+    <p class="view-sub">Who is writing, and how the notebook travels between your devices.</p>
   </div>
 
   <div class="paper">
-    <h2>EXPORT / BACKUP</h2>
-    <p class="sub">Download your entire log, todos, projects, and journal as a single JSON file. You can save this to your cloud drive, email it, or transfer it to another phone or laptop.</p>
-    <button class="btn" id="exportbtn">📥 EXPORT BACKUP JSON</button>
-  </div>
-
-  <div class="paper" style="margin-top:1rem;">
-    <h2>IMPORT / RESTORE</h2>
-    <p class="sub">Load a previously exported backup file to restore or sync your notes.</p>
-    <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;">
-      <input type="file" id="importfile" accept=".json" style="display:none;">
-      <button class="btn quiet" id="importbtn">📂 CHOOSE JSON BACKUP</button>
-      <span id="importstatus" class="sub"></span>
+    <h2>WHO IS HERE</h2>
+    <p class="sub">Entries are stored against a person, not a spelling, so renaming either of you keeps every past note attached to the right hands.</p>
+    <div class="form-row">
+      <input type="text" id="namea" class="text-input" maxlength="24" placeholder="First name">
+      <input type="text" id="nameb" class="text-input" maxlength="24" placeholder="Second name">
+      <button class="btn" id="savenamesbtn">SAVE NAMES</button>
     </div>
   </div>
 
-  <div class="paper" style="margin-top:1rem;">
-    <h2>RESET SAMPLE DATA</h2>
-    <p class="sub">Reset local storage to fresh example items.</p>
-    <button class="btn quiet" id="resetbtn" style="border-color:#d65a5a;color:#d65a5a;">RESET TO DEFAULTS</button>
+  <div class="paper">
+    <h2>CARRY IT ACROSS</h2>
+    <p class="sub">There is no server and no account: everything lives in this browser. To share a notebook between two phones or laptops, export here and import there. <strong>Merge</strong> keeps both sides and prefers the newer copy of anything held by both, so you can each export, swap files, and merge — both devices end up agreeing. <strong>Replace</strong> overwrites this device entirely.</p>
+    <div class="press-actions">
+      <button class="btn" id="exportbtn">EXPORT BACKUP (photos included)</button>
+      <input type="file" id="importfile" accept="application/json,.json" hidden>
+      <button class="btn quiet" id="mergebtn">MERGE A BACKUP IN</button>
+      <button class="btn quiet" id="replacebtn">REPLACE FROM BACKUP</button>
+    </div>
+    <p class="sub" id="importstatus"></p>
+  </div>
+
+  <div class="paper">
+    <h2>WHERE YOUR THINGS ARE</h2>
+    <p class="sub">Text and lists sit in this browser's local storage; photos sit in its IndexedDB, dithered to 1-bit on the way in so a page-sized image costs tens of kilobytes rather than megabytes. Nothing is uploaded anywhere, because there is nowhere to upload it to. Clearing site data for this page deletes all of it, so export often — the backup file is the only copy that outlives the browser.</p>
+  </div>
+
+  <div class="paper">
+    <h2>START OVER</h2>
+    <p class="sub">Replace everything on this device with the sample notebook.</p>
+    <button class="btn danger" id="resetbtn">RESET TO DEFAULTS</button>
   </div>
 </section>

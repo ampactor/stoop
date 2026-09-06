@@ -7,12 +7,12 @@ Small repo, strong laws. Most of them are enforced by `check.sh`; this file expl
 The rule is SQLite's: develop as parts, ship as one file. `src/` holds the parts; `build.sh` assembles the shipped artifacts; nobody edits an amalgamation.
 
 - `src/meta.html`, `src/chrome.html`, `src/defs.html`, `src/footer.html`: the frame.
-- `src/base.css`, `src/rooms.css`, `src/views.css`: tokens and shared styles, the seven room skins, the view styles.
+- `src/base.css`, `src/forms.css`, `src/views.css`: tokens and chrome, form and photo components, the view and sheet styles.
 - `src/views/NN-name.html`: one file per view, numbered in display order. A new view is a new file, never a longer one.
-- `src/app.js`: the router and the interactions.
-- `src/press.html`: the print kit, whole (it fits under the ceiling as one coherent piece).
+- `src/js/NN-name.js`: one file per concern, in load order — `01-store` (state, migration, the photo store), `02-dither` (image intake), `03-render` (the views), `04-press` (imposition and the zine), `05-sync` (export, merge, import), `06-boot` (router, events, start). `build.sh` concatenates them inside a single IIFE, so they share one scope with no module plumbing: parts on disk, one function at rest. A new concern is a new file.
+- `src/press.html`: the hand print kit, whole (it fits under the ceiling as one coherent piece).
 
-Two hard rules, both checked: **no source file over 300 lines** (split at the next natural boundary: a view, a skin, a concern), and **outputs are generated** (`index.html`, `press/index.html`, `artifact/*` come from `build.sh`; editing them directly is drift, and check 1 will catch you).
+Three hard rules, all checked: **no source file over 300 lines** (split at the next natural boundary: a view, a concern), **outputs are generated** (`index.html`, `press/index.html`, `artifact/*` come from `build.sh`; editing them directly is drift, and check 1 will catch you), and **the two presses fold the same way** (the app's `PRESET_A` and the hand kit's `presetA` must be equal; two presses that disagree is a stack of ruined paper, and check 5 will catch that too).
 
 Why two output shapes: the `artifact/` fragments have no doctype because the claude.ai artifact publisher wraps them; the root and `press/` documents carry their own doctype and meta so GitHub Pages and local files render in standards mode with a correct mobile viewport.
 
@@ -29,7 +29,9 @@ Commit only when check passes. CI runs the same script on every push; there is n
 
 ## The gate
 
-No Stage 1 software gets built until a real scene ships Issue #2 (see README and `tool/SPEC.md`). Housekeeping of what exists is fine; new capability is not. If a change feels like capability, it waits.
+No Stage 1 software gets built until a real scene ships Issue #2 (see README and `tool/SPEC.md`). Stage 1 means the federation: rooms, vouching, corkboards, the protocol, anything a second scene would touch. That is what waits.
+
+The Stage 0 app is not behind the gate — it is the thing the gate is waiting on, and it may grow whatever a scene of two needs to actually publish. But it grows under the same laws as everything else here: source in parts, outputs generated, the badge honest, and no capability that does not end in paper.
 
 ## Commits
 

@@ -41,12 +41,24 @@ if [ "${delta#-}" -gt 3 ]; then
   fail=1
 fi
 
-# 5. Weight budget: warn when the app fragment crosses 64 KB.
+# 5. Imposition agreement: the app's press and the hand kit in press/ must
+# fold the same way. Two presses that disagree is a stack of ruined paper.
+kit=$(grep -oE 'presetA=\[[0-9, ]+\]' src/press.html | tr -d ' ' | sed 's/presetA=//')
+app=$(grep -oE 'PRESET_A = \[[0-9, ]+\]' src/js/04-press.js | tr -d ' ' | sed 's/PRESET_A=//')
+if [ -z "$kit" ] || [ -z "$app" ]; then
+  echo "FAIL: could not read an imposition preset from src/press.html or src/js/04-press.js"
+  fail=1
+elif [ "$kit" != "$app" ]; then
+  echo "FAIL: imposition mismatch — kit $kit, app $app"
+  fail=1
+fi
+
+# 6. Weight budget: warn when the app fragment crosses 64 KB.
 if [ "$(wc -c < artifact/index.html)" -gt 65536 ]; then
   echo "WARN: app fragment over 64 KB; the pamphlet is getting heavy"
 fi
 
-# 6. Licenses present (charter III.4).
+# 7. Licenses present (charter III.4).
 if [ ! -f LICENSE ] || [ ! -f LICENSE-docs ]; then
   echo "FAIL: LICENSE or LICENSE-docs missing"
   fail=1

@@ -68,7 +68,7 @@ The repo-wide law in CONTRIBUTING.md applies here from the first commit: source 
 
 ## Order of work at unlock
 
-1. Scene repo layout confirmed against a real scene's real Issue №01 and №02 (the paper issues become the fixture data; the model town retires to a branch). The layout above is the hypothesis; two hand-built issues are the test.
+1. Scene repo layout confirmed against a real scene's real Issue №01 and №02, which the Stage 0 app now produces (the paper issues become the fixture data). The layout above is the hypothesis; two shipped issues are the test.
 2. Issue build pipeline (markdown to reading view to imposed sheet to PDF), because the zine is the heart and the two substrates have to come from one source or they drift.
 3. Room editor and skin sandbox.
 4. Intake endpoint (submissions, guestbook, knock, staple), with the vouch count computed from the roll.

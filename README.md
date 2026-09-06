@@ -21,18 +21,34 @@ Each of these is a measured fact from mid-2026, not a mood:
 
 ## What is in this repo
 
-- [`CHARTER.md`](CHARTER.md): the law. Membership, scenes, the five unamendable clauses, governance, money, dissolution. Capture-resistance lives here, as structure rather than intention.
-- [`DESIGN.md`](DESIGN.md): the machine. Every primitive (room, scene, issue, flyer, staple, vouch, guestbook, light, commons, quest), every loop that connects them, the data model on AT Protocol lexicons, moderation, energy, economics, staging.
-- [`index.html`](index.html): Stoop itself, as far as it exists. One self-contained file, zero external requests: seven rooms in seven skins, a scene, a full issue of its zine, the editor's desk, a traveling flyer, the rounds, the public stoop, start-a-scene, and the law. It is inhabited by a model town (Night Bus and its neighbors) until real scenes move in; the fiction is placeholder data, not placeholder software.
-- [`src/`](src/) with [`build.sh`](build.sh) and [`check.sh`](check.sh): the development format. Parts under 300 lines, split at view boundaries, assembled into the shipped one-file artifacts the way SQLite's hundred source files ship as one amalgamation. `check.sh` makes the laws mechanical: outputs reproducible from source, the size ceiling, the zero-external-requests rule, and the page-weight badge telling the truth. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
-- [`press/`](press/index.html): Stage 0's entire toolchain. A one-sheet, eight-page, one-cut zine layout with editable panels, fold instructions, a test-sheet mode, and starter prompts for a first issue. Print it, fold it, hand it to somebody. No further software gets built until Issue #2 earns it.
-- [`tool/SPEC.md`](tool/SPEC.md): the Stage 1 scene tool, specified on paper so the unlock is a start and not a planning session, including the scene layout that doubles as the URL layout. Building it stays locked behind the gate.
+Two layers, and it is worth being plain about which is which. There is a **working app** for one scene of two people, and there is a **paper design** for the federation that app would one day join. The app is real and running; the federation is an argument on paper and stays that way until the gate below opens.
 
-A scene lives at an address: `<host>/stoop/<scene>/03/` is issue №03, `/03/sheet` is the same issue imposed for a printer, and the scene root is both its public door and its shelf. The model town is live at [ampactor.dev/stoop/nightbus](https://ampactor.dev/stoop/nightbus/), which is a demonstration of the shape rather than a real scene, and says so on the page. Links inside a scene are relative, so the whole directory moves hosts by being copied.
+### The app
+
+- [`index.html`](index.html): the whole thing. One self-contained file, zero external requests, no accounts, no server, nothing uploaded anywhere. Six views: a daily **log** (notes, quotes, ideas, links, photos), shared **todos** and lists, **project** spaces, a **journal** for longer entries, the **zine press**, and **settings & sync**.
+- **Photos are dithered to 1-bit on intake**, per the rule in `DESIGN.md`: a page-sized photo costs tens of kilobytes instead of megabytes, stays on the device, and is already in the only form a photocopier can honestly reproduce. Text and lists live in `localStorage`; photos live in IndexedDB.
+- **The zine press** compiles the log, journal, lists, and projects into an eight-page, one-sheet, one-cut zine, imposed for a letter sheet in landscape. Panels are editable in place and save as you type. Print a numbered **test sheet** and fold it before committing good paper; if the numbers come out shuffled, **swap the fold** and test again. The imposition is the same one the hand kit in `press/` uses, and `check.sh` fails the build if the two ever disagree.
+- **Sync is a file, not a service.** Export carries everything including photos; import **merges** by id and prefers the newer copy of anything held by both sides, so two people can each export, swap files, and end up agreeing. Replace is there when you want it and warns first.
+- Entries are stored against a person (`a`, `b`, `both`), never against a spelling, so renaming either of you leaves every past note attached to the right hands.
+
+### The paper
+
+- [`CHARTER.md`](CHARTER.md): the law. Membership, scenes, the five unamendable clauses, governance, money, dissolution. Capture-resistance as structure rather than intention.
+- [`DESIGN.md`](DESIGN.md): the machine. Every primitive (room, scene, issue, flyer, staple, vouch, guestbook, light, commons, quest), every loop, the data model, moderation, energy, economics, staging. The app above is Stage 0 of the staging plan in that file, at n=2.
+- [`tool/SPEC.md`](tool/SPEC.md): the Stage 1 scene tool, specified on paper so the unlock is a start and not a planning session. Building it stays locked behind the gate.
+- [`press/`](press/index.html): the hand toolchain. The same one-sheet, eight-page, one-cut layout with editable panels, fold diagrams, a test-sheet mode, and starter prompts. Print it, fold it, hand it to somebody, with no app involved at all.
+
+### The build
+
+[`src/`](src/) with [`build.sh`](build.sh) and [`check.sh`](check.sh): the development format. Parts under 300 lines, split at view and concern boundaries, assembled into the shipped one-file artifacts the way SQLite's hundred source files ship as one amalgamation. `check.sh` makes the laws mechanical: outputs reproducible from source, the size ceiling, the zero-external-requests rule, the page-weight badge telling the truth, and the two presses folding the same way. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Status
 
-Paper and prototype. Pre-first-scene. The founding gate is not signups or retention; it is whether the first scene ships Issue #2. Publication continuity is the only metric this project respects.
+**The app works.** Two people can keep a log, share lists, run projects, journal, drop photos in, and print an issue. It is local-first and account-free by construction, which is the honest version of a privacy policy.
+
+**The federation is paper.** No rooms, no vouching, no flyers, no protocol; those live in `CHARTER.md` and `DESIGN.md` and have never been built. Nothing in this repo federates with anything.
+
+The founding gate is unchanged and is not signups or retention: it is whether the first scene ships **Issue #2**. Publication continuity is the only metric this project respects. No Stage 1 software gets built until then.
 
 Two people are a scene. There is no minimum size anywhere in this design: vouching scales down to a founding pair, the editor's chair alternates instead of rotating, and a scene with no costs owes no dues. The first scene is expected to be two people and a copier, because two people ship on a deadline and eight people with no habit miss the first bell.
 

@@ -1,9 +1,10 @@
-<!-- stoop: personal log, shared lists, project spaces, journal, and 8-page zine press. one file, zero requests. -->
-<title>STOOP — personal log & zine press</title>
+<!-- stoop: a private notebook for two — log, lists, projects, journal, dithered photos, and an 8-page zine press. one file, zero requests. -->
+<title>STOOP — a notebook for two, and its zine press</title>
 <style>
   :root{
     --night:#0e0e10; --soot:#1a1a1e; --bone:#ece7db; --ink:#141210;
     --orange:#ff5f1f; --blue:#5aa9d6; --grey:#8a8578; --paper:#e6e0d2;
+    --red:#d65a5a;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -15,13 +16,10 @@
     display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;padding:.5rem .9rem}
   .wordmark{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;font-size:1.5rem;letter-spacing:.12em;color:var(--bone);text-decoration:none}
   .wordmark b{color:var(--orange)}
-  .battery{font-family:'Courier New',monospace;font-size:.75rem;color:var(--grey);border:1px solid var(--grey);padding:.1rem .45rem;cursor:help;white-space:nowrap}
-  .battery em{color:var(--orange);font-style:normal}
   nav.chrome-nav{display:flex;flex-wrap:wrap;gap:.15rem;margin-left:auto}
   nav.chrome-nav a{font-family:'Courier New',monospace;font-size:.8rem;color:var(--blue);text-decoration:none;padding:.25rem .5rem;border:1px solid transparent}
   nav.chrome-nav a:hover{border-color:var(--blue)}
   nav.chrome-nav a.here{color:var(--night);background:var(--bone);border-color:var(--bone)}
-  nav.chrome-nav a.feedlink{color:var(--grey);text-decoration:line-through}
 
   main{max-width:860px;margin:0 auto;padding:1.2rem .9rem 4rem}
   section[data-view]{display:none}
@@ -30,16 +28,9 @@
 
   h1,h2,h3{font-family:Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;letter-spacing:.06em;line-height:1.05;margin:.4rem 0}
   a{color:var(--blue)}
-  .mono{font-family:'Courier New',monospace}
   .tag{display:inline-block;font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;
-    border:1px solid var(--bone);padding:.1rem .5rem;margin:.15rem .3rem .15rem 0}
-  .tag.hot{border-color:var(--orange);color:var(--orange)}
+    border:1px solid var(--bone);padding:.1rem .5rem;margin:0}
   .tag.cold{border-color:var(--blue);color:var(--blue)}
-
-  .dot{display:inline-block;width:.65em;height:.65em;border-radius:50%;margin-right:.35em;vertical-align:baseline}
-  .dot.on{background:var(--orange);box-shadow:0 0 6px var(--orange)}
-  .dot.off{background:var(--grey);opacity:.5}
-  .lightword{font-family:'Courier New',monospace;font-size:.78rem;letter-spacing:.1em}
 
   /* photocopy paper panels */
   .paper{background:var(--paper);color:var(--ink);padding:1.1rem 1.2rem;margin:1rem 0;border:2px solid var(--ink);
@@ -47,49 +38,22 @@
     background-image:repeating-linear-gradient(115deg,rgba(20,18,16,.045) 0 2px,transparent 2px 7px)}
   .paper h2,.paper h3{color:var(--ink)}
   .paper a{color:#155d80;font-weight:bold}
-  .paper .mono,.paper p,.paper li,.paper td,.paper th{font-family:'Courier New',monospace;font-size:.92rem}
-  .cutline{border-top:2px dashed var(--ink);margin:1.1rem 0;position:relative}
-  .cutline::before{content:"✂";position:absolute;left:.4rem;top:-0.72em;background:var(--paper);padding:0 .3rem;font-size:.8rem}
-
-  .staple::before{content:"⌷⌷";position:absolute;top:-9px;left:46%;color:var(--ink);letter-spacing:2px;font-size:.8rem;transform:rotate(3deg)}
-  .tilt-l{transform:rotate(-1.3deg)} .tilt-r{transform:rotate(1.1deg)}
-
-  .dith{width:100%;display:block;border:2px solid var(--ink);background:var(--paper)}
-  .caption{font-family:'Courier New',monospace;font-size:.78rem;margin:.25rem 0 0;color:inherit;opacity:.85}
-
-  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
-  .crew{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:.5rem;margin:.6rem 0}
-  .crew a{display:block;border:1px solid var(--bone);padding:.45rem .35rem;text-align:center;color:var(--bone);text-decoration:none;
-    font-family:'Courier New',monospace;font-size:.75rem}
-  .crew a:hover{border-color:var(--orange);color:var(--orange)}
-  .crew .glyph{font-size:1.15rem;display:block;margin-bottom:.2rem}
-
-  .gb{border-left:3px solid var(--orange);padding:.5rem .8rem;margin:.7rem 0;background:var(--soot)}
-  .gb .who{font-family:'Courier New',monospace;font-size:.75rem;color:var(--orange);letter-spacing:.08em}
-  .gb p{margin:.25rem 0 0}
-  .paper .gb{background:rgba(20,18,16,.05);border-left-color:var(--ink)}
-  .paper .gb .who{color:var(--ink)}
+  .paper p,.paper li{font-family:'Courier New',monospace;font-size:.92rem}
 
   .btn{font-family:'Courier New',monospace;font-size:.85rem;background:none;border:2px solid var(--orange);color:var(--orange);
     padding:.45rem .9rem;cursor:pointer;letter-spacing:.05em}
   .btn:hover{background:var(--orange);color:var(--night)}
   .btn[disabled]{border-color:var(--grey);color:var(--grey);cursor:not-allowed}
-  .btn.done{background:var(--orange);color:var(--night)}
+  .btn.done,.btn.on{background:var(--orange);color:var(--night)}
+  .btn.danger{border-color:var(--red);color:var(--red)}
+  .btn.danger:hover{background:var(--red);color:var(--night)}
   .paper .btn{border-color:var(--ink);color:var(--ink)}
   .paper .btn:hover{background:var(--ink);color:var(--paper)}
+  .paper .btn.done,.paper .btn.on{background:var(--ink);color:var(--paper)}
+  .paper .btn.danger{border-color:var(--red);color:#9c2b2b}
+  .paper .btn.danger:hover{background:var(--red);color:var(--paper)}
 
-  .bar{height:14px;border:1px solid var(--ink);background:var(--paper);position:relative}
-  .bar i{position:absolute;inset:1px auto 1px 1px;width:60%;background:var(--orange)}
-  .bar span{position:absolute;right:.3rem;top:-1.35rem;font-family:'Courier New',monospace;font-size:.75rem}
-
-  table{border-collapse:collapse;width:100%;margin:.5rem 0}
-  th,td{border:1px solid var(--ink);padding:.3rem .5rem;text-align:left}
-  th{background:rgba(20,18,16,.08);font-weight:bold}
-
-  .webring{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--grey);margin-top:1.6rem;padding-top:.7rem;
-    font-family:'Courier New',monospace;font-size:.8rem}
   .pageweight{font-family:'Courier New',monospace;font-size:.7rem;color:var(--grey);text-align:center;margin-top:2.2rem;letter-spacing:.08em}
-
 /* stoop components & layout additions */
 .author-toggle {
   font-family: 'Courier New', monospace;
@@ -180,6 +144,43 @@
   background: var(--ink);
   color: var(--paper);
 }
+
+.form-actions { display: flex; justify-content: flex-end; }
+.btn.wide { flex: 1; min-width: 160px; }
+.paper .sub { color: #57524a; }
+
+/* Photos: 1-bit on intake, so they need no colour management anywhere. */
+.log-photo {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  margin: .5rem 0 .2rem;
+  border: 2px solid var(--ink);
+  background: #fff;
+  image-rendering: pixelated;
+}
+.tray-box { padding-bottom: .8rem; }
+.tray-head { display: flex; align-items: baseline; gap: .8rem; flex-wrap: wrap; }
+.tray-head h2 { margin: 0; }
+#trayhint.on { color: #9c2b2b; font-weight: bold; }
+.phototray {
+  display: flex;
+  gap: .5rem;
+  overflow-x: auto;
+  padding: .6rem 0 .2rem;
+  min-height: 2rem;
+  align-items: flex-start;
+}
+.tray-photo {
+  height: 72px;
+  border: 2px solid var(--ink);
+  background: #fff;
+  cursor: pointer;
+  flex: 0 0 auto;
+  image-rendering: pixelated;
+}
+.tray-photo:hover { outline: 2px solid var(--orange); }
+.tray-photo.armed { outline: 3px solid var(--orange); transform: translateY(-3px); }
 /* Log stream */
 .log-stream { display: flex; flex-direction: column; gap: .7rem; margin-top: 1rem; }
 .log-card {
@@ -189,8 +190,8 @@
   padding: .75rem .9rem;
   position: relative;
 }
-.log-card.author-Partner { border-left-color: var(--blue); }
-.log-card.author-Both { border-left-color: #5cd685; }
+.log-card.author-b { border-left-color: var(--blue); }
+.log-card.author-both { border-left-color: #5cd685; }
 .log-meta {
   display: flex;
   justify-content: space-between;
@@ -200,8 +201,8 @@
   margin-bottom: .3rem;
 }
 .log-author { font-weight: bold; color: var(--orange); }
-.author-Partner .log-author { color: var(--blue); }
-.author-Both .log-author { color: #5cd685; }
+.author-b .log-author { color: var(--blue); }
+.author-both .log-author { color: #5cd685; }
 .log-body { font-family: 'Courier New', monospace; font-size: .88rem; color: var(--bone); line-height: 1.4; word-break: break-word; }
 .log-del { background: none; border: none; color: var(--grey); cursor: pointer; font-size: .8rem; }
 .log-del:hover { color: var(--orange); }
@@ -255,14 +256,25 @@
 .sheetzone { margin-top: 1rem; overflow-x: auto; padding-bottom: 1rem; }
 .sheetwrap { transform-origin: top left; min-width: 1056px; }
 .sheet { width: 11in; height: 8.5in; background: #fff; color: var(--ink); display: flex; flex-wrap: wrap; box-shadow: 0 0 0 1px #000, 8px 8px 0 rgba(0,0,0,.6); }
-.panel { width: 25%; height: 50%; border: 1px dashed #bbb; padding: .28in .3in; overflow: hidden; position: relative; background: #fff; box-sizing: border-box; }
+.panel { width: 25%; height: 50%; border: 1px dashed #bbb; padding: .28in .3in; overflow: hidden; position: relative; background: #fff; box-sizing: border-box; display: flex; flex-direction: column; }
 .panel.flip { transform: rotate(180deg); }
-.panel h3 { font-family: Impact, sans-serif; font-size: 20px; letter-spacing: .04em; margin: 0 0 6px; text-transform: uppercase; color: var(--ink); }
-.panel .body { font-family: 'Courier New', monospace; font-size: 11.5px; line-height: 1.45; color: var(--ink); min-height: 60%; outline: none; }
+.panel h3 { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 20px; letter-spacing: .04em; margin: 0 0 6px; text-transform: uppercase; color: var(--ink); outline: none; }
+.panel .body { font-family: 'Courier New', monospace; font-size: 11.5px; line-height: 1.45; color: var(--ink); outline: none; white-space: pre-wrap; flex: 1; overflow: hidden; }
 .panel .pgtag { position: absolute; bottom: 4px; right: 8px; font-size: 9px; color: #aaa; font-family: 'Courier New', monospace; }
+.panel-photo { display: block; width: 100%; max-height: 46%; object-fit: contain; object-position: left top; margin: 0 0 5px; image-rendering: pixelated; }
+.panel-unpic { position: absolute; top: 3px; right: 5px; background: #fff; border: 1px solid var(--ink); color: var(--ink); font-size: 10px; line-height: 1; padding: 2px 4px; cursor: pointer; }
 .cover h3 { font-size: 24px; }
-.cover .no { font-family: Impact, sans-serif; font-size: 80px; line-height: .9; color: var(--ink); margin: 4px 0; }
+.cover .no { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 68px; line-height: .9; color: var(--ink); margin: 2px 0; }
+.cover .no span { outline: none; }
 .cover .rule { border-top: 3px solid var(--ink); margin: 6px 0; }
+.backcover .body { font-size: 10.5px; }
+
+/* Numbered test sheet: fold this first and read the page numbers in order. */
+.testnum { display: none; position: absolute; inset: 0; background: #fff; z-index: 2; align-items: center; justify-content: center; flex-direction: column; gap: 6px; }
+.testnum b { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 140px; color: var(--ink); }
+.testnum small { font-family: 'Courier New', monospace; font-size: 12px; color: #666; }
+.testing .testnum { display: flex; }
+
 .fold-guide { margin-top: 1.4rem; }
 .fold-steps { font-family: 'Courier New', monospace; font-size: .85rem; line-height: 1.5; padding-left: 1.2rem; }
 .fold-steps li { margin-bottom: .5rem; }
@@ -273,41 +285,28 @@
 @media print {
   @page { size: letter landscape; margin: 0; }
   body { background: #fff; color: #000; }
-  header.chrome, .view-head, .paper:not(.sheetzone), .fold-guide, .press-actions, .pgtag { display: none !important; }
+  header.chrome, .view-head, .paper, .pgtag, .panel-unpic, .toast { display: none !important; }
   main { max-width: none; padding: 0; margin: 0; }
   section[data-view]:not([data-view="press"]) { display: none !important; }
   section[data-view="press"] { display: block !important; }
   .sheetzone { margin: 0; padding: 0; overflow: visible; }
   .sheetwrap { transform: none !important; min-width: 0; }
   .sheet { box-shadow: none; width: 11in; height: 8.5in; }
-  .panel { border-color: #ddd; }
+  .panel { border-color: #eee; }
+  .panel-photo, .log-photo { image-rendering: auto; }
 }
 </style>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <filter id="grit"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch"/>
-      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.9 0.9 0.9 0 0"/>
-      <feComponentTransfer><feFuncA type="discrete" tableValues="0 0 0 1"/></feComponentTransfer>
-      <feComposite operator="in" in2="SourceGraphic"/></filter>
-    <filter id="gritsoft"><feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="3" stitchTiles="stitch"/>
-      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.75 0.75 0.75 0 0"/>
-      <feComponentTransfer><feFuncA type="discrete" tableValues="0 0 1"/></feComponentTransfer>
-      <feComposite operator="in" in2="SourceGraphic"/></filter>
-    <pattern id="half" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.6" fill="#141210"/></pattern>
-  </defs>
-</svg>
-
 <header class="chrome">
   <a class="wordmark" href="#log">STOO<b>P</b></a>
-  <button class="author-toggle" id="authortoggle" title="Switch active author">✍ <span id="authorname">Suds</span></button>
+  <button class="author-toggle" id="authortoggle" title="Switch who is writing"><span id="authorname">Me</span></button>
   <nav class="chrome-nav">
     <a href="#log" data-nav="log">log</a>
     <a href="#todos" data-nav="todos">todos</a>
     <a href="#projects" data-nav="projects">projects</a>
     <a href="#journal" data-nav="journal">journal</a>
     <a href="#press" data-nav="press">zine press</a>
-    <a href="#backup" data-nav="backup">sync / export</a>
+    <a href="#backup" data-nav="backup">settings & sync</a>
   </nav>
 </header>
 
@@ -316,37 +315,39 @@
 <section data-view="log">
   <div class="view-head">
     <h1>DAILY LOG</h1>
-    <p class="view-sub">Quick timestamped notes, quotes, moments, links, and ideas.</p>
+    <p class="view-sub">Quick timestamped notes, quotes, photos, links, and ideas.</p>
   </div>
 
   <div class="paper">
     <div class="form-row">
       <input type="text" id="loginput" class="text-input" placeholder="Drop a thought, link, or note..." maxlength="280">
       <select id="logtag" class="select-input">
-        <option value="moment">⚡ moment</option>
-        <option value="quote">💬 quote</option>
-        <option value="idea">💡 idea</option>
-        <option value="link">🔗 link</option>
-        <option value="photo">📷 photo</option>
+        <option value="moment">moment</option>
+        <option value="quote">quote</option>
+        <option value="idea">idea</option>
+        <option value="link">link</option>
       </select>
       <button class="btn" id="logaddbtn">POST</button>
+    </div>
+    <div class="form-row">
+      <input type="file" id="photofile" accept="image/*" multiple hidden>
+      <button class="btn wide" id="photobtn">ADD PHOTOS</button>
+      <span class="sub">Photos are dithered to 1-bit on the way in: small, private, and ready for a photocopier. Type a caption first and it lands on the first one.</span>
     </div>
     <div class="filter-row">
       <span class="sub">filter:</span>
       <button class="chip on" data-logfilter="all">all</button>
-      <button class="chip" data-logfilter="Suds">Suds</button>
-      <button class="chip" data-logfilter="Partner">Partner</button>
-      <button class="chip" data-logfilter="Both">Both</button>
+      <button class="chip" data-logfilter="a" data-namechip="a">Me</button>
+      <button class="chip" data-logfilter="b" data-namechip="b">JJ</button>
+      <button class="chip" data-logfilter="both" data-namechip="both">Both</button>
     </div>
   </div>
 
-  <div id="loglist" class="log-stream">
-    <!-- Rendered dynamically from stoop_data -->
-  </div>
+  <div id="loglist" class="log-stream"></div>
 </section>
 <section data-view="todos">
   <div class="view-head">
-    <h1>TODOS & LISTS</h1>
+    <h1>TODOS &amp; LISTS</h1>
     <p class="view-sub">Shared errands, groceries, packing, house fixes, and tasks.</p>
   </div>
 
@@ -354,12 +355,12 @@
     <div class="form-row">
       <input type="text" id="todoinput" class="text-input" placeholder="New task or list item..." maxlength="140">
       <select id="todocat" class="select-input">
-        <option value="shared">👥 shared</option>
-        <option value="groceries">🛒 groceries</option>
-        <option value="weekend">☀️ weekend</option>
-        <option value="house">🏠 house</option>
-        <option value="Suds">👤 Suds</option>
-        <option value="Partner">👤 Partner</option>
+        <option value="shared">shared</option>
+        <option value="groceries">groceries</option>
+        <option value="weekend">weekend</option>
+        <option value="house">house</option>
+        <option value="a" data-nameopt="a">Me</option>
+        <option value="b" data-nameopt="b">JJ</option>
       </select>
       <button class="btn" id="todoaddbtn">ADD</button>
     </div>
@@ -370,15 +371,13 @@
       <button class="chip" data-todofilter="groceries">groceries</button>
       <button class="chip" data-todofilter="weekend">weekend</button>
       <button class="chip" data-todofilter="house">house</button>
-      <button class="chip" data-todofilter="Suds">Suds</button>
-      <button class="chip" data-todofilter="Partner">Partner</button>
+      <button class="chip" data-todofilter="a" data-namechip="a">Me</button>
+      <button class="chip" data-todofilter="b" data-namechip="b">JJ</button>
     </div>
   </div>
 
   <div class="todolist-container">
-    <div id="todolist" class="todolist">
-      <!-- Active items rendered here -->
-    </div>
+    <div id="todolist" class="todolist"></div>
     <div class="todo-footer-row">
       <button class="btn quiet" id="clearcompletedbtn">CLEAR COMPLETED</button>
     </div>
@@ -394,7 +393,7 @@
     <div class="form-grid">
       <input type="text" id="projecttitle" class="text-input" placeholder="Project name (e.g. Backyard Garden, Noodles Synth)...">
       <textarea id="projectdesc" class="textarea-input" rows="2" placeholder="Summary, notes, materials or next steps..."></textarea>
-      <div style="display:flex;justify-content:flex-end;">
+      <div class="form-actions">
         <button class="btn" id="projectaddbtn">CREATE PROJECT</button>
       </div>
     </div>
@@ -406,362 +405,1134 @@
 </section>
 <section data-view="journal">
   <div class="view-head">
-    <h1>JOURNAL & MEMORIES</h1>
+    <h1>JOURNAL &amp; MEMORIES</h1>
     <p class="view-sub">Longer reflections, date night recaps, milestones, and shared gratitude.</p>
   </div>
 
   <div class="paper">
     <div class="form-grid">
-      <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-        <input type="text" id="journaltitle" class="text-input" style="flex:1;" placeholder="Entry title (e.g. Sunday Walk & Tacos, Moving the Workbench)...">
+      <div class="form-row">
+        <input type="text" id="journaltitle" class="text-input" placeholder="Entry title (e.g. Sunday Walk &amp; Tacos)...">
         <select id="journalauthor" class="select-input">
-          <option value="Suds">✍ Suds</option>
-          <option value="Partner">✍ Partner</option>
-          <option value="Together">✍ Together</option>
+          <option value="a" data-nameopt="a" data-pen>Me</option>
+          <option value="b" data-nameopt="b" data-pen>JJ</option>
+          <option value="both" data-nameopt="both" data-pen>Both</option>
         </select>
       </div>
       <textarea id="journalbody" class="textarea-input" rows="4" placeholder="Write thoughts, memories, reflections, what went well..."></textarea>
-      <div style="display:flex;justify-content:flex-end;">
+      <div class="form-actions">
         <button class="btn" id="journaladdbtn">SAVE ENTRY</button>
       </div>
     </div>
   </div>
 
-  <div id="journallist" class="journal-list">
-    <!-- Rendered dynamically -->
-  </div>
+  <div id="journallist" class="journal-list"></div>
 </section>
 <section data-view="press">
   <div class="view-head">
     <h1>ZINE PRESS</h1>
-    <p class="view-sub">Turn your logs, journal, and lists into a physical, 8-page, 1-sheet folded zine.</p>
+    <p class="view-sub">Turn the log, journal, and lists into a physical 8-page zine: one sheet, one cut, no staples.</p>
   </div>
 
   <div class="paper">
     <div class="press-actions">
-      <button class="btn" id="compilezinebtn">⚡ AUTO-COMPILE FROM LOG & JOURNAL</button>
-      <button class="btn done" id="printzinebtn">🖨️ PRINT ZINE SHEET</button>
+      <button class="btn" id="compilezinebtn">COMPILE FROM LOG &amp; JOURNAL</button>
+      <button class="btn done" id="printzinebtn">PRINT ZINE SHEET</button>
+      <button class="btn quiet" id="testsheetbtn">TEST SHEET: OFF</button>
+      <button class="btn quiet" id="swaplayoutbtn">SWAP FOLD (A)</button>
       <button class="btn quiet" id="clearzinebtn">CLEAR SHEET</button>
     </div>
-    <p class="sub" style="margin-top:.6rem;">Print setting: <strong>Letter · Landscape · 100% Scale · Margins None</strong>. Click any panel text below to customize it directly before printing.</p>
+    <p class="sub">Print setting: <strong>Letter · Landscape · 100% scale · margins none</strong>. Click any heading or body text to edit it; edits save as you type. Fold a numbered test sheet first — printers and folding hands vary, and if the numbers come out shuffled, hit SWAP FOLD and test again.</p>
+  </div>
+
+  <div class="paper tray-box">
+    <div class="tray-head">
+      <h2>PHOTOS</h2>
+      <span class="sub" id="trayhint">Click a photo to arm it, then click a panel to place it.</span>
+    </div>
+    <div id="phototray" class="phototray"></div>
   </div>
 
   <div class="sheetzone">
     <div class="sheetwrap">
       <div class="sheet" id="zinesheet">
-        <!-- Top Row (Pages 8, 1 Cover, 2, 7) - Flipped for folding -->
-        <div class="panel flip" id="p_8"><div class="pgtag">p. 8 (back)</div><h3 contenteditable="true">BACK COVER</h3><div class="body" contenteditable="true">Stoop Issue #01<br><br>Compiled by Suds & Partner.<br>Printed on a single sheet of paper.</div></div>
-        <div class="panel flip cover" id="p_1"><div class="pgtag">p. 1 (front)</div><h3 contenteditable="true">STOOP ZINE</h3><div class="no" contenteditable="true">№01</div><div class="rule"></div><div class="body" contenteditable="true">Our personal dispatch.<br>Life, projects & notes.</div></div>
-        <div class="panel flip" id="p_2"><div class="pgtag">p. 2</div><h3 contenteditable="true">THE WEEK</h3><div class="body" contenteditable="true">Moments, highlights & quotes from our daily log.</div></div>
-        <div class="panel flip" id="p_7"><div class="pgtag">p. 7</div><h3 contenteditable="true">LOOKING AHEAD</h3><div class="body" contenteditable="true">Next week's plans, goals, and upcoming experiments.</div></div>
-
-        <!-- Bottom Row (Pages 6, 3, 4, 5) - Right-side up -->
-        <div class="panel" id="p_6"><div class="pgtag">p. 6</div><h3 contenteditable="true">SCRATCHPAD</h3><div class="body" contenteditable="true">Ideas, sketches, recipes, and recommendations.</div></div>
-        <div class="panel" id="p_3"><div class="pgtag">p. 3</div><h3 contenteditable="true">PROJECTS</h3><div class="body" contenteditable="true">Active builds, shop progress, and creative work.</div></div>
-        <div class="panel" id="p_4"><div class="pgtag">p. 4 (center)</div><h3 contenteditable="true">REFLECTIONS</h3><div class="body" contenteditable="true">Thoughts, milestones, and what we learned this week.</div></div>
-        <div class="panel" id="p_5"><div class="pgtag">p. 5</div><h3 contenteditable="true">TODO & RUNS</h3><div class="body" contenteditable="true">Shared tasks checked off and what's on deck.</div></div>
+        <div class="panel cover" data-page="1">
+          <div class="pgtag">p. 1 (front)</div>
+          <h3 contenteditable="true">STOOP ZINE</h3>
+          <div class="no">№<span id="issueno" contenteditable="true">01</span></div>
+          <div class="rule"></div>
+          <div class="body" contenteditable="true"></div>
+          <div class="testnum"><b>1</b><small>front cover</small></div>
+        </div>
+        <div class="panel" data-page="2">
+          <div class="pgtag">p. 2</div>
+          <h3 contenteditable="true">THE WEEK</h3>
+          <div class="body" contenteditable="true"></div>
+          <div class="testnum"><b>2</b><small>p.2</small></div>
+        </div>
+        <div class="panel" data-page="3">
+          <div class="pgtag">p. 3</div>
+          <h3 contenteditable="true">PROJECTS</h3>
+          <div class="body" contenteditable="true"></div>
+          <div class="testnum"><b>3</b><small>p.3</small></div>
+        </div>
+        <div class="panel" data-page="4">
+          <div class="pgtag">p. 4 (center)</div>
+          <h3 contenteditable="true">REFLECTIONS</h3>
+          <div class="body" contenteditable="true"></div>
+          <div class="testnum"><b>4</b><small>center spread</small></div>
+        </div>
+        <div class="panel" data-page="5">
+          <div class="pgtag">p. 5 (center)</div>
+          <h3 contenteditable="true">TODO &amp; RUNS</h3>
+          <div class="body" contenteditable="true"></div>
+          <div class="testnum"><b>5</b><small>center spread</small></div>
+        </div>
+        <div class="panel" data-page="6">
+          <div class="pgtag">p. 6</div>
+          <h3 contenteditable="true">SCRATCHPAD</h3>
+          <div class="body" contenteditable="true"></div>
+          <div class="testnum"><b>6</b><small>p.6</small></div>
+        </div>
+        <div class="panel" data-page="7">
+          <div class="pgtag">p. 7</div>
+          <h3 contenteditable="true">LOOKING AHEAD</h3>
+          <div class="body" contenteditable="true"></div>
+          <div class="testnum"><b>7</b><small>p.7</small></div>
+        </div>
+        <div class="panel backcover" data-page="8">
+          <div class="pgtag">p. 8 (back)</div>
+          <h3 contenteditable="true">BACK COVER</h3>
+          <div class="body" contenteditable="true"></div>
+          <div class="testnum"><b>8</b><small>back cover</small></div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="paper fold-guide">
-    <h2>HOW TO FOLD (5 Steps)</h2>
+    <h2>HOW TO FOLD</h2>
     <ol class="fold-steps">
-      <li><strong>Fold in half lengthwise (hot dog fold):</strong> Crease sharply and unfold.</li>
-      <li><strong>Fold in half widthwise (hamburger fold):</strong> Then fold each outer edge to the center crease to make 8 equal panels. Unfold.</li>
-      <li><strong>Cut the center slit:</strong> Fold in half widthwise again, and cut along the center horizontal crease across the two inner panels only. Stop at the quarter creases.</li>
-      <li><strong>Pop into a plus sign:</strong> Unfold, fold lengthwise with the cut slit on top. Push both outer ends inward so the slit opens into a diamond and then a 4-winged plus sign (+).</li>
-      <li><strong>Fold into a booklet:</strong> Collapse the wings around the front cover. You now have an 8-page pocket zine!</li>
+      <li><strong>Hot dog fold.</strong> Fold in half the long way, crease hard, unfold.</li>
+      <li><strong>Eight panels.</strong> Fold in half the short way, then fold each outer edge back to the middle crease. Unfold everything.</li>
+      <li><strong>The cut.</strong> Fold in half the short way again and cut along the centre crease from the folded edge, across the middle two panels only. Stop at the quarter creases.</li>
+      <li><strong>The plus sign.</strong> Unfold, fold the long way with the slit along the top, then push both ends toward each other. The slit opens into a diamond, then a four-winged plus.</li>
+      <li><strong>Collapse.</strong> Wrap the wings around the front cover and crease. Eight pages, no staples. Read it once, then leave it somewhere.</li>
     </ol>
   </div>
 </section>
 <section data-view="backup">
   <div class="view-head">
-    <h1>SYNC, BACKUP & DATA</h1>
-    <p class="view-sub">Local-first, private, zero-cloud storage. Your data lives on your device.</p>
+    <h1>SETTINGS &amp; SYNC</h1>
+    <p class="view-sub">Who is writing, and how the notebook travels between your devices.</p>
   </div>
 
   <div class="paper">
-    <h2>EXPORT / BACKUP</h2>
-    <p class="sub">Download your entire log, todos, projects, and journal as a single JSON file. You can save this to your cloud drive, email it, or transfer it to another phone or laptop.</p>
-    <button class="btn" id="exportbtn">📥 EXPORT BACKUP JSON</button>
-  </div>
-
-  <div class="paper" style="margin-top:1rem;">
-    <h2>IMPORT / RESTORE</h2>
-    <p class="sub">Load a previously exported backup file to restore or sync your notes.</p>
-    <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;">
-      <input type="file" id="importfile" accept=".json" style="display:none;">
-      <button class="btn quiet" id="importbtn">📂 CHOOSE JSON BACKUP</button>
-      <span id="importstatus" class="sub"></span>
+    <h2>WHO IS HERE</h2>
+    <p class="sub">Entries are stored against a person, not a spelling, so renaming either of you keeps every past note attached to the right hands.</p>
+    <div class="form-row">
+      <input type="text" id="namea" class="text-input" maxlength="24" placeholder="First name">
+      <input type="text" id="nameb" class="text-input" maxlength="24" placeholder="Second name">
+      <button class="btn" id="savenamesbtn">SAVE NAMES</button>
     </div>
   </div>
 
-  <div class="paper" style="margin-top:1rem;">
-    <h2>RESET SAMPLE DATA</h2>
-    <p class="sub">Reset local storage to fresh example items.</p>
-    <button class="btn quiet" id="resetbtn" style="border-color:#d65a5a;color:#d65a5a;">RESET TO DEFAULTS</button>
+  <div class="paper">
+    <h2>CARRY IT ACROSS</h2>
+    <p class="sub">There is no server and no account: everything lives in this browser. To share a notebook between two phones or laptops, export here and import there. <strong>Merge</strong> keeps both sides and prefers the newer copy of anything held by both, so you can each export, swap files, and merge — both devices end up agreeing. <strong>Replace</strong> overwrites this device entirely.</p>
+    <div class="press-actions">
+      <button class="btn" id="exportbtn">EXPORT BACKUP (photos included)</button>
+      <input type="file" id="importfile" accept="application/json,.json" hidden>
+      <button class="btn quiet" id="mergebtn">MERGE A BACKUP IN</button>
+      <button class="btn quiet" id="replacebtn">REPLACE FROM BACKUP</button>
+    </div>
+    <p class="sub" id="importstatus"></p>
+  </div>
+
+  <div class="paper">
+    <h2>WHERE YOUR THINGS ARE</h2>
+    <p class="sub">Text and lists sit in this browser's local storage; photos sit in its IndexedDB, dithered to 1-bit on the way in so a page-sized image costs tens of kilobytes rather than megabytes. Nothing is uploaded anywhere, because there is nowhere to upload it to. Clearing site data for this page deletes all of it, so export often — the backup file is the only copy that outlives the browser.</p>
+  </div>
+
+  <div class="paper">
+    <h2>START OVER</h2>
+    <p class="sub">Replace everything on this device with the sample notebook.</p>
+    <button class="btn danger" id="resetbtn">RESET TO DEFAULTS</button>
   </div>
 </section>
 </main>
 <div class="toast" id="toast"></div>
-<p class="pageweight">STOOP · personal log & zine press · one file · zero requests · no trackers · 38 KB before compression · your data stays on your device</p>
+<p class="pageweight">STOOP · a notebook for two · one file · zero requests · no trackers · no accounts · 60 KB before compression · everything stays on your device</p>
 <script>
 (function(){
-  const STORAGE_KEY = 'stoop_data_v2';
-  const AUTHORS = ['Suds', 'Partner', 'Together'];
-  let currentAuthor = localStorage.getItem('stoop_active_author') || 'Suds';
-  let activeLogFilter = 'all', activeTodoFilter = 'all';
+// ---------- identity ----------
+// Authors are stored as stable keys ('a', 'b', 'both'), never as display
+// names, so renaming a person leaves every past entry attached to them.
+var STORAGE_KEY = 'stoop_data_v3';
+var NAMES_KEY = 'stoop_names';
+var AUTHOR_KEY = 'stoop_active_author';
+var AUTHORS = ['a', 'b', 'both'];
 
-  const defaultData = {
-    logs: [
-      { id: 'l1', author: 'Suds', tag: 'moment', text: 'First clean run of the shop workbench setup. Smooth edges on the steel cut.', time: 'Aug 24 · 4:30 PM' },
-      { id: 'l2', author: 'Partner', tag: 'quote', text: '"The only way out is through, and the best way through is together."', time: 'Aug 24 · 7:15 PM' },
-      { id: 'l3', author: 'Together', tag: 'idea', text: 'Weekend road trip sketch: farm stand cider, thrift store run, back before sunset.', time: 'Aug 25 · 9:00 AM' }
-    ],
-    todos: [
-      { id: 't1', cat: 'groceries', text: 'Coffee beans (dark roast)', done: false },
-      { id: 't2', cat: 'house', text: 'Hang kitchen spice shelf', done: false },
-      { id: 't3', cat: 'shared', text: 'Plan Friday dinner & movie', done: false },
-      { id: 't4', cat: 'Suds', text: 'Oil shop drill press & clamps', done: true },
-      { id: 't5', cat: 'Partner', text: 'Pick up sketchbook paper', done: false }
-    ],
-    projects: [
-      { id: 'p1', title: 'Pocket Synth (Noodles)', desc: 'Web Audio polyphonic sketchpad. Dialing in chord voicings and tactile groove controls.', updated: 'Aug 25' },
-      { id: 'p2', title: 'Backyard Herb Garden', desc: 'Raised cedar bed: basil, rosemary, thyme, cherry tomatoes. Drip irrigation line.', updated: 'Aug 23' },
-      { id: 'p3', title: 'Zine Issue #01', desc: 'First monthly digest of thoughts, photos, and project notes. 8-page 1-sheet fold.', updated: 'Aug 25' }
-    ],
-    journal: [
-      { id: 'j1', author: 'Together', title: 'Sunday Morning Coffee & Quiet', body: 'Made pour-overs, sat on the porch while the sun came up over the street. Talked about where we want our time to go this autumn. Fewer distractions, more physical making.', time: 'Aug 24' }
-    ]
+var names = (function () {
+  try {
+    var raw = JSON.parse(localStorage.getItem(NAMES_KEY));
+    if (raw && raw.a && raw.b) return { a: String(raw.a), b: String(raw.b) };
+  } catch (e) {}
+  return { a: 'Me', b: 'JJ' };
+})();
+
+var currentAuthor = localStorage.getItem(AUTHOR_KEY) || 'a';
+if (AUTHORS.indexOf(currentAuthor) < 0) currentAuthor = 'a';
+
+function saveNames() { try { localStorage.setItem(NAMES_KEY, JSON.stringify(names)); } catch (e) {} }
+function nameOf(key) { return key === 'both' ? 'Both' : (names[key] || key); }
+
+// ---------- helpers ----------
+function esc(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function uid(prefix) {
+  return prefix + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+function fmtDay(ts) {
+  return new Date(ts).toLocaleString('en-US', { month: 'short', day: 'numeric' });
+}
+function fmtStamp(ts) {
+  var d = new Date(ts);
+  return d.toLocaleString('en-US', { month: 'short', day: 'numeric' }) + ' · ' +
+    d.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit' });
+}
+function toast(msg) {
+  var t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(t._h);
+  t._h = setTimeout(function () { t.style.display = 'none'; }, 2400);
+}
+
+// ---------- seed ----------
+var seedTs = Date.now();
+var defaultData = {
+  logs: [
+    { id: 'l1', author: 'a', tag: 'moment', text: 'First clean run of the workbench setup. Smooth edges on the steel cut.', ts: seedTs - 864e5 },
+    { id: 'l2', author: 'b', tag: 'quote', text: '"The only way out is through, and the best way through is together."', ts: seedTs - 43e6 },
+    { id: 'l3', author: 'both', tag: 'idea', text: 'Weekend road trip sketch: farm stand cider, thrift store run, back before sunset.', ts: seedTs - 6e6 }
+  ],
+  todos: [
+    { id: 't1', cat: 'groceries', text: 'Coffee beans (dark roast)', done: false, ts: seedTs },
+    { id: 't2', cat: 'house', text: 'Hang kitchen spice shelf', done: false, ts: seedTs },
+    { id: 't3', cat: 'shared', text: 'Plan Friday dinner & movie', done: false, ts: seedTs },
+    { id: 't4', cat: 'a', text: 'Oil the drill press & clamps', done: true, ts: seedTs },
+    { id: 't5', cat: 'b', text: 'Pick up sketchbook paper', done: false, ts: seedTs }
+  ],
+  projects: [
+    { id: 'p1', title: 'Backyard Herb Garden', desc: 'Raised cedar bed: basil, rosemary, thyme, cherry tomatoes. Drip irrigation line.', ts: seedTs },
+    { id: 'p2', title: 'Zine Issue #01', desc: 'First dispatch of thoughts, photos, and project notes. 8-page, 1-sheet fold.', ts: seedTs }
+  ],
+  journal: [
+    { id: 'j1', author: 'both', title: 'Sunday Morning Coffee & Quiet', body: 'Made pour-overs, sat on the porch while the sun came up over the street. Talked about where we want our time to go this autumn. Fewer distractions, more physical making.', ts: seedTs - 864e5 }
+  ],
+  press: null
+};
+
+// ---------- migration ----------
+// v2 stored display names as authors and dates as pre-formatted strings.
+var AUTHOR_MAP = { Suds: 'a', Partner: 'b', Together: 'both', Both: 'both' };
+
+function migrate(data) {
+  var fallback = Date.now();
+  function fixAuthor(v) { return AUTHOR_MAP[v] || (AUTHORS.indexOf(v) >= 0 ? v : 'a'); }
+  function fixTs(item) {
+    if (typeof item.ts !== 'number') { item.ts = fallback; fallback -= 6e4; }
+    return item;
+  }
+  (data.logs || []).forEach(function (l) { l.author = fixAuthor(l.author); fixTs(l); });
+  (data.journal || []).forEach(function (j) { j.author = fixAuthor(j.author); fixTs(j); });
+  (data.projects || []).forEach(fixTs);
+  (data.todos || []).forEach(function (t) {
+    if (AUTHOR_MAP[t.cat]) t.cat = AUTHOR_MAP[t.cat];
+    fixTs(t);
+  });
+  return data;
+}
+
+// Accept anything shaped like a backup; fill in what is missing rather than
+// rejecting the file, so a partial import cannot leave the app unrenderable.
+function normalize(raw) {
+  var out = {
+    logs: Array.isArray(raw && raw.logs) ? raw.logs : [],
+    todos: Array.isArray(raw && raw.todos) ? raw.todos : [],
+    projects: Array.isArray(raw && raw.projects) ? raw.projects : [],
+    journal: Array.isArray(raw && raw.journal) ? raw.journal : [],
+    press: (raw && raw.press) || null
   };
+  return migrate(out);
+}
 
-  let state = (() => {
-    try { const r = localStorage.getItem(STORAGE_KEY); if (r) return JSON.parse(r); } catch {}
-    return JSON.parse(JSON.stringify(defaultData));
-  })();
+var state = (function () {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return normalize(JSON.parse(raw));
+    var old = localStorage.getItem('stoop_data_v2');
+    if (old) { toast('Upgraded your notes from the older format'); return normalize(JSON.parse(old)); }
+  } catch (e) {}
+  return JSON.parse(JSON.stringify(defaultData));
+})();
 
-  const saveState = () => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {} };
-  const toast = (msg) => {
-    const t = document.getElementById('toast'); if (!t) return;
-    t.textContent = msg; t.style.display = 'block'; clearTimeout(t._h);
-    t._h = setTimeout(() => { t.style.display = 'none'; }, 2400);
-  };
-  const esc = (s) => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {
+    toast('Could not save — device storage is full');
+  }
+}
 
-  function renderAuthor() {
-    const el = document.getElementById('authorname'); if (el) el.textContent = currentAuthor;
-    const jAuth = document.getElementById('journalauthor'); if (jAuth) jAuth.value = currentAuthor;
-  }
-  function toggleAuthor() {
-    currentAuthor = AUTHORS[(AUTHORS.indexOf(currentAuthor) + 1) % AUTHORS.length];
-    localStorage.setItem('stoop_active_author', currentAuthor);
-    renderAuthor(); toast(`Active author: ${currentAuthor}`);
-  }
+// ---------- photo store ----------
+// Photos live in IndexedDB (localStorage caps out around 5 MB); the state
+// above holds only their ids. Everything is dithered to 1-bit on intake, so
+// a full-page photo is tens of kilobytes and prints on any copier.
+var PHOTO_DB = 'stoop_photos';
+var PHOTO_STORE = 'photos';
+var photoCache = {};
 
-  // --- LOGS ---
-  function renderLogs() {
-    const list = document.getElementById('loglist'); if (!list) return;
-    const filtered = state.logs.filter(l => activeLogFilter === 'all' || l.author === activeLogFilter);
-    if (!filtered.length) { list.innerHTML = '<div class="paper sub" style="text-align:center;">No logs matching filter.</div>'; return; }
-    list.innerHTML = filtered.map(l => `
-      <div class="log-card author-${esc(l.author)}">
-        <div class="log-meta">
-          <span><span class="log-author">${esc(l.author)}</span> · <span class="tag cold" style="margin:0;">${esc(l.tag)}</span> · ${esc(l.time)}</span>
-          <button class="log-del" data-dellog="${esc(l.id)}" title="Delete">✕</button>
-        </div>
-        <div class="log-body">${esc(l.text)}</div>
-      </div>
-    `).join('');
-  }
-  function addLog() {
-    const inp = document.getElementById('loginput'), tag = document.getElementById('logtag');
-    if (!inp || !inp.value.trim()) return;
-    const d = new Date();
-    state.logs.unshift({
-      id: 'l_' + Date.now(), author: currentAuthor, tag: tag?.value || 'moment',
-      text: inp.value.trim(),
-      time: `${d.toLocaleString('en-US', { month: 'short', day: 'numeric' })} · ${d.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit' })}`
-    });
-    inp.value = ''; saveState(); renderLogs(); toast('Posted to log');
-  }
-
-  // --- TODOS ---
-  function renderTodos() {
-    const list = document.getElementById('todolist'); if (!list) return;
-    const filtered = state.todos.filter(t => activeTodoFilter === 'all' || t.cat === activeTodoFilter);
-    if (!filtered.length) { list.innerHTML = '<div class="sub" style="padding:1rem;text-align:center;">All caught up! No items here.</div>'; return; }
-    list.innerHTML = filtered.map(t => `
-      <div class="todo-item ${t.done ? 'done' : ''}">
-        <input type="checkbox" class="todo-check" data-toggletodo="${esc(t.id)}" ${t.done ? 'checked' : ''}>
-        <span class="todo-text">${esc(t.text)}</span>
-        <span class="todo-tag">${esc(t.cat)}</span>
-        <button class="log-del" data-deltodo="${esc(t.id)}">✕</button>
-      </div>
-    `).join('');
-  }
-  function addTodo() {
-    const inp = document.getElementById('todoinput'), cat = document.getElementById('todocat');
-    if (!inp || !inp.value.trim()) return;
-    state.todos.unshift({ id: 't_' + Date.now(), cat: cat?.value || 'shared', text: inp.value.trim(), done: false });
-    inp.value = ''; saveState(); renderTodos(); toast('Added todo');
-  }
-  function clearCompletedTodos() {
-    state.todos = state.todos.filter(t => !t.done);
-    saveState(); renderTodos(); toast('Cleared completed items');
-  }
-
-  // --- PROJECTS ---
-  function renderProjects() {
-    const list = document.getElementById('projectlist'); if (!list) return;
-    if (!state.projects.length) { list.innerHTML = '<div class="sub" style="padding:1rem;">No active projects. Start one above!</div>'; return; }
-    list.innerHTML = state.projects.map(p => `
-      <div class="project-card">
-        <h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p>
-        <div class="project-card-foot">
-          <span>Updated ${esc(p.updated)}</span>
-          <button class="log-del" data-delproject="${esc(p.id)}">DELETE</button>
-        </div>
-      </div>
-    `).join('');
-  }
-  function addProject() {
-    const titleInp = document.getElementById('projecttitle'), descInp = document.getElementById('projectdesc');
-    if (!titleInp || !titleInp.value.trim()) return;
-    state.projects.unshift({
-      id: 'p_' + Date.now(), title: titleInp.value.trim(), desc: descInp?.value.trim() || '',
-      updated: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric' })
-    });
-    titleInp.value = ''; if (descInp) descInp.value = '';
-    saveState(); renderProjects(); toast('Created project');
-  }
-
-  // --- JOURNAL ---
-  function renderJournal() {
-    const list = document.getElementById('journallist'); if (!list) return;
-    if (!state.journal.length) { list.innerHTML = '<div class="paper sub" style="text-align:center;">No journal entries yet.</div>'; return; }
-    list.innerHTML = state.journal.map(j => `
-      <div class="journal-card">
-        <div class="journal-card-head">
-          <h2>${esc(j.title)}</h2>
-          <span class="sub">${esc(j.author)} · ${esc(j.time)} <button class="log-del" data-deljournal="${esc(j.id)}" style="margin-left:.6rem;">✕</button></span>
-        </div>
-        <div class="journal-card-body">${esc(j.body)}</div>
-      </div>
-    `).join('');
-  }
-  function addJournal() {
-    const titleInp = document.getElementById('journaltitle'), authorInp = document.getElementById('journalauthor'), bodyInp = document.getElementById('journalbody');
-    if (!titleInp || !titleInp.value.trim() || !bodyInp || !bodyInp.value.trim()) { toast('Please enter title and content'); return; }
-    state.journal.unshift({
-      id: 'j_' + Date.now(), author: authorInp?.value || currentAuthor,
-      title: titleInp.value.trim(), body: bodyInp.value.trim(),
-      time: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-    });
-    titleInp.value = ''; bodyInp.value = '';
-    saveState(); renderJournal(); toast('Saved journal entry');
-  }
-
-  // --- ZINE COMPILER ---
-  function compileZine() {
-    const recentLogs = state.logs.slice(0, 3).map(l => `• [${l.author}] ${l.text}`).join('\n');
-    const activeTodos = state.todos.filter(t => !t.done).slice(0, 4).map(t => `[ ] ${t.text}`).join('\n');
-    const topProjects = state.projects.slice(0, 2).map(p => `★ ${p.title}: ${p.desc.slice(0, 60)}...`).join('\n\n');
-    const topJournal = state.journal[0] ? `${state.journal[0].title}\n\n${state.journal[0].body.slice(0, 180)}...` : 'Keep writing together.';
-    const setBody = (id, text) => { const p = document.getElementById(id); if (p) { const b = p.querySelector('.body'); if (b) b.innerText = text; } };
-
-    setBody('p_2', recentLogs || 'No log entries this week.');
-    setBody('p_3', topProjects || 'Working on new ideas.');
-    setBody('p_4', topJournal);
-    setBody('p_5', activeTodos || 'All errands checked off!');
-    setBody('p_6', 'Recommendations, recipes, and notes to remember.');
-    setBody('p_7', 'Goals & plans for the upcoming week.');
-    toast('Compiled latest logs & journal into zine sheet!');
-  }
-
-  // --- BACKUP & SYNC ---
-  function exportBackup() {
-    const a = document.createElement('a');
-    a.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state, null, 2)));
-    a.setAttribute('download', `stoop-backup-${new Date().toISOString().slice(0,10)}.json`);
-    document.body.appendChild(a); a.click(); a.remove(); toast('Backup downloaded');
-  }
-  function handleImport(file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const parsed = JSON.parse(e.target.result);
-        if (parsed.logs && parsed.todos) { state = parsed; saveState(); renderAll(); toast('Restored backup!'); }
-        else toast('Invalid backup format');
-      } catch { toast('Failed to read JSON'); }
+function openPhotoDb() {
+  return new Promise(function (resolve, reject) {
+    if (!window.indexedDB) { reject(new Error('no indexeddb')); return; }
+    var req = indexedDB.open(PHOTO_DB, 1);
+    req.onupgradeneeded = function () {
+      if (!req.result.objectStoreNames.contains(PHOTO_STORE)) req.result.createObjectStore(PHOTO_STORE);
     };
-    reader.readAsText(file);
+    req.onsuccess = function () { resolve(req.result); };
+    req.onerror = function () { reject(req.error); };
+  });
+}
+
+function photoTx(mode, fn) {
+  return openPhotoDb().then(function (db) {
+    return new Promise(function (resolve, reject) {
+      var tx = db.transaction(PHOTO_STORE, mode);
+      var req = fn(tx.objectStore(PHOTO_STORE));
+      tx.oncomplete = function () { resolve(req && req.result); };
+      tx.onerror = function () { reject(tx.error); };
+    });
+  });
+}
+
+function photoPut(id, dataUrl) {
+  photoCache[id] = dataUrl;
+  return photoTx('readwrite', function (s) { return s.put(dataUrl, id); })
+    .catch(function () { toast('Photo kept in memory only — storage unavailable'); });
+}
+function photoDel(id) {
+  delete photoCache[id];
+  return photoTx('readwrite', function (s) { return s.delete(id); }).catch(function () {});
+}
+function photoLoadAll() {
+  return openPhotoDb().then(function (db) {
+    return new Promise(function (resolve) {
+      var tx = db.transaction(PHOTO_STORE, 'readonly');
+      var store = tx.objectStore(PHOTO_STORE);
+      var keys = store.getAllKeys();
+      var vals = store.getAll();
+      tx.oncomplete = function () {
+        (keys.result || []).forEach(function (k, i) { photoCache[k] = vals.result[i]; });
+        resolve();
+      };
+      tx.onerror = function () { resolve(); };
+    });
+  }).catch(function () {});
+}
+
+// Drop photo blobs no entry or zine panel points at any more.
+function collectPhotoRefs() {
+  var live = {};
+  state.logs.forEach(function (l) { if (l.photo) live[l.photo] = 1; });
+  if (state.press && state.press.panels) {
+    state.press.panels.forEach(function (p) { if (p && p.photo) live[p.photo] = 1; });
   }
-  function resetData() {
-    if (confirm('Reset to sample data? Current local data will be replaced.')) {
-      state = JSON.parse(JSON.stringify(defaultData)); saveState(); renderAll(); toast('Reset to defaults');
+  return live;
+}
+function sweepPhotos() {
+  var live = collectPhotoRefs();
+  Object.keys(photoCache).forEach(function (id) { if (!live[id]) photoDel(id); });
+}
+// ---------- the photo intake ----------
+// DESIGN.md: "images ship dithered (1-bit and riso-grain, which is also the
+// print bridge)". One pipeline serves both ends of that sentence: the screen
+// gets the scene's aesthetic, and the printer gets pure black and white, which
+// is the only thing a photocopier can honestly reproduce anyway.
+var PHOTO_MAX_EDGE = 1000;
+var PHOTO_CONTRAST = 1.15;
+
+function readImage(file) {
+  return new Promise(function (resolve, reject) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      var img = new Image();
+      img.onload = function () { resolve(img); };
+      img.onerror = function () { reject(new Error('not an image')); };
+      img.src = reader.result;
+    };
+    reader.onerror = function () { reject(reader.error); };
+    reader.readAsDataURL(file);
+  });
+}
+
+// Floyd–Steinberg: threshold each pixel, push the error to the neighbours that
+// have not been decided yet. Grain instead of banding, and it survives a copier.
+function ditherToBitmap(img) {
+  var scale = Math.min(1, PHOTO_MAX_EDGE / Math.max(img.width, img.height));
+  var w = Math.max(1, Math.round(img.width * scale));
+  var h = Math.max(1, Math.round(img.height * scale));
+
+  var canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  var ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0, w, h);
+
+  var imageData = ctx.getImageData(0, 0, w, h);
+  var d = imageData.data;
+  var gray = new Float32Array(w * h);
+
+  for (var i = 0; i < w * h; i++) {
+    var lum = 0.299 * d[i * 4] + 0.587 * d[i * 4 + 1] + 0.114 * d[i * 4 + 2];
+    gray[i] = Math.max(0, Math.min(255, (lum - 128) * PHOTO_CONTRAST + 128));
+  }
+
+  for (var y = 0; y < h; y++) {
+    for (var x = 0; x < w; x++) {
+      var idx = y * w + x;
+      var old = gray[idx];
+      var next = old < 128 ? 0 : 255;
+      var err = old - next;
+      gray[idx] = next;
+      if (x + 1 < w) gray[idx + 1] += err * 7 / 16;
+      if (y + 1 < h) {
+        if (x > 0) gray[idx + w - 1] += err * 3 / 16;
+        gray[idx + w] += err * 5 / 16;
+        if (x + 1 < w) gray[idx + w + 1] += err * 1 / 16;
+      }
     }
   }
 
-  function renderAll() {
-    renderAuthor(); renderLogs(); renderTodos(); renderProjects(); renderJournal();
+  for (var p = 0; p < w * h; p++) {
+    var v = gray[p] < 128 ? 0 : 255;
+    d[p * 4] = d[p * 4 + 1] = d[p * 4 + 2] = v;
+    d[p * 4 + 3] = 255;
   }
+  ctx.putImageData(imageData, 0, 0);
+  return canvas.toDataURL('image/png');
+}
 
-  // --- NAVIGATION ---
-  const views = document.querySelectorAll('section[data-view]'), navs = document.querySelectorAll('[data-nav]');
-  function showView() {
-    let h = (location.hash || '#log').slice(1).split('/')[0], hit = false;
-    views.forEach(v => { const on = v.getAttribute('data-view') === h; v.classList.toggle('on', on); if (on) hit = true; });
-    if (!hit) { views.forEach(v => { v.classList.toggle('on', v.getAttribute('data-view') === 'log'); }); h = 'log'; }
-    navs.forEach(a => { a.classList.toggle('here', a.getAttribute('data-nav') === h); });
-    window.scrollTo(0, 0);
-  }
-  window.addEventListener('hashchange', showView);
+// Returns the new photo ids, in the order the files were chosen.
+function intakePhotos(fileList) {
+  var files = Array.prototype.slice.call(fileList).filter(function (f) {
+    return /^image\//.test(f.type);
+  });
+  if (!files.length) return Promise.resolve([]);
+  toast(files.length > 1 ? 'Dithering ' + files.length + ' photos…' : 'Dithering photo…');
 
-  // --- EVENT DELEGATION ---
-  document.addEventListener('click', (e) => {
-    const t = e.target;
-    if (t.id === 'authortoggle' || t.closest('#authortoggle')) toggleAuthor();
-    else if (t.id === 'logaddbtn') addLog();
-    else if (t.dataset.dellog) { state.logs = state.logs.filter(l => l.id !== t.dataset.dellog); saveState(); renderLogs(); }
-    else if (t.dataset.logfilter) {
-      activeLogFilter = t.dataset.logfilter;
-      document.querySelectorAll('[data-logfilter]').forEach(b => b.classList.toggle('on', b.dataset.logfilter === activeLogFilter));
-      renderLogs();
-    }
-    else if (t.id === 'todoaddbtn') addTodo();
-    else if (t.dataset.toggletodo) {
-      const item = state.todos.find(i => i.id === t.dataset.toggletodo);
-      if (item) { item.done = t.checked; saveState(); renderTodos(); }
-    }
-    else if (t.dataset.deltodo) { state.todos = state.todos.filter(i => i.id !== t.dataset.deltodo); saveState(); renderTodos(); }
-    else if (t.dataset.todofilter) {
-      activeTodoFilter = t.dataset.todofilter;
-      document.querySelectorAll('[data-todofilter]').forEach(b => b.classList.toggle('on', b.dataset.todofilter === activeTodoFilter));
-      renderTodos();
-    }
-    else if (t.id === 'clearcompletedbtn') clearCompletedTodos();
-    else if (t.id === 'projectaddbtn') addProject();
-    else if (t.dataset.delproject) { state.projects = state.projects.filter(p => p.id !== t.dataset.delproject); saveState(); renderProjects(); }
-    else if (t.id === 'journaladdbtn') addJournal();
-    else if (t.dataset.deljournal) { state.journal = state.journal.filter(j => j.id !== t.dataset.deljournal); saveState(); renderJournal(); }
-    else if (t.id === 'compilezinebtn') compileZine();
-    else if (t.id === 'printzinebtn') window.print();
-    else if (t.id === 'clearzinebtn') { document.querySelectorAll('.panel .body').forEach(b => b.innerText = ''); toast('Cleared zine panels'); }
-    else if (t.id === 'exportbtn') exportBackup();
-    else if (t.id === 'importbtn') document.getElementById('importfile')?.click();
-    else if (t.id === 'resetbtn') resetData();
+  return files.reduce(function (chain, file) {
+    return chain.then(function (ids) {
+      return readImage(file)
+        .then(function (img) {
+          var id = uid('ph');
+          return photoPut(id, ditherToBitmap(img)).then(function () { return ids.concat(id); });
+        })
+        .catch(function () { toast('Skipped a file that is not an image'); return ids; });
+    });
+  }, Promise.resolve([]));
+}
+var activeLogFilter = 'all';
+var activeTodoFilter = 'all';
+
+// Author-keyed chips and options carry the current names, so a rename in
+// settings reaches every surface without touching stored entries.
+function renderNames() {
+  var el = document.getElementById('authorname');
+  if (el) el.textContent = nameOf(currentAuthor);
+
+  document.querySelectorAll('[data-namechip]').forEach(function (chip) {
+    var key = chip.getAttribute('data-namechip');
+    chip.textContent = nameOf(key);
+  });
+  document.querySelectorAll('[data-nameopt]').forEach(function (opt) {
+    var key = opt.getAttribute('data-nameopt');
+    opt.textContent = (opt.hasAttribute('data-pen') ? '✍ ' : '') + nameOf(key);
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && e.target.id === 'loginput') addLog();
-    else if (e.key === 'Enter' && e.target.id === 'todoinput') addTodo();
+  var a = document.getElementById('namea');
+  var b = document.getElementById('nameb');
+  if (a && document.activeElement !== a) a.value = names.a;
+  if (b && document.activeElement !== b) b.value = names.b;
+
+  var jAuth = document.getElementById('journalauthor');
+  if (jAuth) jAuth.value = currentAuthor;
+}
+
+function toggleAuthor() {
+  currentAuthor = AUTHORS[(AUTHORS.indexOf(currentAuthor) + 1) % AUTHORS.length];
+  localStorage.setItem(AUTHOR_KEY, currentAuthor);
+  renderNames();
+  toast('Now writing as ' + nameOf(currentAuthor));
+}
+
+function photoTag(id, cls) {
+  var src = photoCache[id];
+  if (!src) return '';
+  return '<img class="' + cls + '" src="' + esc(src) + '" alt="">';
+}
+
+// ---------- log ----------
+function renderLogs() {
+  var list = document.getElementById('loglist');
+  if (!list) return;
+  var rows = state.logs.slice().sort(function (x, y) { return y.ts - x.ts; })
+    .filter(function (l) { return activeLogFilter === 'all' || l.author === activeLogFilter; });
+
+  if (!rows.length) {
+    list.innerHTML = '<div class="paper sub" style="text-align:center;">Nothing here yet.</div>';
+    return;
+  }
+  list.innerHTML = rows.map(function (l) {
+    return '<div class="log-card author-' + esc(l.author) + '">' +
+      '<div class="log-meta"><span><span class="log-author">' + esc(nameOf(l.author)) +
+      '</span> · <span class="tag cold">' + esc(l.tag) + '</span> · ' + esc(fmtStamp(l.ts)) + '</span>' +
+      '<button class="log-del" data-dellog="' + esc(l.id) + '" title="Delete">✕</button></div>' +
+      (l.photo ? photoTag(l.photo, 'log-photo') : '') +
+      (l.text ? '<div class="log-body">' + esc(l.text) + '</div>' : '') +
+      '</div>';
+  }).join('');
+}
+
+function addLog(photoIds) {
+  var inp = document.getElementById('loginput');
+  var tag = document.getElementById('logtag');
+  var ids = photoIds || [];
+  var text = inp ? inp.value.trim() : '';
+  if (!text && !ids.length) return;
+
+  if (ids.length) {
+    ids.forEach(function (pid, i) {
+      state.logs.push({
+        id: uid('l'), author: currentAuthor, tag: 'photo',
+        text: i === 0 ? text : '', photo: pid, ts: Date.now() + i
+      });
+    });
+  } else {
+    state.logs.push({
+      id: uid('l'), author: currentAuthor,
+      tag: (tag && tag.value) || 'moment', text: text, ts: Date.now()
+    });
+  }
+  if (inp) inp.value = '';
+  saveState();
+  renderLogs();
+  toast(ids.length ? 'Added ' + ids.length + ' photo(s)' : 'Posted to log');
+}
+
+// ---------- todos ----------
+function renderTodos() {
+  var list = document.getElementById('todolist');
+  if (!list) return;
+  var rows = state.todos.filter(function (t) {
+    return activeTodoFilter === 'all' || t.cat === activeTodoFilter;
+  });
+  if (!rows.length) {
+    list.innerHTML = '<div class="sub" style="padding:1rem;text-align:center;">All caught up.</div>';
+    return;
+  }
+  list.innerHTML = rows.map(function (t) {
+    return '<div class="todo-item' + (t.done ? ' done' : '') + '">' +
+      '<input type="checkbox" class="todo-check" data-toggletodo="' + esc(t.id) + '"' +
+      (t.done ? ' checked' : '') + '>' +
+      '<span class="todo-text">' + esc(t.text) + '</span>' +
+      '<span class="todo-tag">' + esc(nameOf(t.cat) === t.cat ? t.cat : nameOf(t.cat)) + '</span>' +
+      '<button class="log-del" data-deltodo="' + esc(t.id) + '">✕</button></div>';
+  }).join('');
+}
+
+function addTodo() {
+  var inp = document.getElementById('todoinput');
+  var cat = document.getElementById('todocat');
+  if (!inp || !inp.value.trim()) return;
+  state.todos.unshift({
+    id: uid('t'), cat: (cat && cat.value) || 'shared',
+    text: inp.value.trim(), done: false, ts: Date.now()
+  });
+  inp.value = '';
+  saveState();
+  renderTodos();
+}
+
+function clearCompletedTodos() {
+  state.todos = state.todos.filter(function (t) { return !t.done; });
+  saveState();
+  renderTodos();
+  toast('Cleared completed items');
+}
+
+// ---------- projects ----------
+function renderProjects() {
+  var list = document.getElementById('projectlist');
+  if (!list) return;
+  if (!state.projects.length) {
+    list.innerHTML = '<div class="sub" style="padding:1rem;">No active projects. Start one above.</div>';
+    return;
+  }
+  list.innerHTML = state.projects.map(function (p) {
+    return '<div class="project-card"><h3>' + esc(p.title) + '</h3><p>' + esc(p.desc) + '</p>' +
+      '<div class="project-card-foot"><span>Updated ' + esc(fmtDay(p.ts)) + '</span>' +
+      '<button class="log-del" data-delproject="' + esc(p.id) + '">DELETE</button></div></div>';
+  }).join('');
+}
+
+function addProject() {
+  var t = document.getElementById('projecttitle');
+  var d = document.getElementById('projectdesc');
+  if (!t || !t.value.trim()) return;
+  state.projects.unshift({
+    id: uid('p'), title: t.value.trim(), desc: (d && d.value.trim()) || '', ts: Date.now()
+  });
+  t.value = '';
+  if (d) d.value = '';
+  saveState();
+  renderProjects();
+  toast('Created project');
+}
+
+// ---------- journal ----------
+function renderJournal() {
+  var list = document.getElementById('journallist');
+  if (!list) return;
+  if (!state.journal.length) {
+    list.innerHTML = '<div class="paper sub" style="text-align:center;">No journal entries yet.</div>';
+    return;
+  }
+  list.innerHTML = state.journal.slice().sort(function (x, y) { return y.ts - x.ts; })
+    .map(function (j) {
+      return '<div class="journal-card"><div class="journal-card-head"><h2>' + esc(j.title) + '</h2>' +
+        '<span class="sub">' + esc(nameOf(j.author)) + ' · ' + esc(fmtDay(j.ts)) +
+        ' <button class="log-del" data-deljournal="' + esc(j.id) + '">✕</button></span></div>' +
+        '<div class="journal-card-body">' + esc(j.body) + '</div></div>';
+    }).join('');
+}
+
+function addJournal() {
+  var t = document.getElementById('journaltitle');
+  var a = document.getElementById('journalauthor');
+  var b = document.getElementById('journalbody');
+  if (!t || !t.value.trim() || !b || !b.value.trim()) { toast('Needs a title and some words'); return; }
+  state.journal.unshift({
+    id: uid('j'), author: (a && a.value) || currentAuthor,
+    title: t.value.trim(), body: b.value.trim(), ts: Date.now()
+  });
+  t.value = '';
+  b.value = '';
+  saveState();
+  renderJournal();
+  toast('Saved journal entry');
+}
+
+function renderAll() {
+  renderNames();
+  renderLogs();
+  renderTodos();
+  renderProjects();
+  renderJournal();
+  renderPress();
+}
+// ---------- the press ----------
+// Slot order: 0..3 is the top row left to right, printed upside down; 4..7 is
+// the bottom row. The two presets are the two fold handednesses, and they are
+// the same two the hand kit in press/ offers. check.sh holds them equal: an
+// imposition that disagrees with the kit is a stack of misfolded paper.
+var PRESET_A = [5, 4, 3, 2, 6, 7, 8, 1];
+var PRESET_B = [2, 3, 4, 5, 1, 8, 7, 6];
+var PANEL_SEED = [
+  { h: 'STOOP ZINE', body: 'Our dispatch.\nLife, projects & notes.' },
+  { h: 'THE WEEK', body: 'Moments, highlights and quotes from the daily log.' },
+  { h: 'PROJECTS', body: 'Active builds, shop progress, and creative work.' },
+  { h: 'REFLECTIONS', body: 'Thoughts, milestones, and what we learned.' },
+  { h: 'TODO & RUNS', body: 'Shared tasks checked off and what is on deck.' },
+  { h: 'SCRATCHPAD', body: 'Ideas, sketches, recipes, and recommendations.' },
+  { h: 'LOOKING AHEAD', body: 'Next week: plans, goals, upcoming experiments.' },
+  { h: 'BACK COVER', body: 'Printed on a single sheet of paper.' }
+];
+var armedPhoto = null;
+
+function pressState() {
+  if (!state.press) {
+    state.press = {
+      layout: 'A',
+      issue: '01',
+      panels: PANEL_SEED.map(function (p) { return { h: p.h, body: p.body, photo: null }; })
+    };
+  }
+  if (!Array.isArray(state.press.panels) || state.press.panels.length !== 8) {
+    state.press.panels = PANEL_SEED.map(function (p) { return { h: p.h, body: p.body, photo: null }; });
+  }
+  return state.press;
+}
+
+// Assign each page to its slot. Nothing about the sheet's DOM order changes;
+// only CSS order and the 180-degree flip on the top row.
+function layoutSheet() {
+  var ps = pressState();
+  var map = ps.layout === 'B' ? PRESET_B : PRESET_A;
+  var sheet = document.getElementById('zinesheet');
+  if (!sheet) return;
+  map.forEach(function (page, slot) {
+    var el = sheet.querySelector('[data-page="' + page + '"]');
+    if (!el) return;
+    el.style.order = slot;
+    el.classList.toggle('flip', slot < 4);
+  });
+  var btn = document.getElementById('swaplayoutbtn');
+  if (btn) btn.textContent = 'SWAP FOLD (' + ps.layout + ')';
+}
+
+function renderPress() {
+  var ps = pressState();
+  var sheet = document.getElementById('zinesheet');
+  if (!sheet) return;
+
+  ps.panels.forEach(function (panel, i) {
+    var el = sheet.querySelector('[data-page="' + (i + 1) + '"]');
+    if (!el) return;
+    var head = el.querySelector('h3');
+    var body = el.querySelector('.body');
+    if (head && head.innerText !== panel.h) head.innerText = panel.h;
+    if (body && body.innerText !== panel.body) body.innerText = panel.body;
+
+    var img = el.querySelector('.panel-photo');
+    var drop = el.querySelector('.panel-unpic');
+    if (panel.photo && photoCache[panel.photo]) {
+      if (!img) {
+        img = document.createElement('img');
+        img.className = 'panel-photo';
+        el.insertBefore(img, body);
+      }
+      img.src = photoCache[panel.photo];
+      if (!drop) {
+        drop = document.createElement('button');
+        drop.className = 'panel-unpic';
+        drop.textContent = '✕';
+        drop.title = 'Remove this photo';
+        drop.setAttribute('data-delpanelpic', String(i + 1));
+        el.appendChild(drop);
+      }
+    } else {
+      if (img) img.remove();
+      if (drop) drop.remove();
+    }
   });
 
-  const importInp = document.getElementById('importfile');
-  if (importInp) importInp.addEventListener('change', (e) => { if (e.target.files?.[0]) handleImport(e.target.files[0]); });
+  var num = document.getElementById('issueno');
+  if (num && num.innerText !== ps.issue) num.innerText = ps.issue;
 
+  layoutSheet();
+  renderTray();
+}
+
+// Every photo in the store, newest first, as a strip you arm and drop.
+function renderTray() {
+  var tray = document.getElementById('phototray');
+  if (!tray) return;
+  var ids = state.logs.slice().sort(function (x, y) { return y.ts - x.ts; })
+    .filter(function (l) { return l.photo && photoCache[l.photo]; })
+    .map(function (l) { return l.photo; });
+
+  if (!ids.length) {
+    tray.innerHTML = '<span class="sub">No photos yet. Add some from the log, then drop them into panels here.</span>';
+    return;
+  }
+  tray.innerHTML = ids.map(function (id) {
+    return '<img class="tray-photo' + (armedPhoto === id ? ' armed' : '') +
+      '" data-traypic="' + esc(id) + '" src="' + esc(photoCache[id]) + '" alt="">';
+  }).join('');
+}
+
+function armPhoto(id) {
+  armedPhoto = armedPhoto === id ? null : id;
+  renderTray();
+  var hint = document.getElementById('trayhint');
+  if (hint) {
+    hint.textContent = armedPhoto
+      ? 'Photo armed — now click the panel you want it on.'
+      : 'Click a photo to arm it, then click a panel to place it.';
+    hint.classList.toggle('on', !!armedPhoto);
+  }
+}
+
+function placePhoto(page) {
+  if (!armedPhoto) return false;
+  pressState().panels[page - 1].photo = armedPhoto;
+  armPhoto(null);
+  saveState();
+  renderPress();
+  toast('Placed photo on p.' + page);
+  return true;
+}
+
+// Panels are contenteditable; capture what was typed rather than re-rendering
+// under the caret, which would fight the cursor on every keystroke.
+function capturePanels() {
+  var ps = pressState();
+  var sheet = document.getElementById('zinesheet');
+  if (!sheet) return;
+  ps.panels.forEach(function (panel, i) {
+    var el = sheet.querySelector('[data-page="' + (i + 1) + '"]');
+    if (!el) return;
+    var head = el.querySelector('h3');
+    var body = el.querySelector('.body');
+    if (head) panel.h = head.innerText.trim();
+    if (body) panel.body = body.innerText.replace(/\n{3,}/g, '\n\n').trimEnd();
+  });
+  var num = document.getElementById('issueno');
+  if (num) ps.issue = num.innerText.trim().replace(/^№/, '');
+  saveState();
+}
+
+function setPanel(page, body) {
+  pressState().panels[page - 1].body = body;
+}
+
+// Pull the issue out of what has actually been written since the last one.
+function compileZine() {
+  var ps = pressState();
+  var byNew = function (x, y) { return y.ts - x.ts; };
+  var logs = state.logs.slice().sort(byNew);
+
+  var moments = logs.filter(function (l) { return l.text; }).slice(0, 5)
+    .map(function (l) { return '• [' + nameOf(l.author) + '] ' + l.text; }).join('\n\n');
+  var open = state.todos.filter(function (t) { return !t.done; }).slice(0, 6)
+    .map(function (t) { return '[ ] ' + t.text; }).join('\n');
+  var done = state.todos.filter(function (t) { return t.done; }).slice(0, 3)
+    .map(function (t) { return '[x] ' + t.text; }).join('\n');
+  var projects = state.projects.slice(0, 3)
+    .map(function (p) { return '★ ' + p.title + '\n' + p.desc; }).join('\n\n');
+  var entry = state.journal.slice().sort(byNew)[0];
+
+  setPanel(2, moments || 'A quiet week.');
+  setPanel(3, projects || 'Between projects.');
+  setPanel(4, entry ? entry.title.toUpperCase() + '\n\n' + entry.body : 'Keep writing.');
+  setPanel(5, [open, done].filter(Boolean).join('\n\n') || 'All errands checked off.');
+  ps.panels[7].body = 'Issue №' + ps.issue + '\nBy ' + names.a + ' & ' + names.b + '.\n\n' +
+    'Made on a stoop. Take one, leave one.';
+
+  // The cover earns the newest photo unless something is already placed there.
+  var newest = logs.filter(function (l) { return l.photo && photoCache[l.photo]; })[0];
+  if (newest && !ps.panels[0].photo) ps.panels[0].photo = newest.photo;
+
+  saveState();
+  renderPress();
+  toast('Compiled the issue from your log, journal, and lists');
+}
+
+function clearSheet() {
+  var ps = pressState();
+  ps.panels.forEach(function (p) { p.body = ''; p.photo = null; });
+  saveState();
+  renderPress();
+  toast('Cleared the sheet');
+}
+
+function swapLayout() {
+  var ps = pressState();
+  ps.layout = ps.layout === 'A' ? 'B' : 'A';
+  saveState();
+  layoutSheet();
+  toast('Fold layout ' + ps.layout + ' — print a test sheet before committing');
+}
+
+function toggleTestSheet() {
+  var sheet = document.getElementById('zinesheet');
+  var btn = document.getElementById('testsheetbtn');
+  if (!sheet) return;
+  var on = sheet.classList.toggle('testing');
+  if (btn) {
+    btn.textContent = 'TEST SHEET: ' + (on ? 'ON' : 'OFF');
+    btn.classList.toggle('on', on);
+  }
+}
+// ---------- carrying the notebook between devices ----------
+// Two people means two browsers, and a backup that replaces the other person's
+// work is not a sync, it is a coin flip. Import merges by id and keeps the
+// newer copy of anything held in both. Sending it both ways leaves the two
+// devices agreeing, which is as much as a file on a thumb drive can promise.
+var BACKUP_VERSION = 3;
+
+function exportBackup() {
+  var live = collectPhotoRefs();
+  var photos = {};
+  Object.keys(live).forEach(function (id) { if (photoCache[id]) photos[id] = photoCache[id]; });
+
+  var payload = {
+    version: BACKUP_VERSION,
+    exported: new Date().toISOString(),
+    names: names,
+    logs: state.logs,
+    todos: state.todos,
+    projects: state.projects,
+    journal: state.journal,
+    press: state.press,
+    photos: photos
+  };
+  var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'stoop-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  toast('Backup downloaded — photos included');
+}
+
+function mergeList(mine, theirs) {
+  var byId = {};
+  mine.forEach(function (item) { byId[item.id] = item; });
+  theirs.forEach(function (item) {
+    if (!item || !item.id) return;
+    var existing = byId[item.id];
+    if (!existing || (item.ts || 0) > (existing.ts || 0)) byId[item.id] = item;
+  });
+  return Object.keys(byId).map(function (k) { return byId[k]; });
+}
+
+function importBackup(raw, mode) {
+  var incoming = normalize(raw);
+  var photos = (raw && raw.photos) || {};
+  var added = 0;
+
+  Object.keys(photos).forEach(function (id) {
+    if (!photoCache[id]) { photoPut(id, photos[id]); added++; }
+  });
+
+  if (mode === 'replace') {
+    state.logs = incoming.logs;
+    state.todos = incoming.todos;
+    state.projects = incoming.projects;
+    state.journal = incoming.journal;
+    state.press = incoming.press;
+  } else {
+    var before = state.logs.length + state.todos.length + state.projects.length + state.journal.length;
+    state.logs = mergeList(state.logs, incoming.logs);
+    state.todos = mergeList(state.todos, incoming.todos);
+    state.projects = mergeList(state.projects, incoming.projects);
+    state.journal = mergeList(state.journal, incoming.journal);
+    if (!state.press && incoming.press) state.press = incoming.press;
+    var after = state.logs.length + state.todos.length + state.projects.length + state.journal.length;
+    added = Math.max(0, after - before) + added;
+  }
+
+  if (raw && raw.names && raw.names.a && raw.names.b && mode === 'replace') {
+    names = { a: String(raw.names.a), b: String(raw.names.b) };
+    saveNames();
+  }
+
+  saveState();
+  renderAll();
+  var status = document.getElementById('importstatus');
+  var msg = mode === 'replace'
+    ? 'Replaced everything with the backup.'
+    : 'Merged. ' + added + ' new item(s) came across.';
+  if (status) status.textContent = msg;
+  toast(msg);
+}
+
+function handleImportFile(file, mode) {
+  var reader = new FileReader();
+  reader.onload = function (e) {
+    var parsed;
+    try {
+      parsed = JSON.parse(e.target.result);
+    } catch (err) {
+      toast('That file is not readable JSON');
+      return;
+    }
+    if (!parsed || typeof parsed !== 'object') { toast('That file is not a stoop backup'); return; }
+    if (mode === 'replace' &&
+      !confirm('Replace everything on this device with the backup? Merge is usually what you want.')) return;
+    importBackup(parsed, mode);
+  };
+  reader.onerror = function () { toast('Could not read that file'); };
+  reader.readAsText(file);
+}
+
+function resetData() {
+  if (!confirm('Reset to sample data? Everything on this device will be replaced.')) return;
+  state = JSON.parse(JSON.stringify(defaultData));
+  saveState();
+  sweepPhotos();
+  renderAll();
+  toast('Reset to defaults');
+}
+
+function saveNameFields() {
+  var a = document.getElementById('namea');
+  var b = document.getElementById('nameb');
+  names.a = (a && a.value.trim()) || 'Me';
+  names.b = (b && b.value.trim()) || 'Partner';
+  saveNames();
+  renderAll();
+  toast('Names saved');
+}
+// ---------- router ----------
+var views = document.querySelectorAll('section[data-view]');
+var navs = document.querySelectorAll('[data-nav]');
+
+function showView() {
+  var h = (location.hash || '#log').slice(1).split('/')[0];
+  var hit = false;
+  views.forEach(function (v) {
+    var on = v.getAttribute('data-view') === h;
+    v.classList.toggle('on', on);
+    if (on) hit = true;
+  });
+  if (!hit) {
+    h = 'log';
+    views.forEach(function (v) { v.classList.toggle('on', v.getAttribute('data-view') === 'log'); });
+  }
+  navs.forEach(function (a) { a.classList.toggle('here', a.getAttribute('data-nav') === h); });
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', showView);
+
+// ---------- events ----------
+function hit(target, sel) { return target.closest ? target.closest(sel) : null; }
+
+document.addEventListener('click', function (e) {
+  var t = e.target;
+  var el;
+
+  // Arming a photo turns every panel into a drop target for one click.
+  if ((el = hit(t, '[data-traypic]'))) { armPhoto(el.getAttribute('data-traypic')); return; }
+  if (armedPhoto && (el = hit(t, '.panel'))) {
+    e.preventDefault();
+    if (placePhoto(Number(el.getAttribute('data-page')))) return;
+  }
+  if ((el = hit(t, '[data-delpanelpic]'))) {
+    pressState().panels[Number(el.getAttribute('data-delpanelpic')) - 1].photo = null;
+    saveState(); renderPress(); return;
+  }
+
+  if (hit(t, '#authortoggle')) return toggleAuthor();
+  if (hit(t, '#logaddbtn')) return addLog();
+  if (hit(t, '#photobtn')) return document.getElementById('photofile').click();
+  if ((el = hit(t, '[data-dellog]'))) {
+    var lid = el.getAttribute('data-dellog');
+    state.logs = state.logs.filter(function (l) { return l.id !== lid; });
+    saveState(); sweepPhotos(); renderLogs(); renderTray(); return;
+  }
+  if ((el = hit(t, '[data-logfilter]'))) {
+    activeLogFilter = el.getAttribute('data-logfilter');
+    document.querySelectorAll('[data-logfilter]').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-logfilter') === activeLogFilter);
+    });
+    return renderLogs();
+  }
+
+  if (hit(t, '#todoaddbtn')) return addTodo();
+  if ((el = hit(t, '[data-toggletodo]'))) {
+    var item = state.todos.find(function (i) { return i.id === el.getAttribute('data-toggletodo'); });
+    if (item) { item.done = el.checked; saveState(); renderTodos(); }
+    return;
+  }
+  if ((el = hit(t, '[data-deltodo]'))) {
+    var tid = el.getAttribute('data-deltodo');
+    state.todos = state.todos.filter(function (i) { return i.id !== tid; });
+    saveState(); return renderTodos();
+  }
+  if ((el = hit(t, '[data-todofilter]'))) {
+    activeTodoFilter = el.getAttribute('data-todofilter');
+    document.querySelectorAll('[data-todofilter]').forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-todofilter') === activeTodoFilter);
+    });
+    return renderTodos();
+  }
+  if (hit(t, '#clearcompletedbtn')) return clearCompletedTodos();
+
+  if (hit(t, '#projectaddbtn')) return addProject();
+  if ((el = hit(t, '[data-delproject]'))) {
+    var pid = el.getAttribute('data-delproject');
+    state.projects = state.projects.filter(function (p) { return p.id !== pid; });
+    saveState(); return renderProjects();
+  }
+
+  if (hit(t, '#journaladdbtn')) return addJournal();
+  if ((el = hit(t, '[data-deljournal]'))) {
+    var jid = el.getAttribute('data-deljournal');
+    state.journal = state.journal.filter(function (j) { return j.id !== jid; });
+    saveState(); return renderJournal();
+  }
+
+  if (hit(t, '#compilezinebtn')) return compileZine();
+  if (hit(t, '#printzinebtn')) { capturePanels(); return window.print(); }
+  if (hit(t, '#clearzinebtn')) return clearSheet();
+  if (hit(t, '#swaplayoutbtn')) return swapLayout();
+  if (hit(t, '#testsheetbtn')) return toggleTestSheet();
+
+  if (hit(t, '#exportbtn')) return exportBackup();
+  if (hit(t, '#mergebtn')) { document.getElementById('importfile').dataset.mode = 'merge'; return document.getElementById('importfile').click(); }
+  if (hit(t, '#replacebtn')) { document.getElementById('importfile').dataset.mode = 'replace'; return document.getElementById('importfile').click(); }
+  if (hit(t, '#savenamesbtn')) return saveNameFields();
+  if (hit(t, '#resetbtn')) return resetData();
+});
+
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Enter') return;
+  if (e.target.id === 'loginput') { e.preventDefault(); addLog(); }
+  else if (e.target.id === 'todoinput') { e.preventDefault(); addTodo(); }
+  else if (e.target.id === 'namea' || e.target.id === 'nameb') { e.preventDefault(); saveNameFields(); }
+});
+
+// Panel edits save on a debounce so the caret is never yanked mid-word.
+var panelTimer = null;
+document.addEventListener('input', function (e) {
+  if (!e.target.closest || !e.target.closest('#zinesheet')) return;
+  clearTimeout(panelTimer);
+  panelTimer = setTimeout(capturePanels, 400);
+});
+document.addEventListener('focusout', function (e) {
+  if (e.target.closest && e.target.closest('#zinesheet')) capturePanels();
+});
+
+var photoInput = document.getElementById('photofile');
+if (photoInput) {
+  photoInput.addEventListener('change', function (e) {
+    var files = e.target.files;
+    if (!files || !files.length) return;
+    intakePhotos(files).then(function (ids) {
+      if (ids.length) addLog(ids);
+      renderTray();
+    });
+    e.target.value = '';
+  });
+}
+
+var importInput = document.getElementById('importfile');
+if (importInput) {
+  importInput.addEventListener('change', function (e) {
+    if (e.target.files && e.target.files[0]) {
+      handleImportFile(e.target.files[0], e.target.dataset.mode || 'merge');
+    }
+    e.target.value = '';
+  });
+}
+
+// ---------- boot ----------
+// Photos load before the first paint so renders stay synchronous; the app is
+// usable either way, so a failed store degrades to text rather than a blank page.
+photoLoadAll().then(function () {
   renderAll();
   showView();
+});
+
 })();
 </script>

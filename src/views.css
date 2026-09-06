@@ -7,8 +7,8 @@
   padding: .75rem .9rem;
   position: relative;
 }
-.log-card.author-Partner { border-left-color: var(--blue); }
-.log-card.author-Both { border-left-color: #5cd685; }
+.log-card.author-b { border-left-color: var(--blue); }
+.log-card.author-both { border-left-color: #5cd685; }
 .log-meta {
   display: flex;
   justify-content: space-between;
@@ -18,8 +18,8 @@
   margin-bottom: .3rem;
 }
 .log-author { font-weight: bold; color: var(--orange); }
-.author-Partner .log-author { color: var(--blue); }
-.author-Both .log-author { color: #5cd685; }
+.author-b .log-author { color: var(--blue); }
+.author-both .log-author { color: #5cd685; }
 .log-body { font-family: 'Courier New', monospace; font-size: .88rem; color: var(--bone); line-height: 1.4; word-break: break-word; }
 .log-del { background: none; border: none; color: var(--grey); cursor: pointer; font-size: .8rem; }
 .log-del:hover { color: var(--orange); }
@@ -73,14 +73,25 @@
 .sheetzone { margin-top: 1rem; overflow-x: auto; padding-bottom: 1rem; }
 .sheetwrap { transform-origin: top left; min-width: 1056px; }
 .sheet { width: 11in; height: 8.5in; background: #fff; color: var(--ink); display: flex; flex-wrap: wrap; box-shadow: 0 0 0 1px #000, 8px 8px 0 rgba(0,0,0,.6); }
-.panel { width: 25%; height: 50%; border: 1px dashed #bbb; padding: .28in .3in; overflow: hidden; position: relative; background: #fff; box-sizing: border-box; }
+.panel { width: 25%; height: 50%; border: 1px dashed #bbb; padding: .28in .3in; overflow: hidden; position: relative; background: #fff; box-sizing: border-box; display: flex; flex-direction: column; }
 .panel.flip { transform: rotate(180deg); }
-.panel h3 { font-family: Impact, sans-serif; font-size: 20px; letter-spacing: .04em; margin: 0 0 6px; text-transform: uppercase; color: var(--ink); }
-.panel .body { font-family: 'Courier New', monospace; font-size: 11.5px; line-height: 1.45; color: var(--ink); min-height: 60%; outline: none; }
+.panel h3 { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 20px; letter-spacing: .04em; margin: 0 0 6px; text-transform: uppercase; color: var(--ink); outline: none; }
+.panel .body { font-family: 'Courier New', monospace; font-size: 11.5px; line-height: 1.45; color: var(--ink); outline: none; white-space: pre-wrap; flex: 1; overflow: hidden; }
 .panel .pgtag { position: absolute; bottom: 4px; right: 8px; font-size: 9px; color: #aaa; font-family: 'Courier New', monospace; }
+.panel-photo { display: block; width: 100%; max-height: 46%; object-fit: contain; object-position: left top; margin: 0 0 5px; image-rendering: pixelated; }
+.panel-unpic { position: absolute; top: 3px; right: 5px; background: #fff; border: 1px solid var(--ink); color: var(--ink); font-size: 10px; line-height: 1; padding: 2px 4px; cursor: pointer; }
 .cover h3 { font-size: 24px; }
-.cover .no { font-family: Impact, sans-serif; font-size: 80px; line-height: .9; color: var(--ink); margin: 4px 0; }
+.cover .no { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 68px; line-height: .9; color: var(--ink); margin: 2px 0; }
+.cover .no span { outline: none; }
 .cover .rule { border-top: 3px solid var(--ink); margin: 6px 0; }
+.backcover .body { font-size: 10.5px; }
+
+/* Numbered test sheet: fold this first and read the page numbers in order. */
+.testnum { display: none; position: absolute; inset: 0; background: #fff; z-index: 2; align-items: center; justify-content: center; flex-direction: column; gap: 6px; }
+.testnum b { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 140px; color: var(--ink); }
+.testnum small { font-family: 'Courier New', monospace; font-size: 12px; color: #666; }
+.testing .testnum { display: flex; }
+
 .fold-guide { margin-top: 1.4rem; }
 .fold-steps { font-family: 'Courier New', monospace; font-size: .85rem; line-height: 1.5; padding-left: 1.2rem; }
 .fold-steps li { margin-bottom: .5rem; }
@@ -91,12 +102,13 @@
 @media print {
   @page { size: letter landscape; margin: 0; }
   body { background: #fff; color: #000; }
-  header.chrome, .view-head, .paper:not(.sheetzone), .fold-guide, .press-actions, .pgtag { display: none !important; }
+  header.chrome, .view-head, .paper, .pgtag, .panel-unpic, .toast { display: none !important; }
   main { max-width: none; padding: 0; margin: 0; }
   section[data-view]:not([data-view="press"]) { display: none !important; }
   section[data-view="press"] { display: block !important; }
   .sheetzone { margin: 0; padding: 0; overflow: visible; }
   .sheetwrap { transform: none !important; min-width: 0; }
   .sheet { box-shadow: none; width: 11in; height: 8.5in; }
-  .panel { border-color: #ddd; }
+  .panel { border-color: #eee; }
+  .panel-photo, .log-photo { image-rendering: auto; }
 }

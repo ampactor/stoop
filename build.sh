@@ -2,6 +2,10 @@
 # Assemble shipped artifacts from src/. The SQLite rule: develop as parts,
 # ship as one file. Outputs are generated; edit src/, never the outputs.
 #
+# The src/js parts are concatenated inside a single IIFE emitted here, so
+# they share one scope without any module plumbing: parts on disk, one
+# function at rest.
+#
 #   artifact/index.html  app fragment (no doctype; the claude.ai publisher wraps it)
 #   artifact/press.html  press fragment (same shape)
 #   index.html           full document for GitHub Pages and local opening
@@ -16,18 +20,16 @@ OUT_ROOT="${OUT_ROOT:-.}"
 emit_app_fragment() {
   cat src/meta.html
   printf '<style>\n'
-  cat src/base.css src/rooms.css src/views.css
+  cat src/base.css src/forms.css src/views.css
   printf '</style>\n\n'
-  cat src/defs.html
-  printf '\n'
   cat src/chrome.html
   printf '\n<main>\n\n'
   cat src/views/*.html
   printf '</main>\n'
   cat src/footer.html
-  printf '<script>\n'
-  cat src/app.js
-  printf '</script>\n'
+  printf '<script>\n(function(){\n'
+  cat src/js/*.js
+  printf '\n})();\n</script>\n'
 }
 
 wrap_doc() { # $1 fragment-file  $2 description  $3 out-file
@@ -51,7 +53,7 @@ emit_app_fragment > "$OUT_ROOT/artifact/index.html"
 cp src/press.html "$OUT_ROOT/artifact/press.html"
 
 wrap_doc "$OUT_ROOT/artifact/index.html" \
-  "Folk media at scene scale: rooms, scenes, zines, flyers, the rounds, and the law. A model town lives here until real scenes move in." \
+  "A private notebook for two: daily log, shared lists, projects, journal, and photos, compiled into a printable 8-page zine. Local-first, no accounts, no server." \
   "$OUT_ROOT/index.html"
 
 wrap_doc "$OUT_ROOT/artifact/press.html" \

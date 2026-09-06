@@ -101,7 +101,7 @@ Every issue has a permanent address, because an address is what you can text to 
 <host>/stoop/<scene>/latest/     alias for the newest issue
 ```
 
-Live today at `ampactor.dev/stoop/nightbus/03/`, which is the model town and says so on the page.
+No scene is published at that shape yet. The Stage 0 app in this repo prints the sheet; the addresses above are what a published scene will look like once one exists, and `press/` plus the app's press are the two hands that make the paper in the meantime.
 
 Numbers, not slugs. Titles change and get argued about; the number is the spine, and the title lives on the cover where it belongs. Zero-padded so the shelf sorts itself.
 
