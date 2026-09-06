@@ -33,6 +33,15 @@ git config core.hooksPath .githooks
 
 `.githooks/pre-commit` runs `check.sh` and refuses the commit if the laws do not hold, naming the rebuild command when the failure is drift. `git commit --no-verify` skips it deliberately.
 
+`check.sh` proves things about the files: that the outputs rebuild from source, that nothing reaches for a network, that the badge is honest, that the two presses fold the same way. It cannot prove the app works. The browser suites in `test/` do that — photos really dither to two levels, the sheet really keeps what was typed, a merge really keeps both people's notes — and they run against the built page in a real browser:
+
+```
+npm install playwright
+node test/run.js
+```
+
+They are deliberately optional. `check.sh` stays instant and dependency-free so the pre-commit hook can run on every commit; the suites need a browser, so they run when the app's behaviour changed. Run them before any commit that touches `src/js/` or the press.
+
 The hosted job in `.github/workflows/check.yml` runs the same script and nothing else, so there is no second, secret standard. It is deliberately free of third-party actions: `check.sh` needs bash and the repo, and a job that enforces a page making zero external requests should not need a network dependency to start. The hook is the copy that matters, because it runs on the machine where the work happens and cannot be switched off by a hosting account.
 
 ## The gate

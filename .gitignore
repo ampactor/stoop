@@ -1,0 +1,3 @@
+# The browser suites need Playwright; it is a development dependency of the
+# tests, never of the page, which ships as one file with no dependencies at all.
+node_modules/
