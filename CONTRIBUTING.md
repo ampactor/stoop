@@ -25,7 +25,15 @@ bash build.sh
 bash check.sh
 ```
 
-Commit only when check passes. CI runs the same script on every push; there is no second, secret standard.
+Commit only when check passes. Once per clone, make that automatic:
+
+```
+git config core.hooksPath .githooks
+```
+
+`.githooks/pre-commit` runs `check.sh` and refuses the commit if the laws do not hold, naming the rebuild command when the failure is drift. `git commit --no-verify` skips it deliberately.
+
+The hosted job in `.github/workflows/check.yml` runs the same script and nothing else, so there is no second, secret standard. It is deliberately free of third-party actions: `check.sh` needs bash and the repo, and a job that enforces a page making zero external requests should not need a network dependency to start. The hook is the copy that matters, because it runs on the machine where the work happens and cannot be switched off by a hosting account.
 
 ## The gate
 
