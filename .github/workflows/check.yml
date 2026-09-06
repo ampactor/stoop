@@ -1,8 +1,33 @@
+# The laws, enforced on every push. This workflow deliberately uses no
+# third-party actions: check.sh needs bash and the repo, nothing else, and a
+# repository that restricts marketplace actions would reject a `uses:` step
+# before it ran, which is how this workflow failed silently for its first five
+# runs. Fewer dependencies is the house style anyway.
 name: check
-on: [push, pull_request]
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: bash check.sh
+      - name: Runner is alive
+        run: |
+          echo "runner: $RUNNER_OS  repo: $GITHUB_REPOSITORY  sha: $GITHUB_SHA"
+          bash --version | head -1
+
+      - name: Fetch this commit
+        run: |
+          git init -q .
+          git remote add origin "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+          git fetch -q --depth 1 origin "$GITHUB_SHA"
+          git checkout -q FETCH_HEAD
+          git --no-pager log --oneline -1
+
+      - name: Run the laws
+        run: bash check.sh
