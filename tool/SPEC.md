@@ -60,7 +60,7 @@ No accounts beyond the member list in the repo. No feeds, no metrics, no search 
 
 One small box per scene, or the flagship hosting many scenes as sibling repos. Nginx or equivalent serving static output; a single small process for intake (submissions, guestbook, knocks, staples); git as the write log. Target: the whole scene under a megabyte per page and the host under single-digit watts, measured and printed in the colophon.
 
-Stage 0 needs none of that. Scenes are directories of hand-written static files under `ampactor.dev/stoop/`, which is a Vite site copying `public/` to `dist/` on push; the first scene ships as a folder and a commit. Nothing about the address changes when the tool arrives, because the tool writes the same directory a hand writes.
+Stage 0 needs none of that. `ampactor.dev/stoop/` is this repository, served by GitHub Pages from `main`: the built page and the print kit go up on push, and a scene ships as a folder and a commit under the same root. Nothing about the address changes when the tool arrives, because the tool writes the same directory a hand writes.
 
 ## Source layout
 

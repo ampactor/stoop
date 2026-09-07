@@ -42,6 +42,14 @@ Two layers, and it is worth being plain about which is which. There is a **worki
 
 [`src/`](src/) with [`build.sh`](build.sh) and [`check.sh`](check.sh): the development format. Parts under 300 lines, split at view and concern boundaries, assembled into the shipped one-file artifacts the way SQLite's hundred source files ship as one amalgamation. `check.sh` makes the laws mechanical: outputs reproducible from source, the size ceiling, the zero-external-requests rule, the page-weight badge telling the truth, and the two presses folding the same way. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
+## Where it lives
+
+The app is at **[ampactor.dev/stoop/](https://ampactor.dev/stoop/)** and the hand print kit at **[ampactor.dev/stoop/press/](https://ampactor.dev/stoop/press/)**, served by GitHub Pages from `main`. Both are static; there is no backend to run and nothing to sign into.
+
+Storage is per-origin, which is worth knowing before writing anything you want to keep: notes made against a local copy of `index.html` do not appear at the hosted address, and the other way round. Export and merge carries them across.
+
+Hosting the page publicly does not publish what you write in it. The page is public; the words and photos are in your browser, and the zero-external-requests law is what makes that a fact about the software rather than a promise about its operators.
+
 ## Status
 
 **The app works.** Two people can keep a log, share lists, run projects, journal, drop photos in, and print an issue. It is local-first and account-free by construction, which is the honest version of a privacy policy.
