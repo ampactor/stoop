@@ -84,9 +84,10 @@
 .fitmeter { font-family: 'Courier New', monospace; font-size: .8rem; border: 1px solid var(--ink); padding: .35rem .6rem; margin: .7rem 0 0; }
 .fitmeter.bad { background: var(--ink); color: var(--paper); }
 .sheetzone { margin-top: 1rem; overflow-x: auto; padding-bottom: 1rem; }
-.sheetwrap { transform-origin: top left; margin-bottom: 1.2rem; width: max-content; }
+.sheetwrap { margin-bottom: 1.2rem; width: max-content; }
 .sheetlabel { font-family: 'Courier New', monospace; font-size: .7rem; color: var(--grey); letter-spacing: .1em; text-transform: uppercase; margin-bottom: .25rem; }
 .sheet {
+  zoom: var(--fit, 1);
   background: #fff; color: var(--ink);
   display: grid;
   grid-template-columns: repeat(var(--cols, 4), 1fr);
@@ -136,9 +137,9 @@
   section[data-view]:not([data-view="press"]) { display: none !important; }
   section[data-view="press"] { display: block !important; }
   .sheetzone { margin: 0; padding: 0; overflow: visible; }
-  .sheetwrap { transform: none !important; margin: 0; break-after: page; page-break-after: always; }
+  .sheetwrap { margin: 0; break-after: page; page-break-after: always; }
   .sheetwrap:last-child { break-after: auto; page-break-after: auto; }
-  .sheet { box-shadow: none; }
+  .sheet { box-shadow: none; zoom: 1; }
   .panel { border-color: #eee; }
   body.reprinting main, body.reprinting header.chrome { display: none !important; }
   body.reprinting .reprintzone { display: block !important; }

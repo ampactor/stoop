@@ -65,6 +65,7 @@ function layoutSheets() {
     sheetSig = sig;
   }
 
+  fitSheets(zone);
   var style = document.getElementById('pagerule');
   if (style) style.textContent = '@page { size: ' + paper.css + '; margin: 0; }';
   var sel = document.getElementById('formatsel');
@@ -76,6 +77,30 @@ function layoutSheets() {
   }
   return plan;
 }
+
+// A sheet is eleven inches wide and the column it sits in is not. Scale it to
+// fit rather than making somebody scroll sideways to see their own back cover.
+// zoom rather than transform, because zoom takes part in layout: a scaled
+// sheet leaves no hole under itself, and the caret lands where it is aimed.
+// Print resets it — paper is already the right size.
+function fitSheets(zone) {
+  zone.style.setProperty('--fit', 1);
+  var sheet = zone.querySelector('.sheet');
+  if (!sheet) return;
+  var natural = sheet.getBoundingClientRect().width;
+  if (!natural) return;
+  var room = zone.clientWidth - 2;
+  zone.style.setProperty('--fit', Math.min(1, room / natural));
+}
+
+var fitTimer = null;
+window.addEventListener('resize', function () {
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(function () {
+    var zone = document.getElementById('sheetzone');
+    if (zone && zone.querySelector('.sheet')) { fitSheets(zone); checkFit(); }
+  }, 150);
+});
 
 // Paint text without touching a node the caret is inside.
 function paintPanels() {
@@ -248,46 +273,4 @@ function clearSheet() {
   savePress();
   renderPress();
   toast('Cleared the sheet');
-}
-
-// ---------- the photo tray ----------
-function renderTray() {
-  var tray = document.getElementById('phototray');
-  if (!tray) return;
-  var ids = state.logs.slice().sort(function (x, y) { return y.ts - x.ts; })
-    .filter(function (l) { return l.photo && photoCache[l.photo]; })
-    .map(function (l) { return l.photo; });
-
-  if (!ids.length) {
-    tray.innerHTML = '<span class="sub">No photos yet. Add some from the log, then drop them into panels here.</span>';
-    return;
-  }
-  tray.innerHTML = ids.map(function (id) {
-    return '<img class="tray-photo' + (armedPhoto === id ? ' armed' : '') +
-      '" data-traypic="' + esc(id) + '" src="' + esc(photoCache[id]) + '" alt="">';
-  }).join('');
-}
-
-function armPhoto(id) {
-  armedPhoto = armedPhoto === id ? null : id;
-  renderTray();
-  var hint = document.getElementById('trayhint');
-  if (hint) {
-    hint.textContent = armedPhoto
-      ? 'Photo armed — now click the panel you want it on.'
-      : 'Click a photo to arm it, then click a panel to place it.';
-    hint.classList.toggle('on', !!armedPhoto);
-  }
-}
-
-function placePhoto(page) {
-  if (!armedPhoto) return false;
-  var ps = pressState();
-  if (!ps.panels[page - 1]) return false;
-  ps.panels[page - 1].photo = armedPhoto;
-  armPhoto(null);
-  savePress();
-  renderPress();
-  toast('Placed photo on p.' + page);
-  return true;
 }
