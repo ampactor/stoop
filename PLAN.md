@@ -1,8 +1,24 @@
 # The Plan
 
-`CHARTER.md` is the law. `DESIGN.md` is the machine. This is the work: the route from a 62 KB notebook for two people to a format that outlives the people who wrote it.
+`CHARTER.md` was the law. `DESIGN.md` is the machine. This is the work: the route from a 62 KB notebook for two people to a format that outlives the people who wrote it — and, since it is this document that demotes the charter, the reason that first sentence is in the past tense.
 
 It is a proposal, not a ratification. Where it contradicts `DESIGN.md` it says so plainly, and adopting it means editing that file rather than quietly diverging from it.
+
+## Where this stands
+
+Phases 0 through 5 are built, and phase 6's documentation is written. Every gate below is asserted by the browser suites in `test/` and every law by `check.sh`.
+
+| Phase | State |
+|---|---|
+| 0 · the shelf, the compile window, the fit meter | **Landed.** Two issues coexist and keep their own words. |
+| 1 · pieces as the content model | **Landed.** The same pieces re-flow into another format with nothing retyped. |
+| 2 · the desk, the bell, alternating editors | **Landed.** Cut-with-restore, an editor's note, a chair that alternates on parity. |
+| 3 · reading view, imposition solver, A4, saddle-stitch | **Landed.** One-cut at Letter and A4, signatures at 8, 12 and 16 pages. |
+| 4 · the self-carrying issue, piece bundles | **Landed.** An exported issue opens on a machine with no storage of its own and makes the next issue. |
+| 5 · the address on the paper | **Landed** for the QR and the printed address, checked module for module against an independent encoder. The PDF writer and tear-off tabs are **not built**; the browser's print dialog is still the path to paper. |
+| 6 · the specification, the demotion, the giving away | **Written** — `FORMAT.md`, the charter demoted, stages 2 and 3 struck. Its gate is not ours to close. |
+
+The one phase-5 item deliberately left undone is the minimal PDF writer. It would make the sheet byte-exact and mailable to a copy shop, and it is the obvious next piece of work; nothing else in the plan depends on it.
 
 ## Why this document exists
 
@@ -30,7 +46,7 @@ You open the press. You make Issue 01. You export `nightbus-01.html`. That file 
 
 Credible exit stops being a policy and becomes a file. The fork guarantee becomes "send it to someone." Portable addressing works with no address at all, because the issue is its own host. And it is the one thing on the board a competitor cannot bolt on, because it requires the whole application to be small enough to fit inside its own output.
 
-That is why the size discipline matters. The app is 61,612 bytes, 17,595 gzipped. An issue carrying six dithered photos runs two to five hundred kilobytes, so the press is a minority of the payload it rides in. Every law in `check.sh` that reads as asceticism — zero external requests, reproducible outputs, the ceiling, no CDN — is the engineering requirement for a press that fits in its own product. The constraints were built first. This plan is what they were for.
+That is why the size discipline matters. The app was 61,612 bytes when this was written and is about 108,000 built, 32,000 gzipped, now that it carries a desk, a shelf, an imposition solver and a QR encoder. An issue carrying six dithered photos runs two to five hundred kilobytes, so the press is a minority of the payload it rides in. Every law in `check.sh` that reads as asceticism — zero external requests, reproducible outputs, the ceiling, no CDN — is the engineering requirement for a press that fits in its own product. The constraints were built first. This plan is what they were for.
 
 ## What this supersedes
 

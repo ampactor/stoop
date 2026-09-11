@@ -6,13 +6,15 @@ Small repo, strong laws. Most of them are enforced by `check.sh`; this file expl
 
 The rule is SQLite's: develop as parts, ship as one file. `src/` holds the parts; `build.sh` assembles the shipped artifacts; nobody edits an amalgamation.
 
-- `src/meta.html`, `src/chrome.html`, `src/defs.html`, `src/footer.html`: the frame.
+- `src/meta.html`, `src/chrome.html`, `src/footer.html`: the frame.
 - `src/base.css`, `src/forms.css`, `src/views.css`: tokens and chrome, form and photo components, the view and sheet styles.
 - `src/views/NN-name.html`: one file per view, numbered in display order. A new view is a new file, never a longer one.
-- `src/js/NN-name.js`: one file per concern, in load order — `01-store` (state, migration, the photo store), `02-dither` (image intake), `03-render` (the views), `04-press` (imposition and the zine), `05-sync` (export, merge, import), `06-boot` (router, events, start). `build.sh` concatenates them inside a single IIFE, so they share one scope with no module plumbing: parts on disk, one function at rest. A new concern is a new file.
+- `src/js/NN-name.js`: one file per concern, in load order — `01-store` (state, migration, the photo store, and `SEED_ID`), `02-dither` (image intake), `03-render` (log, journal, projects), `04-impose` (formats and the imposition solver), `05-press` (the sheet, the fit meter, the photo tray), `06-desk` (pieces, the tray, the cycle, publishing), `07-shelf` (the archive, the reading view, reprints), `08-qr` and `09-qr-draw` (the encoder for the back cover, split only to stay under the ceiling), `10-export` (the self-carrying issue and piece bundles), `11-sync` (backup export, merge, import), `12-boot` (router, events, start). `build.sh` concatenates them inside a single IIFE, so they share one scope with no module plumbing: parts on disk, one function at rest. A new concern is a new file.
+
+One consequence of the single IIFE is worth knowing before it costs an afternoon: function declarations hoist across the whole bundle, so any file may call any function. `var` assignments do not. A constant read during start-up must be declared in a file that runs before its reader, which is why `SEED_ID` lives in `01-store.js` rather than next to the export code that names it.
 - `src/press.html`: the hand print kit, whole (it fits under the ceiling as one coherent piece).
 
-Three hard rules, all checked: **no source file over 300 lines** (split at the next natural boundary: a view, a concern), **outputs are generated** (`index.html`, `press/index.html`, `artifact/*` come from `build.sh`; editing them directly is drift, and check 1 will catch you), and **the two presses fold the same way** (the app's `PRESET_A` and the hand kit's `presetA` must be equal; two presses that disagree is a stack of ruined paper, and check 5 will catch that too).
+Hard rules, all checked: **no source file over 300 lines** (split at the next natural boundary: a view, a concern), **outputs are generated** (`index.html`, `press/index.html`, `artifact/*` come from `build.sh`; editing them directly is drift, and check 1 will catch you), **the two presses fold the same way** (the app's `PRESET_A`/`PRESET_B` and the hand kit's `presetA`/`presetB` must be equal; two presses that disagree is a stack of ruined paper), **the app fits inside its own output** (every exported issue carries the press, so the fragment has a hard 256 KB ceiling and warns at 128 KB), and **built output names no host** (an absolute URL in a built page means the directory can no longer be copied to a thumb drive).
 
 Why two output shapes: the `artifact/` fragments have no doctype because the claude.ai artifact publisher wraps them; the root and `press/` documents carry their own doctype and meta so GitHub Pages and local files render in standards mode with a correct mobile viewport.
 
@@ -42,13 +44,17 @@ node test/run.js
 
 They are deliberately optional. `check.sh` stays instant and dependency-free so the pre-commit hook can run on every commit; the suites need a browser, so they run when the app's behaviour changed. Run them before any commit that touches `src/js/` or the press.
 
+Five suites: `01-features` (names, photos, sync), `02-robustness` (corrupt storage, old backups, missing blobs, a phone-sized window), `03-publication` (the desk, the bell, two issues coexisting, format re-flow, the fit meter), `04-selfcarry` (an exported issue opened on a machine with no storage of its own, which then makes the next issue), and `05-qr` (the back cover's symbol, compared module for module against `test/qr-fixtures.json`).
+
+Those fixtures were produced by an independent implementation — the `qrcode` Python library, byte mode, error correction L — because a QR symbol either scans or it does not, and "looks about right" is not a test. Regenerate them only if the encoder's contract changes on purpose, and say so in the commit.
+
 The hosted job in `.github/workflows/check.yml` runs the same script and nothing else, so there is no second, secret standard. It is deliberately free of third-party actions: `check.sh` needs bash and the repo, and a job that enforces a page making zero external requests should not need a network dependency to start. The hook is the copy that matters, because it runs on the machine where the work happens and cannot be switched off by a hosting account.
 
 ## The gate
 
-No Stage 1 software gets built until a real scene ships Issue #2 (see README and `tool/SPEC.md`). Stage 1 means the federation: rooms, vouching, corkboards, the protocol, anything a second scene would touch. That is what waits.
+No federation software gets built until a real scene ships Issue #2 — and per `PLAN.md`, most of it is now struck rather than merely waiting. Rooms, vouching, corkboards, the protocol, the cooperative: anything a second scene would touch is not this project's to build.
 
-The Stage 0 app is not behind the gate — it is the thing the gate is waiting on, and it may grow whatever a scene of two needs to actually publish. But it grows under the same laws as everything else here: source in parts, outputs generated, the badge honest, and no capability that does not end in paper.
+The press is not behind the gate. It is the thing the gate is waiting on, and it may grow whatever a scene of two needs to actually publish. But it grows under the same laws as everything else here: source in parts, outputs generated, the badge honest, the app small enough to ride inside its own output, and **no capability that does not end in paper**.
 
 ## Commits
 

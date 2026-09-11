@@ -1,5 +1,9 @@
 # The Stoop Charter
 
+**Status: a constitution in the box.** This was written as the law of a federation that was never built, and `PLAN.md` demoted it: no cooperative, no court, no treasury, no membership roll. It is kept here as a template a scene may adopt if it ever grows enough to need one, and as an argument worth reading before anybody builds the thing it guards against.
+
+Article III is the part that still binds, and it binds through the license and through `check.sh` rather than through a vote: the software is AGPL-3.0-or-later, the format is openly specified in `FORMAT.md`, the built pages carry no advertising and count nothing, and leaving costs nothing because an issue is a file you already have.
+
 Structure outlives intention. Every platform that rotted was founded by people who meant well; the rot was in what the structure permitted, not in what the founders felt. This charter is written so that the interesting failure modes are unconstitutional rather than merely discouraged.
 
 The organization is a member cooperative. It stewards a federation of scenes, a protocol namespace, and a flagship host. It is not a company, cannot become one, and holds nothing worth acquiring.

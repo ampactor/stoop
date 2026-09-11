@@ -1,6 +1,10 @@
 # Design
 
-The machine, whole. CHARTER.md is the law; this is what runs under it. The organizing rule for everything below: every object must live inside at least one loop, and a proposed feature that joins no loop does not ship.
+The machine, whole, as it was imagined before a scene had shipped anything.
+
+**Superseded in part.** `PLAN.md` retires Stages 2 and 3 below — the lexicons, the rounds registry, vouch records, POSSE bridges, the flagship host, the court and the treasury are struck, not deferred. The argument is that a format is harder to capture than an institution is, and cheaper to keep honest. What survives is this file's account of the objects and the loops, which the working press in `index.html` implements at n=2, and `FORMAT.md` specifies for anybody who wants to implement it themselves.
+
+CHARTER.md is a constitution a scene may adopt; this is what runs under it. The organizing rule for everything below: every object must live inside at least one loop, and a proposed feature that joins no loop does not ship.
 
 ## Refusals
 
@@ -139,10 +143,12 @@ What we measure, since engagement is unconstitutional: the Issue #2 rate (scenes
 
 ## Staging
 
-- **Stage 0, one scene, hand tools.** Two people, a folded sheet, and a directory of static files at a real address. Rooms as static pages, the zine assembled by hand, the group chat as backstage. The tooling is a text editor, a printer, and taste. Gate: Issue #2 ships.
-- **Stage 1, the scene tool.** The composer (submission box, editor's board, issue build), the room editor with skin sandbox, corkboard, shelf. One small host.
-- **Stage 2, federation.** The lexicons, vouch records, rounds registry, credible-exit export, POSSE bridges. A second and third scene that we did not found.
-- **Stage 3, the cooperative.** Charter ratified by enough scenes to mean something, court seated, flagship host with the solar instance and the meter in the header, print bridge in every scene's hands.
+Written before any of it existed. Kept because the reasoning is still worth reading, and marked because the route changed.
+
+- **Stage 0, one scene, hand tools.** Two people, a folded sheet, and a directory of static files at a real address. Gate: Issue #2 ships. *This is where the project is, and the tooling turned out to be worth building properly: see `PLAN.md`.*
+- **Stage 1, the scene tool.** The composer, the editor's board, issue build, the room editor, corkboard, shelf. *The desk, the issue build and the shelf exist in the app now. The room editor and skin sandbox are struck — they are the social product, not the press.*
+- **Stage 2, federation.** ~~The lexicons, vouch records, rounds registry, credible-exit export, POSSE bridges.~~ **Struck.** Credible exit is a file (`FORMAT.md` §1); the rest is somebody else's problem if the format ever spreads.
+- **Stage 3, the cooperative.** ~~Charter ratified, court seated, flagship host.~~ **Struck.** A format cannot be sold, advertised on, or acquired, which is what Article III was reaching for by other means.
 
 ## Open questions
 
