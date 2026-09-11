@@ -60,11 +60,16 @@ module.exports = async function features(browser, ok) {
   await page.waitForTimeout(1200);
   ok('the photo survives a reload', (await page.locator('.log-photo').count()) === 1);
 
-  // The press compiles, carries a photo, and keeps what was typed.
-  await go('#press');
-  await page.click('#compilezinebtn');
+  // The press compiles, carries a photo, and keeps what was typed. The log is
+  // a source now: it is drawn into a piece at the desk, then flowed onto paper.
+  await go('#desk');
+  await page.click('#drawsourcesbtn');
   await page.waitForTimeout(350);
-  ok('compile pulls the log onto p.2', /workbench/i.test(await page.locator('[data-page="2"] .body').innerText()));
+  await page.click('#compileissuebtn');
+  await page.waitForTimeout(400);
+  await go('#press');
+  const sheetText = await page.locator('#sheetzone').innerText();
+  ok('compile pulls the log onto the sheet', /workbench/i.test(sheetText));
   ok('compile puts the newest photo on the cover', (await page.locator('[data-page="1"] .panel-photo').count()) === 1);
 
   await page.evaluate(() => {
@@ -84,10 +89,8 @@ module.exports = async function features(browser, ok) {
   // The imposition is the one the hand kit in press/ uses. check.sh holds the
   // two equal in source; this holds them equal in the rendered sheet.
   const slots = await page.evaluate(() => {
-    const out = [];
-    document.querySelectorAll('#zinesheet .panel').forEach(el =>
-      out.push({ page: +el.dataset.page, slot: +el.style.order }));
-    return out.sort((a, b) => a.slot - b.slot).map(s => s.page);
+    const sheet = document.querySelector('#sheetzone .sheet');
+    return sheet ? [...sheet.querySelectorAll('.panel')].map(el => +el.dataset.page) : [];
   });
   ok('the rendered sheet imposes as preset A',
      JSON.stringify(slots) === JSON.stringify([5, 4, 3, 2, 6, 7, 8, 1]), JSON.stringify(slots));
@@ -127,7 +130,7 @@ module.exports = async function features(browser, ok) {
   const printed = await page.evaluate(() => {
     const vis = el => !!(el && el.checkVisibility && el.checkVisibility());
     return {
-      sheet: vis(document.getElementById('zinesheet')),
+      sheet: vis(document.querySelector('#sheetzone .sheet')),
       chrome: vis(document.querySelector('header.chrome')),
       tray: vis(document.querySelector('.tray-box')),
       actions: vis(document.querySelector('.press-actions'))

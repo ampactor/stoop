@@ -3,7 +3,7 @@
 // work is not a sync, it is a coin flip. Import merges by id and keeps the
 // newer copy of anything held in both. Sending it both ways leaves the two
 // devices agreeing, which is as much as a file on a thumb drive can promise.
-var BACKUP_VERSION = 3;
+var BACKUP_VERSION = 4;
 
 function exportBackup() {
   var live = collectPhotoRefs();
@@ -15,9 +15,12 @@ function exportBackup() {
     exported: new Date().toISOString(),
     names: names,
     logs: state.logs,
-    todos: state.todos,
     projects: state.projects,
     journal: state.journal,
+    pieces: state.pieces,
+    issues: state.issues,
+    cycle: state.cycle,
+    address: state.address,
     press: state.press,
     photos: photos
   };
@@ -55,20 +58,33 @@ function importBackup(raw, mode) {
 
   if (mode === 'replace') {
     state.logs = incoming.logs;
-    state.todos = incoming.todos;
     state.projects = incoming.projects;
     state.journal = incoming.journal;
+    state.pieces = incoming.pieces;
+    state.issues = incoming.issues;
+    state.cycle = incoming.cycle;
+    state.address = incoming.address;
     state.press = incoming.press;
   } else {
-    var before = state.logs.length + state.todos.length + state.projects.length + state.journal.length;
+    var count = function () {
+      return state.logs.length + state.projects.length + state.journal.length +
+        state.pieces.length + state.issues.length;
+    };
+    var before = count();
     state.logs = mergeList(state.logs, incoming.logs);
-    state.todos = mergeList(state.todos, incoming.todos);
     state.projects = mergeList(state.projects, incoming.projects);
     state.journal = mergeList(state.journal, incoming.journal);
+    state.pieces = mergeList(state.pieces, incoming.pieces);
+    // Issues are keyed by number and never overwritten: a published issue is
+    // history, and the copy already on the shelf wins.
+    incoming.issues.forEach(function (iss) {
+      if (!state.issues.some(function (x) { return x.no === iss.no; })) state.issues.push(iss);
+    });
+    if (!state.address) state.address = incoming.address;
     if (incoming.press && (!state.press || (incoming.press.ts || 0) > (state.press.ts || 0))) {
       state.press = incoming.press;
     }
-    var after = state.logs.length + state.todos.length + state.projects.length + state.journal.length;
+    var after = count();
     added = Math.max(0, after - before) + added;
   }
 
@@ -120,7 +136,10 @@ function saveNameFields() {
   var b = document.getElementById('nameb');
   names.a = (a && a.value.trim()) || 'Me';
   names.b = (b && b.value.trim()) || 'Partner';
+  var addr = document.getElementById('addressinput');
+  if (addr) state.address = addr.value.trim();
   saveNames();
+  saveState();
   renderAll();
   toast('Names saved');
 }

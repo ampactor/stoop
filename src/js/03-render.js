@@ -1,5 +1,4 @@
 var activeLogFilter = 'all';
-var activeTodoFilter = 'all';
 
 // Author-keyed chips and options carry the current names, so a rename in
 // settings reaches every surface without touching stored entries.
@@ -86,47 +85,6 @@ function addLog(photoIds) {
   toast(ids.length ? 'Added ' + ids.length + ' photo(s)' : 'Posted to log');
 }
 
-// ---------- todos ----------
-function renderTodos() {
-  var list = document.getElementById('todolist');
-  if (!list) return;
-  var rows = state.todos.filter(function (t) {
-    return activeTodoFilter === 'all' || t.cat === activeTodoFilter;
-  });
-  if (!rows.length) {
-    list.innerHTML = '<div class="sub" style="padding:1rem;text-align:center;">All caught up.</div>';
-    return;
-  }
-  list.innerHTML = rows.map(function (t) {
-    return '<div class="todo-item' + (t.done ? ' done' : '') + '">' +
-      '<input type="checkbox" class="todo-check" data-toggletodo="' + esc(t.id) + '"' +
-      (t.done ? ' checked' : '') + '>' +
-      '<span class="todo-text">' + esc(t.text) + '</span>' +
-      '<span class="todo-tag">' + esc(nameOf(t.cat)) + '</span>' +
-      '<button class="log-del" data-deltodo="' + esc(t.id) + '">✕</button></div>';
-  }).join('');
-}
-
-function addTodo() {
-  var inp = document.getElementById('todoinput');
-  var cat = document.getElementById('todocat');
-  if (!inp || !inp.value.trim()) return;
-  state.todos.unshift({
-    id: uid('t'), cat: (cat && cat.value) || 'shared',
-    text: inp.value.trim(), done: false, ts: Date.now()
-  });
-  inp.value = '';
-  saveState();
-  renderTodos();
-}
-
-function clearCompletedTodos() {
-  state.todos = state.todos.filter(function (t) { return !t.done; });
-  saveState();
-  renderTodos();
-  toast('Cleared completed items');
-}
-
 // ---------- projects ----------
 function renderProjects() {
   var list = document.getElementById('projectlist');
@@ -192,8 +150,9 @@ function addJournal() {
 function renderAll() {
   renderNames();
   renderLogs();
-  renderTodos();
   renderProjects();
   renderJournal();
+  renderDesk();
+  renderShelf();
   renderPress();
 }

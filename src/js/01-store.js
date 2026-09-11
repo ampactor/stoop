@@ -1,7 +1,12 @@
 // ---------- identity ----------
 // Authors are stored as stable keys ('a', 'b', 'both'), never as display
 // names, so renaming a person leaves every past entry attached to them.
-var STORAGE_KEY = 'stoop_data_v3';
+var STORAGE_KEY = 'stoop_data_v4';
+// The id of the payload an exported issue carries. It lives here, with the
+// other storage keys, because the store reads it while the app is still
+// starting up: a var assigned further down the bundle is hoisted but empty by
+// then, and the archive silently would not arrive.
+var SEED_ID = 'stoop-seed';
 var NAMES_KEY = 'stoop_names';
 var AUTHOR_KEY = 'stoop_active_author';
 var AUTHORS = ['a', 'b', 'both'];
@@ -53,13 +58,6 @@ var defaultData = {
     { id: 'l2', author: 'b', tag: 'quote', text: '"The only way out is through, and the best way through is together."', ts: seedTs - 43e6 },
     { id: 'l3', author: 'both', tag: 'idea', text: 'Weekend road trip sketch: farm stand cider, thrift store run, back before sunset.', ts: seedTs - 6e6 }
   ],
-  todos: [
-    { id: 't1', cat: 'groceries', text: 'Coffee beans (dark roast)', done: false, ts: seedTs },
-    { id: 't2', cat: 'house', text: 'Hang kitchen spice shelf', done: false, ts: seedTs },
-    { id: 't3', cat: 'shared', text: 'Plan Friday dinner & movie', done: false, ts: seedTs },
-    { id: 't4', cat: 'a', text: 'Oil the drill press & clamps', done: true, ts: seedTs },
-    { id: 't5', cat: 'b', text: 'Pick up sketchbook paper', done: false, ts: seedTs }
-  ],
   projects: [
     { id: 'p1', title: 'Backyard Herb Garden', desc: 'Raised cedar bed: basil, rosemary, thyme, cherry tomatoes. Drip irrigation line.', ts: seedTs },
     { id: 'p2', title: 'Zine Issue #01', desc: 'First dispatch of thoughts, photos, and project notes. 8-page, 1-sheet fold.', ts: seedTs }
@@ -67,6 +65,17 @@ var defaultData = {
   journal: [
     { id: 'j1', author: 'both', title: 'Sunday Morning Coffee & Quiet', body: 'Made pour-overs, sat on the porch while the sun came up over the street. Talked about where we want our time to go this autumn. Fewer distractions, more physical making.', ts: seedTs - 864e5 }
   ],
+  pieces: [
+    { id: 'pc1', kind: 'essay', byline: 'a', title: 'The Seam',
+      body: 'The sodium lamps are going over to LED one block at a time, and you can stand on the line: orange behind you, white ahead.',
+      photo: null, cut: false, ts: seedTs - 2e5 },
+    { id: 'pc2', kind: 'log', byline: 'b', title: 'Workbench, Week Two',
+      body: 'Trued the rear wheel. The seatpost finally moved, by way of penetrating oil and a personal grudge.',
+      photo: null, cut: false, ts: seedTs - 1e5 }
+  ],
+  issues: [],
+  cycle: { no: '01', bell: seedTs + 6048e5, editor: 'a' },
+  address: '',
   press: null
 };
 
@@ -84,10 +93,8 @@ function migrate(data) {
   (data.logs || []).forEach(function (l) { l.author = fixAuthor(l.author); fixTs(l); });
   (data.journal || []).forEach(function (j) { j.author = fixAuthor(j.author); fixTs(j); });
   (data.projects || []).forEach(fixTs);
-  (data.todos || []).forEach(function (t) {
-    if (AUTHOR_MAP[t.cat]) t.cat = AUTHOR_MAP[t.cat];
-    fixTs(t);
-  });
+  (data.pieces || []).forEach(function (pc) { pc.byline = fixAuthor(pc.byline); fixTs(pc); });
+  (data.issues || []).forEach(fixTs);
   return data;
 }
 
@@ -96,9 +103,12 @@ function migrate(data) {
 function normalize(raw) {
   var out = {
     logs: Array.isArray(raw && raw.logs) ? raw.logs : [],
-    todos: Array.isArray(raw && raw.todos) ? raw.todos : [],
     projects: Array.isArray(raw && raw.projects) ? raw.projects : [],
     journal: Array.isArray(raw && raw.journal) ? raw.journal : [],
+    pieces: Array.isArray(raw && raw.pieces) ? raw.pieces : [],
+    issues: Array.isArray(raw && raw.issues) ? raw.issues : [],
+    cycle: (raw && raw.cycle) || { no: '01', bell: Date.now() + 6048e5, editor: 'a' },
+    address: (raw && raw.address) || '',
     press: (raw && raw.press) || null
   };
   return migrate(out);
@@ -108,9 +118,21 @@ var state = (function () {
   try {
     var raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return normalize(JSON.parse(raw));
+    var v3 = localStorage.getItem('stoop_data_v3');
+    if (v3) { toast('Upgraded your notebook — the shelf is new'); return normalize(JSON.parse(v3)); }
     var old = localStorage.getItem('stoop_data_v2');
     if (old) { toast('Upgraded your notes from the older format'); return normalize(JSON.parse(old)); }
   } catch (e) {}
+  // An exported issue carries its own archive. Opened on a device with nothing
+  // of its own, the file is the publication; opened on one that already has
+  // work, the seed merges later rather than replacing anything.
+  var seed = readSeed();
+  if (seed) {
+    return normalize({
+      issues: seed.issues || [], pieces: seed.pieces || [],
+      cycle: seed.cycle, address: seed.address || ''
+    });
+  }
   return JSON.parse(JSON.stringify(defaultData));
 })();
 
@@ -181,10 +203,16 @@ function photoLoadAll() {
 // Drop photo blobs no entry or zine panel points at any more.
 function collectPhotoRefs() {
   var live = {};
-  state.logs.forEach(function (l) { if (l.photo) live[l.photo] = 1; });
-  if (state.press && state.press.panels) {
-    state.press.panels.forEach(function (p) { if (p && p.photo) live[p.photo] = 1; });
-  }
+  function keep(p) { if (p && p.photo) live[p.photo] = 1; }
+  state.logs.forEach(keep);
+  state.pieces.forEach(keep);
+  if (state.press && state.press.panels) state.press.panels.forEach(keep);
+  // A back issue is the archive. Sweeping a photo out from under a published
+  // issue would rewrite history, so every shelved panel pins its photo.
+  state.issues.forEach(function (iss) {
+    (iss.panels || []).forEach(keep);
+    (iss.pieces || []).forEach(keep);
+  });
   return live;
 }
 function sweepPhotos() {

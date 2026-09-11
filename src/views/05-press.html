@@ -1,18 +1,19 @@
 <section data-view="press">
   <div class="view-head">
-    <h1>ZINE PRESS</h1>
-    <p class="view-sub">Turn the log, journal, and lists into a physical 8-page zine: one sheet, one cut, no staples.</p>
+    <h1>THE PRESS</h1>
+    <p class="view-sub">One source, imposed for paper. Change the format and the same pages re-flow onto different sheets.</p>
   </div>
 
   <div class="paper">
     <div class="press-actions">
-      <button class="btn" id="compilezinebtn">COMPILE FROM LOG &amp; JOURNAL</button>
-      <button class="btn done" id="printzinebtn">PRINT ZINE SHEET</button>
+      <select id="formatsel" class="text-input"></select>
+      <button class="btn done" id="printzinebtn">PRINT</button>
       <button class="btn quiet" id="testsheetbtn">TEST SHEET: OFF</button>
       <button class="btn quiet" id="swaplayoutbtn">SWAP FOLD (A)</button>
       <button class="btn quiet" id="clearzinebtn">CLEAR SHEET</button>
     </div>
-    <p class="sub">Print setting: <strong>Letter · Landscape · 100% scale · margins none</strong>. Click any heading or body text to edit it; edits save as you type. Fold a numbered test sheet first — printers and folding hands vary, and if the numbers come out shuffled, hit SWAP FOLD and test again.</p>
+    <p class="sub">Print at <strong>100% scale, margins none</strong>, in the orientation the format names. Click any heading or body to edit it; edits save as you type. Fold a numbered test sheet before committing good paper — printers and folding hands vary, and if the numbers come out shuffled, hit SWAP FOLD and test again.</p>
+    <p class="fitmeter" id="fitmeter">Everything fits on the paper.</p>
   </div>
 
   <div class="paper tray-box">
@@ -23,65 +24,10 @@
     <div id="phototray" class="phototray"></div>
   </div>
 
-  <div class="sheetzone">
-    <div class="sheetwrap">
-      <div class="sheet" id="zinesheet">
-        <div class="panel cover" data-page="1">
-          <div class="pgtag">p. 1 (front)</div>
-          <h3 contenteditable="true">STOOP ZINE</h3>
-          <div class="no">№<span id="issueno" contenteditable="true">01</span></div>
-          <div class="rule"></div>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>1</b><small>front cover</small></div>
-        </div>
-        <div class="panel" data-page="2">
-          <div class="pgtag">p. 2</div>
-          <h3 contenteditable="true">THE WEEK</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>2</b><small>p.2</small></div>
-        </div>
-        <div class="panel" data-page="3">
-          <div class="pgtag">p. 3</div>
-          <h3 contenteditable="true">PROJECTS</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>3</b><small>p.3</small></div>
-        </div>
-        <div class="panel" data-page="4">
-          <div class="pgtag">p. 4 (center)</div>
-          <h3 contenteditable="true">REFLECTIONS</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>4</b><small>center spread</small></div>
-        </div>
-        <div class="panel" data-page="5">
-          <div class="pgtag">p. 5 (center)</div>
-          <h3 contenteditable="true">TODO &amp; RUNS</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>5</b><small>center spread</small></div>
-        </div>
-        <div class="panel" data-page="6">
-          <div class="pgtag">p. 6</div>
-          <h3 contenteditable="true">SCRATCHPAD</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>6</b><small>p.6</small></div>
-        </div>
-        <div class="panel" data-page="7">
-          <div class="pgtag">p. 7</div>
-          <h3 contenteditable="true">LOOKING AHEAD</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>7</b><small>p.7</small></div>
-        </div>
-        <div class="panel backcover" data-page="8">
-          <div class="pgtag">p. 8 (back)</div>
-          <h3 contenteditable="true">BACK COVER</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>8</b><small>back cover</small></div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="sheetzone" id="sheetzone"></div>
 
   <div class="paper fold-guide">
-    <h2>HOW TO FOLD</h2>
+    <h2>HOW TO FOLD (one sheet, one cut)</h2>
     <ol class="fold-steps">
       <li><strong>Hot dog fold.</strong> Fold in half the long way, crease hard, unfold.</li>
       <li><strong>Eight panels.</strong> Fold in half the short way, then fold each outer edge back to the middle crease. Unfold everything.</li>
@@ -89,5 +35,6 @@
       <li><strong>The plus sign.</strong> Unfold, fold the long way with the slit along the top, then push both ends toward each other. The slit opens into a diamond, then a four-winged plus.</li>
       <li><strong>Collapse.</strong> Wrap the wings around the front cover and crease. Eight pages, no staples. Read it once, then leave it somewhere.</li>
     </ol>
+    <p class="sub">Saddle-stitch formats print several sheets instead: print both sides, nest them in order, and staple twice through the spine.</p>
   </div>
 </section>

@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="A private notebook for two: daily log, shared lists, projects, journal, and photos, compiled into a printable 8-page zine. Local-first, no accounts, no server.">
-<title>STOOP — a notebook for two, and its zine press</title>
+<meta name="description" content="A press for a periodical: submit pieces, assemble an issue at the desk, impose it for paper, and keep every back issue on the shelf. Each exported issue carries the press inside it. Local-first, no accounts, no server.">
+<title>STOOP — a press for a periodical</title>
 </head>
 <body>
-<!-- stoop: a private notebook for two — log, lists, projects, journal, dithered photos, and an 8-page zine press. one file, zero requests. -->
+<!-- stoop: a press for a periodical — pieces, a desk, a shelf, and an imposed sheet. every issue it exports is the reading view, the sheet, the archive, and a working press for the next one. one file, zero requests. -->
 <style>
   :root{
     --night:#0e0e10; --soot:#1a1a1e; --bone:#ece7db; --ink:#141210;
@@ -215,26 +215,6 @@
 .log-del { background: none; border: none; color: var(--grey); cursor: pointer; font-size: .8rem; }
 .log-del:hover { color: var(--orange); }
 
-/* Todos */
-.todolist-container { margin-top: 1rem; }
-.todolist { display: flex; flex-direction: column; gap: .4rem; }
-.todo-item {
-  background: var(--soot);
-  border: 1px solid var(--grey);
-  padding: .5rem .75rem;
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-  font-family: 'Courier New', monospace;
-  font-size: .88rem;
-}
-.todo-item.done { opacity: .5; background: transparent; border-style: dashed; }
-.todo-item.done .todo-text { text-decoration: line-through; }
-.todo-check { cursor: pointer; width: 1.1rem; height: 1.1rem; accent-color: var(--orange); }
-.todo-text { flex: 1; color: var(--bone); }
-.todo-tag { font-size: .7rem; border: 1px solid var(--grey); padding: .05rem .35rem; color: var(--grey); }
-.todo-footer-row { margin-top: .8rem; display: flex; justify-content: flex-end; }
-
 /* Projects */
 .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
 .project-card {
@@ -250,25 +230,67 @@
 
 /* Journal */
 .journal-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
-.journal-card {
-  background: var(--soot);
-  border: 2px solid var(--bone);
-  padding: 1rem 1.2rem;
-}
+.journal-card { background: var(--soot); border: 2px solid var(--bone); padding: 1rem 1.2rem; }
 .journal-card-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dashed var(--grey); padding-bottom: .4rem; margin-bottom: .6rem; }
 .journal-card-head h2 { margin: 0; font-size: 1.35rem; color: var(--bone); }
 .journal-card-body { font-family: 'Courier New', monospace; font-size: .9rem; color: var(--bone); line-height: 1.55; white-space: pre-wrap; }
 
-/* Zine Sheet */
-.press-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+/* The desk: the tray of submitted pieces */
+.sub-row { display: flex; align-items: center; gap: .6rem; border-bottom: 1px dashed var(--ink); padding: .45rem 0; font-family: 'Courier New', monospace; font-size: .85rem; }
+.sub-row:last-of-type { border-bottom: none; }
+.sub-row .ord { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 1.3rem; width: 1.4rem; text-align: center; }
+.sub-row .meta { flex: 1; display: flex; flex-direction: column; }
+.sub-row .meta small { color: #5a5348; }
+.sub-row.cut { opacity: .55; }
+.sub-row.cut .meta b { text-decoration: line-through; }
+.subbtn { font-family: 'Courier New', monospace; font-size: .7rem; background: none; border: 1px solid var(--ink); color: var(--ink); padding: .2rem .5rem; cursor: pointer; }
+.subbtn:hover { background: var(--ink); color: var(--paper); }
+
+/* The shelf */
+.shelf-list { display: flex; flex-direction: column; }
+.shelf-row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; border-bottom: 1px dashed var(--ink); padding: .55rem 0; }
+.shelf-row:last-child { border-bottom: none; }
+.shelf-no { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 1.5rem; min-width: 3rem; }
+.shelf-meta { flex: 1; display: flex; flex-direction: column; font-family: 'Courier New', monospace; font-size: .85rem; min-width: 12rem; }
+.shelf-meta small { color: #5a5348; }
+.shelfreader { display: none; }
+.shelfreader.on { display: block; }
+.reader-bar { display: flex; justify-content: space-between; align-items: center; font-family: 'Courier New', monospace; font-size: .8rem; color: var(--grey); margin: 1.2rem 0 .4rem; }
+
+/* The reading view: the other substrate, no imposition */
+.reading { background: var(--paper); color: var(--ink); border: 2px solid var(--ink); padding: 1.4rem 1.3rem; box-shadow: 5px 5px 0 rgba(0,0,0,.55); max-width: 38rem; margin: 0 auto; }
+.reading img { width: 100%; image-rendering: pixelated; margin: .6rem 0; }
+.reading-head { border-bottom: 3px solid var(--ink); padding-bottom: .6rem; margin-bottom: 1rem; }
+.reading-head h1 { font-size: 2.2rem; margin: 0; }
+.reading-meta { font-family: 'Courier New', monospace; font-size: .75rem; margin: .3rem 0 0; }
+.reading-note { border-left: 3px solid var(--ink); padding-left: .8rem; margin-bottom: 1.2rem; }
+.reading-piece { margin-bottom: 1.4rem; }
+.reading-piece h2 { font-size: 1.4rem; margin: 0 0 .3rem; }
+.reading h2, .reading p { color: var(--ink); }
+.reading p { font-family: 'Courier New', monospace; font-size: .9rem; line-height: 1.6; white-space: pre-wrap; }
+.reading-foot { border-top: 1px dashed var(--ink); padding-top: .6rem; font-size: .8rem; }
+
+/* The press */
+.press-actions { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+.fitmeter { font-family: 'Courier New', monospace; font-size: .8rem; border: 1px solid var(--ink); padding: .35rem .6rem; margin: .7rem 0 0; }
+.fitmeter.bad { background: var(--ink); color: var(--paper); }
 .sheetzone { margin-top: 1rem; overflow-x: auto; padding-bottom: 1rem; }
-.sheetwrap { transform-origin: top left; min-width: 1056px; }
-.sheet { width: 11in; height: 8.5in; background: #fff; color: var(--ink); display: flex; flex-wrap: wrap; box-shadow: 0 0 0 1px #000, 8px 8px 0 rgba(0,0,0,.6); }
-.panel { width: 25%; height: 50%; border: 1px dashed #bbb; padding: .28in .3in; overflow: hidden; position: relative; background: #fff; box-sizing: border-box; display: flex; flex-direction: column; }
+.sheetwrap { transform-origin: top left; margin-bottom: 1.2rem; width: max-content; }
+.sheetlabel { font-family: 'Courier New', monospace; font-size: .7rem; color: var(--grey); letter-spacing: .1em; text-transform: uppercase; margin-bottom: .25rem; }
+.sheet {
+  background: #fff; color: var(--ink);
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), 1fr);
+  grid-template-rows: repeat(var(--rows, 2), 1fr);
+  box-shadow: 0 0 0 1px #000, 8px 8px 0 rgba(0,0,0,.6);
+}
+.panel { border: 1px dashed #bbb; padding: .28in .3in; overflow: hidden; position: relative; background: #fff; box-sizing: border-box; display: flex; flex-direction: column; }
 .panel.flip { transform: rotate(180deg); }
+.panel.over { outline: 2px solid var(--red); outline-offset: -2px; }
 .panel h3 { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 20px; letter-spacing: .04em; margin: 0 0 6px; text-transform: uppercase; color: var(--ink); outline: none; }
 .panel .body { font-family: 'Courier New', monospace; font-size: 11.5px; line-height: 1.45; color: var(--ink); outline: none; white-space: pre-wrap; flex: 1; overflow: hidden; }
 .panel .pgtag { position: absolute; bottom: 4px; right: 8px; font-size: 9px; color: #aaa; font-family: 'Courier New', monospace; }
+.panel .fitwarn:not(:empty) { position: absolute; bottom: 3px; left: 6px; font-family: 'Courier New', monospace; font-size: 9px; background: var(--red); color: #fff; padding: 1px 4px; }
 .panel-photo { display: block; width: 100%; max-height: 46%; object-fit: contain; object-position: left top; margin: 0 0 5px; image-rendering: pixelated; }
 .panel-unpic { position: absolute; top: 3px; right: 5px; background: #fff; border: 1px solid var(--ink); color: var(--ink); font-size: 10px; line-height: 1; padding: 2px 4px; cursor: pointer; }
 .cover h3 { font-size: 24px; }
@@ -276,6 +298,9 @@
 .cover .no span { outline: none; }
 .cover .rule { border-top: 3px solid var(--ink); margin: 6px 0; }
 .backcover .body { font-size: 10.5px; }
+.addr { display: flex; align-items: center; gap: 6px; margin-top: auto; }
+.addr .qr { width: 64px; height: 64px; image-rendering: pixelated; }
+.addr span { font-family: 'Courier New', monospace; font-size: 8.5px; word-break: break-all; }
 
 /* Numbered test sheet: fold this first and read the page numbers in order. */
 .testnum { display: none; position: absolute; inset: 0; background: #fff; z-index: 2; align-items: center; justify-content: center; flex-direction: column; gap: 6px; }
@@ -287,20 +312,27 @@
 .fold-steps { font-family: 'Courier New', monospace; font-size: .85rem; line-height: 1.5; padding-left: 1.2rem; }
 .fold-steps li { margin-bottom: .5rem; }
 
+/* Reprinting a back issue renders into its own zone, so opening history never
+   costs you the issue you are in the middle of making. */
+.reprintzone { display: none; }
+
 /* Toast */
 .toast { position: fixed; left: 50%; bottom: 1.2rem; transform: translateX(-50%); background: var(--orange); color: var(--night); font-family: 'Courier New', monospace; font-size: .85rem; padding: .5rem .9rem; border: 2px solid var(--night); display: none; z-index: 50; }
 
 @media print {
-  @page { size: letter landscape; margin: 0; }
   body { background: #fff; color: #000; }
-  header.chrome, .view-head, .paper, .pgtag, .panel-unpic, .toast { display: none !important; }
+  header.chrome, .view-head, .paper, .pgtag, .panel-unpic, .toast,
+  .fitwarn, .sheetlabel, .shelfreader { display: none !important; }
   main { max-width: none; padding: 0; margin: 0; }
   section[data-view]:not([data-view="press"]) { display: none !important; }
   section[data-view="press"] { display: block !important; }
   .sheetzone { margin: 0; padding: 0; overflow: visible; }
-  .sheetwrap { transform: none !important; min-width: 0; }
-  .sheet { box-shadow: none; width: 11in; height: 8.5in; }
+  .sheetwrap { transform: none !important; margin: 0; break-after: page; page-break-after: always; }
+  .sheetwrap:last-child { break-after: auto; page-break-after: auto; }
+  .sheet { box-shadow: none; }
   .panel { border-color: #eee; }
+  body.reprinting main, body.reprinting header.chrome { display: none !important; }
+  body.reprinting .reprintzone { display: block !important; }
 }
 </style>
 
@@ -309,13 +341,16 @@
   <button class="author-toggle" id="authortoggle" title="Switch who is writing"><span id="authorname">Me</span></button>
   <nav class="chrome-nav">
     <a href="#log" data-nav="log">log</a>
-    <a href="#todos" data-nav="todos">todos</a>
-    <a href="#projects" data-nav="projects">projects</a>
     <a href="#journal" data-nav="journal">journal</a>
-    <a href="#press" data-nav="press">zine press</a>
-    <a href="#backup" data-nav="backup">settings & sync</a>
+    <a href="#projects" data-nav="projects">projects</a>
+    <a href="#desk" data-nav="desk">the desk</a>
+    <a href="#press" data-nav="press">the press</a>
+    <a href="#shelf" data-nav="shelf">the shelf</a>
+    <a href="#backup" data-nav="backup">settings &amp; sync</a>
   </nav>
 </header>
+<style id="pagerule">@page { size: letter landscape; margin: 0; }</style>
+<div id="reprintzone" class="reprintzone"></div>
 
 <main>
 
@@ -352,64 +387,6 @@
 
   <div id="loglist" class="log-stream"></div>
 </section>
-<section data-view="todos">
-  <div class="view-head">
-    <h1>TODOS &amp; LISTS</h1>
-    <p class="view-sub">Shared errands, groceries, packing, house fixes, and tasks.</p>
-  </div>
-
-  <div class="paper">
-    <div class="form-row">
-      <input type="text" id="todoinput" class="text-input" placeholder="New task or list item..." maxlength="140">
-      <select id="todocat" class="select-input">
-        <option value="shared">shared</option>
-        <option value="groceries">groceries</option>
-        <option value="weekend">weekend</option>
-        <option value="house">house</option>
-        <option value="a" data-nameopt="a">Me</option>
-        <option value="b" data-nameopt="b">JJ</option>
-      </select>
-      <button class="btn" id="todoaddbtn">ADD</button>
-    </div>
-    <div class="filter-row">
-      <span class="sub">list:</span>
-      <button class="chip on" data-todofilter="all">all</button>
-      <button class="chip" data-todofilter="shared">shared</button>
-      <button class="chip" data-todofilter="groceries">groceries</button>
-      <button class="chip" data-todofilter="weekend">weekend</button>
-      <button class="chip" data-todofilter="house">house</button>
-      <button class="chip" data-todofilter="a" data-namechip="a">Me</button>
-      <button class="chip" data-todofilter="b" data-namechip="b">JJ</button>
-    </div>
-  </div>
-
-  <div class="todolist-container">
-    <div id="todolist" class="todolist"></div>
-    <div class="todo-footer-row">
-      <button class="btn quiet" id="clearcompletedbtn">CLEAR COMPLETED</button>
-    </div>
-  </div>
-</section>
-<section data-view="projects">
-  <div class="view-head">
-    <h1>PROJECT SPACES</h1>
-    <p class="view-sub">Mini workspaces for music, trips, woodworking, builds, and joint plans.</p>
-  </div>
-
-  <div class="paper">
-    <div class="form-grid">
-      <input type="text" id="projecttitle" class="text-input" placeholder="Project name (e.g. Backyard Garden, Noodles Synth)...">
-      <textarea id="projectdesc" class="textarea-input" rows="2" placeholder="Summary, notes, materials or next steps..."></textarea>
-      <div class="form-actions">
-        <button class="btn" id="projectaddbtn">CREATE PROJECT</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="projectlist" class="project-grid">
-    <!-- Rendered dynamically -->
-  </div>
-</section>
 <section data-view="journal">
   <div class="view-head">
     <h1>JOURNAL &amp; MEMORIES</h1>
@@ -435,21 +412,92 @@
 
   <div id="journallist" class="journal-list"></div>
 </section>
+<section data-view="projects">
+  <div class="view-head">
+    <h1>PROJECT SPACES</h1>
+    <p class="view-sub">Mini workspaces for music, trips, woodworking, builds, and joint plans.</p>
+  </div>
+
+  <div class="paper">
+    <div class="form-grid">
+      <input type="text" id="projecttitle" class="text-input" placeholder="Project name (e.g. Backyard Garden, Noodles Synth)...">
+      <textarea id="projectdesc" class="textarea-input" rows="2" placeholder="Summary, notes, materials or next steps..."></textarea>
+      <div class="form-actions">
+        <button class="btn" id="projectaddbtn">CREATE PROJECT</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="projectlist" class="project-grid">
+    <!-- Rendered dynamically -->
+  </div>
+</section>
+<section data-view="desk">
+  <div class="view-head">
+    <h1>THE DESK</h1>
+    <p class="view-sub" id="deskhead">issue №01</p>
+  </div>
+
+  <div class="paper">
+    <p class="sub">The algorithm is a person, and this is where they sit. One accountable neighbour holds the final cut for one cycle; at two people the chair alternates, odd issues and even. There are no metrics to consult and nothing to A/B — sequence is taste.</p>
+    <div class="form-row">
+      <label class="sub" for="bellinput">THE BELL</label>
+      <input type="date" id="bellinput" class="text-input">
+      <button class="btn quiet" id="savebellbtn">SET THE BELL</button>
+    </div>
+  </div>
+
+  <div class="paper">
+    <h2>SUBMIT A PIECE</h2>
+    <div class="form-row">
+      <input type="text" id="piecetitle" class="text-input" maxlength="60" placeholder="Title">
+      <select id="piecekind" class="text-input">
+        <option value="essay">essay</option>
+        <option value="photos">photos</option>
+        <option value="log">log</option>
+        <option value="mix">mix</option>
+        <option value="recipe">recipe</option>
+        <option value="letters">letters</option>
+      </select>
+      <button class="btn" id="piecesubmitbtn">SUBMIT</button>
+    </div>
+    <textarea id="piecebody" class="text-input" rows="4" placeholder="The piece itself."></textarea>
+    <p class="sub">Or draw one from what is already written: only what has been added since the last issue shipped, so issue two never reprints issue one.</p>
+    <button class="btn quiet" id="drawsourcesbtn">DRAW FROM LOG, JOURNAL &amp; PROJECTS</button>
+  </div>
+
+  <div class="paper">
+    <h2>THE TRAY</h2>
+    <div id="desktray"></div>
+    <p class="sub">Cuts are conversations, not deletions: the maker keeps the piece, and it can run next cycle.</p>
+  </div>
+
+  <div class="paper">
+    <h2>EDITOR'S NOTE</h2>
+    <textarea id="editornote" class="text-input" rows="3" placeholder="What this issue is, and who has the desk next."></textarea>
+    <div class="press-actions">
+      <button class="btn" id="compileissuebtn">COMPILE ONTO THE SHEET</button>
+      <button class="btn done" id="buildissuebtn">RING THE BELL — PUBLISH</button>
+    </div>
+    <p class="sub">Compiling flows the tray onto the press. Ringing the bell archives the sheet to the shelf exactly as it stands, empties the tray, and hands the desk to the other pair of hands.</p>
+  </div>
+</section>
 <section data-view="press">
   <div class="view-head">
-    <h1>ZINE PRESS</h1>
-    <p class="view-sub">Turn the log, journal, and lists into a physical 8-page zine: one sheet, one cut, no staples.</p>
+    <h1>THE PRESS</h1>
+    <p class="view-sub">One source, imposed for paper. Change the format and the same pages re-flow onto different sheets.</p>
   </div>
 
   <div class="paper">
     <div class="press-actions">
-      <button class="btn" id="compilezinebtn">COMPILE FROM LOG &amp; JOURNAL</button>
-      <button class="btn done" id="printzinebtn">PRINT ZINE SHEET</button>
+      <select id="formatsel" class="text-input"></select>
+      <button class="btn done" id="printzinebtn">PRINT</button>
       <button class="btn quiet" id="testsheetbtn">TEST SHEET: OFF</button>
       <button class="btn quiet" id="swaplayoutbtn">SWAP FOLD (A)</button>
       <button class="btn quiet" id="clearzinebtn">CLEAR SHEET</button>
     </div>
-    <p class="sub">Print setting: <strong>Letter · Landscape · 100% scale · margins none</strong>. Click any heading or body text to edit it; edits save as you type. Fold a numbered test sheet first — printers and folding hands vary, and if the numbers come out shuffled, hit SWAP FOLD and test again.</p>
+    <p class="sub">Print at <strong>100% scale, margins none</strong>, in the orientation the format names. Click any heading or body to edit it; edits save as you type. Fold a numbered test sheet before committing good paper — printers and folding hands vary, and if the numbers come out shuffled, hit SWAP FOLD and test again.</p>
+    <p class="fitmeter" id="fitmeter">Everything fits on the paper.</p>
   </div>
 
   <div class="paper tray-box">
@@ -460,65 +508,10 @@
     <div id="phototray" class="phototray"></div>
   </div>
 
-  <div class="sheetzone">
-    <div class="sheetwrap">
-      <div class="sheet" id="zinesheet">
-        <div class="panel cover" data-page="1">
-          <div class="pgtag">p. 1 (front)</div>
-          <h3 contenteditable="true">STOOP ZINE</h3>
-          <div class="no">№<span id="issueno" contenteditable="true">01</span></div>
-          <div class="rule"></div>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>1</b><small>front cover</small></div>
-        </div>
-        <div class="panel" data-page="2">
-          <div class="pgtag">p. 2</div>
-          <h3 contenteditable="true">THE WEEK</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>2</b><small>p.2</small></div>
-        </div>
-        <div class="panel" data-page="3">
-          <div class="pgtag">p. 3</div>
-          <h3 contenteditable="true">PROJECTS</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>3</b><small>p.3</small></div>
-        </div>
-        <div class="panel" data-page="4">
-          <div class="pgtag">p. 4 (center)</div>
-          <h3 contenteditable="true">REFLECTIONS</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>4</b><small>center spread</small></div>
-        </div>
-        <div class="panel" data-page="5">
-          <div class="pgtag">p. 5 (center)</div>
-          <h3 contenteditable="true">TODO &amp; RUNS</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>5</b><small>center spread</small></div>
-        </div>
-        <div class="panel" data-page="6">
-          <div class="pgtag">p. 6</div>
-          <h3 contenteditable="true">SCRATCHPAD</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>6</b><small>p.6</small></div>
-        </div>
-        <div class="panel" data-page="7">
-          <div class="pgtag">p. 7</div>
-          <h3 contenteditable="true">LOOKING AHEAD</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>7</b><small>p.7</small></div>
-        </div>
-        <div class="panel backcover" data-page="8">
-          <div class="pgtag">p. 8 (back)</div>
-          <h3 contenteditable="true">BACK COVER</h3>
-          <div class="body" contenteditable="true"></div>
-          <div class="testnum"><b>8</b><small>back cover</small></div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="sheetzone" id="sheetzone"></div>
 
   <div class="paper fold-guide">
-    <h2>HOW TO FOLD</h2>
+    <h2>HOW TO FOLD (one sheet, one cut)</h2>
     <ol class="fold-steps">
       <li><strong>Hot dog fold.</strong> Fold in half the long way, crease hard, unfold.</li>
       <li><strong>Eight panels.</strong> Fold in half the short way, then fold each outer edge back to the middle crease. Unfold everything.</li>
@@ -526,7 +519,21 @@
       <li><strong>The plus sign.</strong> Unfold, fold the long way with the slit along the top, then push both ends toward each other. The slit opens into a diamond, then a four-winged plus.</li>
       <li><strong>Collapse.</strong> Wrap the wings around the front cover and crease. Eight pages, no staples. Read it once, then leave it somewhere.</li>
     </ol>
+    <p class="sub">Saddle-stitch formats print several sheets instead: print both sides, nest them in order, and staple twice through the spine.</p>
   </div>
+</section>
+<section data-view="shelf">
+  <div class="view-head">
+    <h1>THE SHELF</h1>
+    <p class="view-sub" id="shelfcount">no issues yet</p>
+  </div>
+
+  <div class="paper">
+    <p class="sub">Streams forget; shelves remember. Every issue is kept whole — its pages, its format, its fold — so a back issue reprints exactly as it shipped rather than as today's draft happens to be set. <strong>Export</strong> writes a single file that is the issue, the shelf behind it, and a working press for the next one.</p>
+    <div id="shelflist" class="shelf-list"></div>
+  </div>
+
+  <div id="shelfreader" class="shelfreader"></div>
 </section>
 <section data-view="backup">
   <div class="view-head">
@@ -542,6 +549,22 @@
       <input type="text" id="nameb" class="text-input" maxlength="24" placeholder="Second name">
       <button class="btn" id="savenamesbtn">SAVE NAMES</button>
     </div>
+  </div>
+
+  <div class="paper">
+    <h2>THE ADDRESS</h2>
+    <p class="sub">Where this scene's issues live, if they live anywhere. The back cover prints it as text and as a code, so somebody who finds the paper can reach the archive. Leave it empty and the paper simply carries no address.</p>
+    <div class="form-row">
+      <input type="text" id="addressinput" class="text-input" placeholder="ampactor.dev/stoop/nightbus">
+      <button class="btn" id="savenamesbtn2">SAVE ADDRESS</button>
+    </div>
+  </div>
+
+  <div class="paper">
+    <h2>TAKE A PIECE IN</h2>
+    <p class="sub">A contributor exports a piece from their own copy and sends you the file; drop it here and it lands in the tray. An exported issue works the same way — importing one puts its back issues on your shelf. Merging the same file twice changes nothing.</p>
+    <input type="file" id="bundlefile" accept="text/html,.html" hidden>
+    <button class="btn" id="bundlebtn">IMPORT A PIECE OR ISSUE FILE</button>
   </div>
 
   <div class="paper">
@@ -569,13 +592,18 @@
 </section>
 </main>
 <div class="toast" id="toast"></div>
-<p class="pageweight">STOOP · a notebook for two · one file · zero requests · no trackers · no accounts · 60 KB before compression · everything stays on your device</p>
+<p class="pageweight">STOOP · a press for a periodical · one file · zero requests · no trackers · no accounts · 105 KB before compression · everything stays on your device · every issue it prints carries a copy of it</p>
 <script>
 (function(){
 // ---------- identity ----------
 // Authors are stored as stable keys ('a', 'b', 'both'), never as display
 // names, so renaming a person leaves every past entry attached to them.
-var STORAGE_KEY = 'stoop_data_v3';
+var STORAGE_KEY = 'stoop_data_v4';
+// The id of the payload an exported issue carries. It lives here, with the
+// other storage keys, because the store reads it while the app is still
+// starting up: a var assigned further down the bundle is hoisted but empty by
+// then, and the archive silently would not arrive.
+var SEED_ID = 'stoop-seed';
 var NAMES_KEY = 'stoop_names';
 var AUTHOR_KEY = 'stoop_active_author';
 var AUTHORS = ['a', 'b', 'both'];
@@ -627,13 +655,6 @@ var defaultData = {
     { id: 'l2', author: 'b', tag: 'quote', text: '"The only way out is through, and the best way through is together."', ts: seedTs - 43e6 },
     { id: 'l3', author: 'both', tag: 'idea', text: 'Weekend road trip sketch: farm stand cider, thrift store run, back before sunset.', ts: seedTs - 6e6 }
   ],
-  todos: [
-    { id: 't1', cat: 'groceries', text: 'Coffee beans (dark roast)', done: false, ts: seedTs },
-    { id: 't2', cat: 'house', text: 'Hang kitchen spice shelf', done: false, ts: seedTs },
-    { id: 't3', cat: 'shared', text: 'Plan Friday dinner & movie', done: false, ts: seedTs },
-    { id: 't4', cat: 'a', text: 'Oil the drill press & clamps', done: true, ts: seedTs },
-    { id: 't5', cat: 'b', text: 'Pick up sketchbook paper', done: false, ts: seedTs }
-  ],
   projects: [
     { id: 'p1', title: 'Backyard Herb Garden', desc: 'Raised cedar bed: basil, rosemary, thyme, cherry tomatoes. Drip irrigation line.', ts: seedTs },
     { id: 'p2', title: 'Zine Issue #01', desc: 'First dispatch of thoughts, photos, and project notes. 8-page, 1-sheet fold.', ts: seedTs }
@@ -641,6 +662,17 @@ var defaultData = {
   journal: [
     { id: 'j1', author: 'both', title: 'Sunday Morning Coffee & Quiet', body: 'Made pour-overs, sat on the porch while the sun came up over the street. Talked about where we want our time to go this autumn. Fewer distractions, more physical making.', ts: seedTs - 864e5 }
   ],
+  pieces: [
+    { id: 'pc1', kind: 'essay', byline: 'a', title: 'The Seam',
+      body: 'The sodium lamps are going over to LED one block at a time, and you can stand on the line: orange behind you, white ahead.',
+      photo: null, cut: false, ts: seedTs - 2e5 },
+    { id: 'pc2', kind: 'log', byline: 'b', title: 'Workbench, Week Two',
+      body: 'Trued the rear wheel. The seatpost finally moved, by way of penetrating oil and a personal grudge.',
+      photo: null, cut: false, ts: seedTs - 1e5 }
+  ],
+  issues: [],
+  cycle: { no: '01', bell: seedTs + 6048e5, editor: 'a' },
+  address: '',
   press: null
 };
 
@@ -658,10 +690,8 @@ function migrate(data) {
   (data.logs || []).forEach(function (l) { l.author = fixAuthor(l.author); fixTs(l); });
   (data.journal || []).forEach(function (j) { j.author = fixAuthor(j.author); fixTs(j); });
   (data.projects || []).forEach(fixTs);
-  (data.todos || []).forEach(function (t) {
-    if (AUTHOR_MAP[t.cat]) t.cat = AUTHOR_MAP[t.cat];
-    fixTs(t);
-  });
+  (data.pieces || []).forEach(function (pc) { pc.byline = fixAuthor(pc.byline); fixTs(pc); });
+  (data.issues || []).forEach(fixTs);
   return data;
 }
 
@@ -670,9 +700,12 @@ function migrate(data) {
 function normalize(raw) {
   var out = {
     logs: Array.isArray(raw && raw.logs) ? raw.logs : [],
-    todos: Array.isArray(raw && raw.todos) ? raw.todos : [],
     projects: Array.isArray(raw && raw.projects) ? raw.projects : [],
     journal: Array.isArray(raw && raw.journal) ? raw.journal : [],
+    pieces: Array.isArray(raw && raw.pieces) ? raw.pieces : [],
+    issues: Array.isArray(raw && raw.issues) ? raw.issues : [],
+    cycle: (raw && raw.cycle) || { no: '01', bell: Date.now() + 6048e5, editor: 'a' },
+    address: (raw && raw.address) || '',
     press: (raw && raw.press) || null
   };
   return migrate(out);
@@ -682,9 +715,21 @@ var state = (function () {
   try {
     var raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return normalize(JSON.parse(raw));
+    var v3 = localStorage.getItem('stoop_data_v3');
+    if (v3) { toast('Upgraded your notebook — the shelf is new'); return normalize(JSON.parse(v3)); }
     var old = localStorage.getItem('stoop_data_v2');
     if (old) { toast('Upgraded your notes from the older format'); return normalize(JSON.parse(old)); }
   } catch (e) {}
+  // An exported issue carries its own archive. Opened on a device with nothing
+  // of its own, the file is the publication; opened on one that already has
+  // work, the seed merges later rather than replacing anything.
+  var seed = readSeed();
+  if (seed) {
+    return normalize({
+      issues: seed.issues || [], pieces: seed.pieces || [],
+      cycle: seed.cycle, address: seed.address || ''
+    });
+  }
   return JSON.parse(JSON.stringify(defaultData));
 })();
 
@@ -755,10 +800,16 @@ function photoLoadAll() {
 // Drop photo blobs no entry or zine panel points at any more.
 function collectPhotoRefs() {
   var live = {};
-  state.logs.forEach(function (l) { if (l.photo) live[l.photo] = 1; });
-  if (state.press && state.press.panels) {
-    state.press.panels.forEach(function (p) { if (p && p.photo) live[p.photo] = 1; });
-  }
+  function keep(p) { if (p && p.photo) live[p.photo] = 1; }
+  state.logs.forEach(keep);
+  state.pieces.forEach(keep);
+  if (state.press && state.press.panels) state.press.panels.forEach(keep);
+  // A back issue is the archive. Sweeping a photo out from under a published
+  // issue would rewrite history, so every shelved panel pins its photo.
+  state.issues.forEach(function (iss) {
+    (iss.panels || []).forEach(keep);
+    (iss.pieces || []).forEach(keep);
+  });
   return live;
 }
 function sweepPhotos() {
@@ -854,7 +905,6 @@ function intakePhotos(fileList) {
   }, Promise.resolve([]));
 }
 var activeLogFilter = 'all';
-var activeTodoFilter = 'all';
 
 // Author-keyed chips and options carry the current names, so a rename in
 // settings reaches every surface without touching stored entries.
@@ -941,47 +991,6 @@ function addLog(photoIds) {
   toast(ids.length ? 'Added ' + ids.length + ' photo(s)' : 'Posted to log');
 }
 
-// ---------- todos ----------
-function renderTodos() {
-  var list = document.getElementById('todolist');
-  if (!list) return;
-  var rows = state.todos.filter(function (t) {
-    return activeTodoFilter === 'all' || t.cat === activeTodoFilter;
-  });
-  if (!rows.length) {
-    list.innerHTML = '<div class="sub" style="padding:1rem;text-align:center;">All caught up.</div>';
-    return;
-  }
-  list.innerHTML = rows.map(function (t) {
-    return '<div class="todo-item' + (t.done ? ' done' : '') + '">' +
-      '<input type="checkbox" class="todo-check" data-toggletodo="' + esc(t.id) + '"' +
-      (t.done ? ' checked' : '') + '>' +
-      '<span class="todo-text">' + esc(t.text) + '</span>' +
-      '<span class="todo-tag">' + esc(nameOf(t.cat)) + '</span>' +
-      '<button class="log-del" data-deltodo="' + esc(t.id) + '">✕</button></div>';
-  }).join('');
-}
-
-function addTodo() {
-  var inp = document.getElementById('todoinput');
-  var cat = document.getElementById('todocat');
-  if (!inp || !inp.value.trim()) return;
-  state.todos.unshift({
-    id: uid('t'), cat: (cat && cat.value) || 'shared',
-    text: inp.value.trim(), done: false, ts: Date.now()
-  });
-  inp.value = '';
-  saveState();
-  renderTodos();
-}
-
-function clearCompletedTodos() {
-  state.todos = state.todos.filter(function (t) { return !t.done; });
-  saveState();
-  renderTodos();
-  toast('Cleared completed items');
-}
-
 // ---------- projects ----------
 function renderProjects() {
   var list = document.getElementById('projectlist');
@@ -1047,78 +1056,237 @@ function addJournal() {
 function renderAll() {
   renderNames();
   renderLogs();
-  renderTodos();
   renderProjects();
   renderJournal();
+  renderDesk();
+  renderShelf();
   renderPress();
 }
-// ---------- the press ----------
-// Slot order: 0..3 is the top row left to right, printed upside down; 4..7 is
-// the bottom row. The two presets are the two fold handednesses, and they are
-// the same two the hand kit in press/ offers. check.sh holds them equal: an
-// imposition that disagrees with the kit is a stack of misfolded paper.
+// ---------- the imposition solver ----------
+// A format is a page count and a piece of paper; the imposition is computed
+// from those two, not eyeballed. PRESET_A and PRESET_B are the exception and
+// stay literal: they are the two fold handednesses of the one-cut eight-pager,
+// they are the same two the hand kit in press/ offers, and check.sh holds all
+// four arrays equal. An imposition that disagrees with the kit is a stack of
+// misfolded paper.
+//
+// Slot order is position on the printed sheet: 0..3 is the top row left to
+// right, printed upside down; 4..7 is the bottom row.
 var PRESET_A = [5, 4, 3, 2, 6, 7, 8, 1];
 var PRESET_B = [2, 3, 4, 5, 1, 8, 7, 6];
-var PANEL_SEED = [
+
+// Swapping the fold hand reverses each row. The test suite asserts this
+// against PRESET_B rather than trusting the comment.
+function oneCutMap(hand) {
+  if (hand !== 'B') return PRESET_A.slice();
+  return PRESET_A.slice(0, 4).reverse().concat(PRESET_A.slice(4).reverse());
+}
+
+// Saddle stitch: sheets nest inside each other, so sheet k carries the k-th
+// pages in from each end. Four pages per sheet, two per side, which is why
+// the page count rounds up to a multiple of four.
+function saddleSheets(pages) {
+  var n = Math.ceil(pages / 4) * 4;
+  var out = [];
+  for (var k = 0; k < n / 4; k++) {
+    out.push({
+      side: 'front ' + (k + 1), cols: 2, rows: 1,
+      slots: [{ page: n - 2 * k, flip: false }, { page: 1 + 2 * k, flip: false }]
+    });
+    out.push({
+      side: 'back ' + (k + 1), cols: 2, rows: 1,
+      slots: [{ page: 2 + 2 * k, flip: false }, { page: n - 1 - 2 * k, flip: false }]
+    });
+  }
+  return out;
+}
+
+// Paper, in the units the printer thinks in. Landscape throughout: the one-cut
+// fold needs it, and a saddle signature is two portrait pages side by side.
+var PAPER = {
+  letter: { w: '11in', h: '8.5in', css: 'letter landscape', label: 'Letter' },
+  a4: { w: '297mm', h: '210mm', css: 'A4 landscape', label: 'A4' }
+};
+
+var FORMATS = {
+  fold8: {
+    label: 'One sheet · 8 panels · one cut · Letter',
+    kind: 'onecut', pages: 8, paper: 'letter', folds: true
+  },
+  fold8a4: {
+    label: 'One sheet · 8 panels · one cut · A4',
+    kind: 'onecut', pages: 8, paper: 'a4', folds: true
+  },
+  saddle8: {
+    label: 'Saddle-stitch · 8 pages · 2 sheets · Letter',
+    kind: 'saddle', pages: 8, paper: 'letter', folds: false
+  },
+  saddle12: {
+    label: 'Saddle-stitch · 12 pages · 3 sheets · Letter',
+    kind: 'saddle', pages: 12, paper: 'letter', folds: false
+  },
+  saddle16: {
+    label: 'Saddle-stitch · 16 pages · 4 sheets · Letter',
+    kind: 'saddle', pages: 16, paper: 'letter', folds: false
+  },
+  saddle16a4: {
+    label: 'Saddle-stitch · 16 pages · 4 sheets · A4',
+    kind: 'saddle', pages: 16, paper: 'a4', folds: false
+  }
+};
+
+var FORMAT_IDS = ['fold8', 'fold8a4', 'saddle8', 'saddle12', 'saddle16', 'saddle16a4'];
+
+function formatOf(id) { return FORMATS[id] || FORMATS.fold8; }
+function paperOf(id) { return PAPER[formatOf(id).paper]; }
+
+// The whole imposition, as data. Everything that draws a sheet — the press,
+// the exported issue, the print stylesheet — reads this and nothing else.
+function impose(formatId, hand) {
+  var f = formatOf(formatId);
+  if (f.kind === 'saddle') return { format: f, id: formatId, sheets: saddleSheets(f.pages) };
+  var map = oneCutMap(hand);
+  return {
+    format: f, id: formatId,
+    sheets: [{
+      side: 'only', cols: 4, rows: 2,
+      slots: map.map(function (page, slot) { return { page: page, flip: slot < 4 }; })
+    }]
+  };
+}
+
+// What each page is for, so a fresh sheet is never eight blank rectangles.
+// Beyond page 8 the seeds run out and the pages are simply numbered, which is
+// the honest state of a signature nobody has written yet.
+var PAGE_SEED = [
   { h: 'STOOP ZINE', body: 'Our dispatch.\nLife, projects & notes.' },
   { h: 'THE WEEK', body: 'Moments, highlights and quotes from the daily log.' },
   { h: 'PROJECTS', body: 'Active builds, shop progress, and creative work.' },
   { h: 'REFLECTIONS', body: 'Thoughts, milestones, and what we learned.' },
-  { h: 'TODO & RUNS', body: 'Shared tasks checked off and what is on deck.' },
+  { h: 'FROM THE DESK', body: 'Pieces submitted this cycle.' },
   { h: 'SCRATCHPAD', body: 'Ideas, sketches, recipes, and recommendations.' },
-  { h: 'LOOKING AHEAD', body: 'Next week: plans, goals, upcoming experiments.' },
+  { h: 'LOOKING AHEAD', body: 'Next issue: plans, goals, upcoming experiments.' },
   { h: 'BACK COVER', body: 'Printed on a single sheet of paper.' }
 ];
+
+function seedPanel(i) {
+  var s = PAGE_SEED[i];
+  if (s) return { h: s.h, body: s.body, photo: null };
+  return { h: 'PAGE ' + (i + 1), body: '', photo: null };
+}
+
+// Resize a panel array to a format without losing what was written. Growing
+// pads with seeds; shrinking keeps the low pages, because the cover and the
+// early spreads are the ones somebody actually filled in.
+function fitPanels(panels, pages) {
+  var out = [];
+  for (var i = 0; i < pages; i++) {
+    out.push(panels && panels[i] ? panels[i] : seedPanel(i));
+  }
+  return out;
+}
+
+// The page label under a test-sheet number. Covers are worth naming; the
+// middle of a signature is not.
+function pageLabel(page, pages) {
+  if (page === 1) return 'front cover';
+  if (page === pages) return 'back cover';
+  if (pages === 8 && (page === 4 || page === 5)) return 'center spread';
+  return 'p.' + page;
+}
+// ---------- the press ----------
+// The sheet is drawn from the imposition, never hardcoded: change the format
+// and the same panels re-flow onto different paper. The DOM is rebuilt only
+// when the layout changes, and text is painted in place, because re-rendering
+// under the caret fights the cursor on every keystroke.
 var armedPhoto = null;
+var sheetSig = '';
 
 function pressState() {
   if (!state.press) {
-    state.press = {
-      layout: 'A',
-      issue: '01',
-      panels: PANEL_SEED.map(function (p) { return { h: p.h, body: p.body, photo: null }; })
-    };
+    state.press = { format: 'fold8', hand: 'A', issue: '01', title: 'STOOP ZINE', panels: [] };
   }
-  if (!Array.isArray(state.press.panels) || state.press.panels.length !== 8) {
-    state.press.panels = PANEL_SEED.map(function (p) { return { h: p.h, body: p.body, photo: null }; });
+  var ps = state.press;
+  if (!ps.format || !FORMATS[ps.format]) ps.format = 'fold8';
+  if (ps.hand !== 'B') ps.hand = 'A';
+  if (!ps.issue) ps.issue = '01';
+  var pages = formatOf(ps.format).pages;
+  if (!Array.isArray(ps.panels) || ps.panels.length !== pages) {
+    ps.panels = fitPanels(ps.panels, pages);
   }
-  return state.press;
+  return ps;
 }
 
-// Assign each page to its slot. Nothing about the sheet's DOM order changes;
-// only CSS order and the 180-degree flip on the top row.
 function savePress() {
   pressState().ts = Date.now();
   saveState();
 }
 
-function layoutSheet() {
+function setPanel(page, body) {
   var ps = pressState();
-  var map = ps.layout === 'B' ? PRESET_B : PRESET_A;
-  var sheet = document.getElementById('zinesheet');
-  if (!sheet) return;
-  map.forEach(function (page, slot) {
-    var el = sheet.querySelector('[data-page="' + page + '"]');
-    if (!el) return;
-    el.style.order = slot;
-    el.classList.toggle('flip', slot < 4);
-  });
-  var btn = document.getElementById('swaplayoutbtn');
-  if (btn) btn.textContent = 'SWAP FOLD (' + ps.layout + ')';
+  if (ps.panels[page - 1]) ps.panels[page - 1].body = body;
 }
 
-function renderPress() {
+// ---------- drawing the sheet ----------
+function panelHtml(slot, pages) {
+  var page = slot.page;
+  var cover = page === 1 ? ' cover' : (page === pages ? ' backcover' : '');
+  return '<div class="panel' + cover + (slot.flip ? ' flip' : '') + '" data-page="' + page + '">' +
+    '<div class="pgtag">p. ' + page + '</div>' +
+    '<h3 contenteditable="true"></h3>' +
+    (page === 1 ? '<div class="no">№<span id="issueno" contenteditable="true">01</span></div><div class="rule"></div>' : '') +
+    '<div class="body" contenteditable="true"></div>' +
+    '<div class="fitwarn"></div>' +
+    '<div class="testnum"><b>' + page + '</b><small>' + esc(pageLabel(page, pages)) + '</small></div>' +
+    '</div>';
+}
+
+function layoutSheets() {
   var ps = pressState();
-  var sheet = document.getElementById('zinesheet');
-  if (!sheet) return;
+  var plan = impose(ps.format, ps.hand);
+  var paper = paperOf(ps.format);
+  var pages = plan.format.pages;
+  var sig = ps.format + '/' + ps.hand;
+  var zone = document.getElementById('sheetzone');
+  if (!zone) return plan;
+
+  if (sig !== sheetSig) {
+    zone.innerHTML = plan.sheets.map(function (sheet, i) {
+      return '<div class="sheetwrap"><div class="sheetlabel">' + esc(sheet.side) + '</div>' +
+        '<div class="sheet" data-sheet="' + i + '" style="width:' + paper.w + ';height:' + paper.h +
+        ';--cols:' + sheet.cols + ';--rows:' + sheet.rows + '">' +
+        sheet.slots.map(function (s) { return panelHtml(s, pages); }).join('') +
+        '</div></div>';
+    }).join('');
+    sheetSig = sig;
+  }
+
+  var style = document.getElementById('pagerule');
+  if (style) style.textContent = '@page { size: ' + paper.css + '; margin: 0; }';
+  var sel = document.getElementById('formatsel');
+  if (sel && sel.value !== ps.format) sel.value = ps.format;
+  var btn = document.getElementById('swaplayoutbtn');
+  if (btn) {
+    btn.textContent = 'SWAP FOLD (' + ps.hand + ')';
+    btn.disabled = !plan.format.folds;
+  }
+  return plan;
+}
+
+// Paint text without touching a node the caret is inside.
+function paintPanels() {
+  var ps = pressState();
+  var zone = document.getElementById('sheetzone');
+  if (!zone) return;
+  var active = document.activeElement;
 
   ps.panels.forEach(function (panel, i) {
-    var el = sheet.querySelector('[data-page="' + (i + 1) + '"]');
+    var el = zone.querySelector('[data-page="' + (i + 1) + '"]');
     if (!el) return;
     var head = el.querySelector('h3');
     var body = el.querySelector('.body');
-    if (head && head.innerText !== panel.h) head.innerText = panel.h;
-    if (body && body.innerText !== panel.body) body.innerText = panel.body;
+    if (head && head !== active && head.innerText !== panel.h) head.innerText = panel.h;
+    if (body && body !== active && body.innerText !== panel.body) body.innerText = panel.body;
 
     var img = el.querySelector('.panel-photo');
     var drop = el.querySelector('.panel-unpic');
@@ -1128,7 +1296,7 @@ function renderPress() {
         img.className = 'panel-photo';
         el.insertBefore(img, body);
       }
-      img.src = photoCache[panel.photo];
+      if (img.getAttribute('src') !== photoCache[panel.photo]) img.src = photoCache[panel.photo];
       if (!drop) {
         drop = document.createElement('button');
         drop.className = 'panel-unpic';
@@ -1144,13 +1312,141 @@ function renderPress() {
   });
 
   var num = document.getElementById('issueno');
-  if (num && num.innerText !== ps.issue) num.innerText = ps.issue;
+  if (num && num !== active && num.innerText !== ps.issue) num.innerText = ps.issue;
+  paintAddress(zone, ps.panels.length, issueUrl(ps.issue));
+}
 
-  layoutSheet();
+// The back cover carries the address as text and as a code, so somebody who
+// finds the paper can reach the archive. The two substrates point at each
+// other or the loop is open.
+function paintAddress(zone, lastPage, url) {
+  var last = zone.querySelector('[data-page="' + lastPage + '"]');
+  if (!last) return;
+  var tag = last.querySelector('.addr');
+  if (!url) { if (tag) tag.remove(); return; }
+  if (!tag) {
+    tag = document.createElement('div');
+    tag.className = 'addr';
+    last.appendChild(tag);
+  }
+  if (tag.getAttribute('data-url') === url) return;
+  tag.setAttribute('data-url', url);
+  tag.innerHTML = '<img class="qr" src="' + esc(qrDataUrl(url, 3)) + '" alt="">' +
+    '<span>' + esc(url.replace(/^https?:\/\//, '')) + '</span>';
+}
+
+function renderPress() {
+  layoutSheets();
+  paintPanels();
+  checkFit();
   renderTray();
 }
 
-// Every photo in the store, newest first, as a strip you arm and drop.
+// ---------- the fit meter ----------
+// The panel clips what does not fit, because a printer will too. Silently
+// eating a paragraph is the one thing a press must never do, so measure the
+// overflow in words and say so. Binary search over the word list: about nine
+// reflows per over-full panel, on demand rather than per keystroke.
+function measureOverflow(body) {
+  if (body.scrollHeight <= body.clientHeight + 1) return 0;
+  var original = body.innerText;
+  var words = original.split(/\s+/).filter(Boolean);
+  if (!words.length) return 0;
+  var lo = 0, hi = words.length;
+  while (lo < hi) {
+    var mid = Math.ceil((lo + hi) / 2);
+    body.innerText = words.slice(0, mid).join(' ');
+    if (body.scrollHeight <= body.clientHeight + 1) lo = mid; else hi = mid - 1;
+  }
+  body.innerText = original;
+  return words.length - lo;
+}
+
+function checkFit() {
+  var zone = document.getElementById('sheetzone');
+  if (!zone) return 0;
+  var active = document.activeElement;
+  var total = 0;
+  zone.querySelectorAll('.panel').forEach(function (el) {
+    var body = el.querySelector('.body');
+    var warn = el.querySelector('.fitwarn');
+    if (!body || !warn) return;
+    if (el.contains(active)) return;
+    var over = measureOverflow(body);
+    total += over;
+    el.classList.toggle('over', over > 0);
+    warn.textContent = over > 0 ? over + ' word' + (over === 1 ? '' : 's') + ' over' : '';
+  });
+  var meter = document.getElementById('fitmeter');
+  if (meter) {
+    meter.textContent = total > 0
+      ? total + ' word' + (total === 1 ? '' : 's') + ' will not print. Cut, or move them to another page.'
+      : 'Everything fits on the paper.';
+    meter.classList.toggle('bad', total > 0);
+  }
+  return total;
+}
+
+// ---------- editing ----------
+function capturePanels() {
+  var ps = pressState();
+  var zone = document.getElementById('sheetzone');
+  if (!zone) return;
+  ps.panels.forEach(function (panel, i) {
+    var el = zone.querySelector('[data-page="' + (i + 1) + '"]');
+    if (!el) return;
+    var head = el.querySelector('h3');
+    var body = el.querySelector('.body');
+    if (head) panel.h = head.innerText.trim();
+    if (body) panel.body = body.innerText.replace(/\n{3,}/g, '\n\n').trimEnd();
+  });
+  var num = document.getElementById('issueno');
+  if (num) ps.issue = num.innerText.trim().replace(/^№/, '') || '01';
+  ps.title = ps.panels[0] ? ps.panels[0].h : ps.title;
+  savePress();
+  checkFit();
+}
+
+function setFormat(id) {
+  var ps = pressState();
+  if (!FORMATS[id]) return;
+  ps.format = id;
+  ps.panels = fitPanels(ps.panels, formatOf(id).pages);
+  savePress();
+  renderPress();
+  toast(formatOf(id).label + ' — print a test sheet before committing paper');
+}
+
+function swapLayout() {
+  var ps = pressState();
+  if (!formatOf(ps.format).folds) { toast('Saddle-stitch has one imposition; there is no hand to swap'); return; }
+  ps.hand = ps.hand === 'A' ? 'B' : 'A';
+  savePress();
+  renderPress();
+  toast('Fold layout ' + ps.hand + ' — print a test sheet before committing');
+}
+
+function toggleTestSheet() {
+  var zone = document.getElementById('sheetzone');
+  var btn = document.getElementById('testsheetbtn');
+  if (!zone) return;
+  var on = !zone.classList.contains('testing');
+  zone.classList.toggle('testing', on);
+  if (btn) {
+    btn.textContent = 'TEST SHEET: ' + (on ? 'ON' : 'OFF');
+    btn.classList.toggle('on', on);
+  }
+}
+
+function clearSheet() {
+  var ps = pressState();
+  ps.panels.forEach(function (p) { p.body = ''; p.photo = null; });
+  savePress();
+  renderPress();
+  toast('Cleared the sheet');
+}
+
+// ---------- the photo tray ----------
 function renderTray() {
   var tray = document.getElementById('phototray');
   if (!tray) return;
@@ -1182,101 +1478,906 @@ function armPhoto(id) {
 
 function placePhoto(page) {
   if (!armedPhoto) return false;
-  pressState().panels[page - 1].photo = armedPhoto;
+  var ps = pressState();
+  if (!ps.panels[page - 1]) return false;
+  ps.panels[page - 1].photo = armedPhoto;
   armPhoto(null);
   savePress();
   renderPress();
   toast('Placed photo on p.' + page);
   return true;
 }
+// ---------- the desk ----------
+// The algorithm is a person, and this is where they sit. One accountable
+// neighbour holds the final cut for one cycle; at two people the chair
+// alternates by issue parity, which is cleaner than rotation and keeps the
+// rule that exactly one person owns any given issue.
+var PIECE_KINDS = ['essay', 'photos', 'log', 'mix', 'recipe', 'letters'];
 
-// Panels are contenteditable; capture what was typed rather than re-rendering
-// under the caret, which would fight the cursor on every keystroke.
-function capturePanels() {
-  var ps = pressState();
-  var sheet = document.getElementById('zinesheet');
-  if (!sheet) return;
-  ps.panels.forEach(function (panel, i) {
-    var el = sheet.querySelector('[data-page="' + (i + 1) + '"]');
-    if (!el) return;
-    var head = el.querySelector('h3');
-    var body = el.querySelector('.body');
-    if (head) panel.h = head.innerText.trim();
-    if (body) panel.body = body.innerText.replace(/\n{3,}/g, '\n\n').trimEnd();
+function cycleState() {
+  if (!state.cycle) state.cycle = { no: '01', bell: Date.now() + 6048e5, editor: 'a' };
+  var c = state.cycle;
+  if (!c.no) c.no = '01';
+  if (typeof c.bell !== 'number') c.bell = Date.now() + 6048e5;
+  if (c.editor !== 'a' && c.editor !== 'b') c.editor = 'a';
+  return c;
+}
+
+// Odd issues to one hand, even to the other. Nobody administers this.
+function editorFor(no) {
+  return (parseInt(no, 10) || 1) % 2 === 1 ? 'a' : 'b';
+}
+
+function lastIssueTs() {
+  return state.issues.reduce(function (max, iss) { return Math.max(max, iss.ts || 0); }, 0);
+}
+
+function livePieces() {
+  return state.pieces.filter(function (p) { return !p.cut; })
+    .sort(function (x, y) { return x.ts - y.ts; });
+}
+
+// ---------- submissions ----------
+function addPiece(fields) {
+  var piece = {
+    id: uid('pc'),
+    kind: PIECE_KINDS.indexOf(fields.kind) >= 0 ? fields.kind : 'essay',
+    byline: fields.byline || currentAuthor,
+    title: (fields.title || 'Untitled').trim(),
+    body: (fields.body || '').trim(),
+    photo: fields.photo || null,
+    cut: false,
+    ts: Date.now()
+  };
+  state.pieces.push(piece);
+  saveState();
+  return piece;
+}
+
+function submitPiece() {
+  var t = document.getElementById('piecetitle');
+  var b = document.getElementById('piecebody');
+  var k = document.getElementById('piecekind');
+  if (!t || !t.value.trim()) { toast('A piece needs a title'); return; }
+  addPiece({ title: t.value, body: b ? b.value : '', kind: k ? k.value : 'essay' });
+  t.value = '';
+  if (b) b.value = '';
+  renderDesk();
+  toast('Submitted to the desk');
+}
+
+// A cut is a conversation, not a deletion: the maker keeps the piece and it
+// can run next cycle. Nothing here removes anybody's work.
+function cutPiece(id, cut) {
+  var p = state.pieces.find(function (x) { return x.id === id; });
+  if (!p) return;
+  p.cut = !!cut;
+  saveState();
+  renderDesk();
+  toast(cut ? 'Cut — it keeps, and it can run next cycle' : 'Restored to the tray');
+}
+
+function dropPiece(id) {
+  state.pieces = state.pieces.filter(function (x) { return x.id !== id; });
+  saveState();
+  sweepPhotos();
+  renderDesk();
+}
+
+// ---------- minting pieces from what was already written ----------
+// The log, the journal and the projects are sources, not destinations. This
+// draws from them once per cycle: only what was written since the last issue
+// shipped, so issue two never reprints issue one.
+function draftFromSources() {
+  var since = lastIssueTs();
+  var fresh = function (item) { return (item.ts || 0) > since; };
+  var made = 0;
+
+  var logs = state.logs.filter(function (l) { return fresh(l) && l.text; })
+    .sort(function (x, y) { return x.ts - y.ts; });
+  if (logs.length) {
+    addPiece({
+      kind: 'log', title: 'The Week', byline: 'both',
+      body: logs.slice(0, 6).map(function (l) { return '• [' + nameOf(l.author) + '] ' + l.text; }).join('\n\n'),
+      photo: (state.logs.filter(function (l) { return fresh(l) && l.photo && photoCache[l.photo]; })[0] || {}).photo
+    });
+    made++;
+  }
+
+  state.journal.filter(fresh).sort(function (x, y) { return x.ts - y.ts; }).forEach(function (j) {
+    addPiece({ kind: 'essay', title: j.title, byline: j.author, body: j.body });
+    made++;
   });
-  var num = document.getElementById('issueno');
-  if (num) ps.issue = num.innerText.trim().replace(/^№/, '');
-  savePress();
+
+  var projects = state.projects.filter(fresh);
+  if (projects.length) {
+    addPiece({
+      kind: 'log', title: 'Projects', byline: 'both',
+      body: projects.map(function (p) { return '★ ' + p.title + '\n' + p.desc; }).join('\n\n')
+    });
+    made++;
+  }
+
+  renderDesk();
+  toast(made ? 'Drew ' + made + ' piece(s) from the log, journal and projects' :
+    'Nothing new since the last issue. Write something, then draw again.');
 }
 
-function setPanel(page, body) {
-  pressState().panels[page - 1].body = body;
-}
-
-// Pull the issue out of what has actually been written since the last one.
-function compileZine() {
+// ---------- assembling ----------
+// Pieces flow into the pages between the covers. The vessel is whatever
+// format the press is set to, which is why changing format re-flows an issue
+// instead of forcing a retype.
+function compileIssue() {
   var ps = pressState();
-  var byNew = function (x, y) { return y.ts - x.ts; };
-  var logs = state.logs.slice().sort(byNew);
+  var c = cycleState();
+  var pieces = livePieces();
+  var pages = formatOf(ps.format).pages;
+  var inner = pages - 2;
 
-  var moments = logs.filter(function (l) { return l.text; }).slice(0, 5)
-    .map(function (l) { return '• [' + nameOf(l.author) + '] ' + l.text; }).join('\n\n');
-  var open = state.todos.filter(function (t) { return !t.done; }).slice(0, 6)
-    .map(function (t) { return '[ ] ' + t.text; }).join('\n');
-  var done = state.todos.filter(function (t) { return t.done; }).slice(0, 3)
-    .map(function (t) { return '[x] ' + t.text; }).join('\n');
-  var projects = state.projects.slice(0, 3)
-    .map(function (p) { return '★ ' + p.title + '\n' + p.desc; }).join('\n\n');
-  var entry = state.journal.slice().sort(byNew)[0];
+  ps.issue = c.no;
+  ps.panels[0].h = ps.title || 'STOOP ZINE';
 
-  setPanel(2, moments || 'A quiet week.');
-  setPanel(3, projects || 'Between projects.');
-  setPanel(4, entry ? entry.title.toUpperCase() + '\n\n' + entry.body : 'Keep writing.');
-  setPanel(5, [open, done].filter(Boolean).join('\n\n') || 'All errands checked off.');
-  ps.panels[7].body = 'Issue №' + ps.issue + '\nBy ' + names.a + ' & ' + names.b + '.\n\n' +
+  pieces.slice(0, inner).forEach(function (piece, i) {
+    var panel = ps.panels[i + 1];
+    if (!panel) return;
+    panel.h = piece.title.toUpperCase();
+    panel.body = piece.body;
+    if (piece.photo) panel.photo = piece.photo;
+  });
+  for (var j = pieces.length; j < inner; j++) {
+    if (ps.panels[j + 1]) ps.panels[j + 1].body = '';
+  }
+
+  var note = document.getElementById('editornote');
+  ps.panels[pages - 1].h = 'BACK COVER';
+  ps.panels[pages - 1].body = 'Issue №' + c.no + '\nEdited by ' + nameOf(c.editor) + '.\n\n' +
+    ((note && note.value.trim()) ? note.value.trim() + '\n\n' : '') +
     'Made on a stoop. Take one, leave one.';
 
-  // The cover earns the newest photo unless something is already placed there.
-  var newest = logs.filter(function (l) { return l.photo && photoCache[l.photo]; })[0];
+  var newest = state.logs.slice().sort(function (x, y) { return y.ts - x.ts; })
+    .filter(function (l) { return l.photo && photoCache[l.photo]; })[0];
   if (newest && !ps.panels[0].photo) ps.panels[0].photo = newest.photo;
 
   savePress();
   renderPress();
-  toast('Compiled the issue from your log, journal, and lists');
+  var over = pieces.length - inner;
+  toast(over > 0
+    ? 'Compiled. ' + over + ' piece(s) did not fit — cut some, or use a bigger format'
+    : 'Compiled issue №' + c.no + ' from ' + pieces.length + ' piece(s)');
 }
 
-function clearSheet() {
+// The bell. Publishing archives the sheet to the shelf whole, so the back
+// issue reprints exactly as it shipped, and starts the next cycle clean.
+function buildIssue() {
   var ps = pressState();
-  ps.panels.forEach(function (p) { p.body = ''; p.photo = null; });
-  savePress();
-  renderPress();
-  toast('Cleared the sheet');
-}
+  var c = cycleState();
+  capturePanels();
 
-function swapLayout() {
-  var ps = pressState();
-  ps.layout = ps.layout === 'A' ? 'B' : 'A';
-  savePress();
-  layoutSheet();
-  toast('Fold layout ' + ps.layout + ' — print a test sheet before committing');
-}
-
-function toggleTestSheet() {
-  var sheet = document.getElementById('zinesheet');
-  var btn = document.getElementById('testsheetbtn');
-  if (!sheet) return;
-  var on = sheet.classList.toggle('testing');
-  if (btn) {
-    btn.textContent = 'TEST SHEET: ' + (on ? 'ON' : 'OFF');
-    btn.classList.toggle('on', on);
+  if (state.issues.some(function (i) { return i.no === ps.issue; })) {
+    if (!confirm('Issue №' + ps.issue + ' is already on the shelf. Replace it?')) return;
+    state.issues = state.issues.filter(function (i) { return i.no !== ps.issue; });
   }
+
+  var note = document.getElementById('editornote');
+  state.issues.push({
+    no: ps.issue,
+    title: ps.panels[0] ? ps.panels[0].h : 'STOOP ZINE',
+    format: ps.format,
+    hand: ps.hand,
+    editor: c.editor,
+    note: note ? note.value.trim() : '',
+    panels: JSON.parse(JSON.stringify(ps.panels)),
+    pieces: JSON.parse(JSON.stringify(livePieces())),
+    ts: Date.now()
+  });
+
+  // The tray empties; cut pieces stay for next cycle, which is the promise a
+  // cut makes. Published pieces are in the issue now and leave the desk.
+  state.pieces = state.pieces.filter(function (p) { return p.cut; });
+
+  var next = String((parseInt(ps.issue, 10) || 1) + 1);
+  c.no = next.length < 2 ? '0' + next : next;
+  c.editor = editorFor(c.no);
+  c.bell = Date.now() + 6048e5;
+  if (note) note.value = '';
+
+  ps.issue = c.no;
+  ps.panels = fitPanels([], formatOf(ps.format).pages);
+  savePress();
+  renderAll();
+  location.hash = '#shelf';
+  toast('Issue №' + state.issues[state.issues.length - 1].no + ' is on the shelf. ' +
+    nameOf(c.editor) + ' has the desk for №' + c.no + '.');
+}
+
+// ---------- the view ----------
+function fmtBell(ts) {
+  var days = Math.ceil((ts - Date.now()) / 864e5);
+  if (days < 0) return 'the bell has rung — ' + (-days) + ' day(s) ago';
+  if (days === 0) return 'the bell rings today';
+  return days + ' day(s) to the bell';
+}
+
+function renderDesk() {
+  var c = cycleState();
+  var head = document.getElementById('deskhead');
+  if (head) {
+    head.textContent = 'issue №' + c.no + ' · ' + nameOf(c.editor) + "'s turn · " + fmtBell(c.bell);
+  }
+  var bell = document.getElementById('bellinput');
+  if (bell && document.activeElement !== bell) {
+    bell.value = new Date(c.bell - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+  }
+
+  var tray = document.getElementById('desktray');
+  if (!tray) return;
+  var all = state.pieces.slice().sort(function (x, y) { return x.ts - y.ts; });
+  if (!all.length) {
+    tray.innerHTML = '<p class="sub">The tray is empty. Submit a piece, or draw from the log and journal.</p>';
+    return;
+  }
+  var n = 0;
+  tray.innerHTML = all.map(function (p) {
+    var ord = p.cut ? '–' : String(++n);
+    return '<div class="sub-row' + (p.cut ? ' cut' : '') + '">' +
+      '<span class="ord">' + ord + '</span>' +
+      '<span class="meta"><b>' + esc(p.title) + '</b> — ' + esc(nameOf(p.byline)) +
+      '<small>' + esc(p.kind) + ' · ' + p.body.split(/\s+/).filter(Boolean).length + ' words</small></span>' +
+      '<button class="subbtn" data-' + (p.cut ? 'restore' : 'cut') + 'piece="' + esc(p.id) + '">' +
+      (p.cut ? 'RESTORE' : 'CUT') + '</button>' +
+      '<button class="log-del" data-droppiece="' + esc(p.id) + '" title="Remove entirely">✕</button>' +
+      '</div>';
+  }).join('');
+}
+// ---------- the shelf ----------
+// Streams forget; shelves remember. An issue is archived whole — its panels,
+// its format, its fold hand — so a back issue reprints exactly as it shipped
+// rather than as the current draft happens to be configured.
+
+// A sheet with nothing editable about it. The press draws its own; this one
+// serves the shelf and the exported issue, which must render identically on a
+// machine that has never seen this app.
+function staticSheetHtml(panels, formatId, hand, photos, url) {
+  var plan = impose(formatId, hand);
+  var paper = paperOf(formatId);
+  var pages = plan.format.pages;
+  var pics = photos || photoCache;
+  var addr = url ? '<div class="addr"><img class="qr" src="' + esc(qrDataUrl(url, 3)) +
+    '" alt=""><span>' + esc(url.replace(/^https?:\/\//, '')) + '</span></div>' : '';
+  return plan.sheets.map(function (sheet, i) {
+    return '<div class="sheetwrap"><div class="sheetlabel">' + esc(sheet.side) + '</div>' +
+      '<div class="sheet" data-sheet="' + i + '" style="width:' + paper.w + ';height:' + paper.h +
+      ';--cols:' + sheet.cols + ';--rows:' + sheet.rows + '">' +
+      sheet.slots.map(function (slot) {
+        var p = panels[slot.page - 1] || { h: '', body: '', photo: null };
+        var cover = slot.page === 1 ? ' cover' : (slot.page === pages ? ' backcover' : '');
+        return '<div class="panel' + cover + (slot.flip ? ' flip' : '') + '" data-page="' + slot.page + '">' +
+          '<h3>' + esc(p.h || '') + '</h3>' +
+          (p.photo && pics[p.photo] ? '<img class="panel-photo" src="' + esc(pics[p.photo]) + '" alt="">' : '') +
+          '<div class="body">' + esc(p.body || '') + '</div>' +
+          (slot.page === pages ? addr : '') +
+          '</div>';
+      }).join('') + '</div></div>';
+  }).join('');
+}
+
+// The other substrate. Same source, no imposition: this is the issue you open
+// on a phone at the bus stop, and nothing in it needs a network to mean
+// something.
+function readingHtml(issue, photos) {
+  var pics = photos || photoCache;
+  var panels = issue.panels || [];
+  var cover = panels[0] || { h: 'STOOP ZINE' };
+  var out = '<article class="reading">' +
+    '<header class="reading-head"><h1>' + esc(cover.h || 'STOOP ZINE') + '</h1>' +
+    '<p class="reading-meta">№' + esc(issue.no) + ' · ' + esc(fmtDay(issue.ts)) +
+    ' · edited by ' + esc(nameOf(issue.editor)) + '</p>' +
+    (cover.photo && pics[cover.photo] ? '<img src="' + esc(pics[cover.photo]) + '" alt="">' : '') +
+    '</header>';
+  if (issue.note) out += '<section class="reading-note"><h2>Editor\'s note</h2><p>' + esc(issue.note) + '</p></section>';
+  panels.slice(1, -1).forEach(function (p, i) {
+    if (!p || (!p.body && !p.photo)) return;
+    out += '<section class="reading-piece"><h2>' + esc(p.h || ('Page ' + (i + 2))) + '</h2>' +
+      (p.photo && pics[p.photo] ? '<img src="' + esc(pics[p.photo]) + '" alt="">' : '') +
+      '<p>' + esc(p.body || '') + '</p></section>';
+  });
+  var back = panels[panels.length - 1];
+  if (back && back.body) out += '<footer class="reading-foot"><p>' + esc(back.body) + '</p></footer>';
+  return out + '</article>';
+}
+
+// ---------- the view ----------
+var openIssueNo = null;
+
+function issueByNo(no) {
+  return state.issues.find(function (i) { return i.no === no; });
+}
+
+function renderShelf() {
+  var list = document.getElementById('shelflist');
+  if (!list) return;
+  var issues = state.issues.slice().sort(function (x, y) {
+    return (parseInt(y.no, 10) || 0) - (parseInt(x.no, 10) || 0);
+  });
+
+  if (!issues.length) {
+    list.innerHTML = '<p class="sub">Nothing published yet. Assemble an issue at the desk and ring the bell; ' +
+      'it lands here and stays exactly as it shipped.</p>';
+  } else {
+    list.innerHTML = issues.map(function (iss) {
+      return '<div class="shelf-row">' +
+        '<span class="shelf-no">№' + esc(iss.no) + '</span>' +
+        '<span class="shelf-meta"><b>' + esc(iss.title) + '</b>' +
+        '<small>' + esc(fmtDay(iss.ts)) + ' · edited by ' + esc(nameOf(iss.editor)) +
+        ' · ' + esc(formatOf(iss.format).label) + ' · ' + (iss.pieces || []).length + ' pieces</small></span>' +
+        '<button class="btn quiet" data-readissue="' + esc(iss.no) + '">READ</button>' +
+        '<button class="btn quiet" data-reprintissue="' + esc(iss.no) + '">REPRINT</button>' +
+        '<button class="btn quiet" data-exportissue="' + esc(iss.no) + '">EXPORT</button>' +
+        '</div>';
+    }).join('');
+  }
+
+  var count = document.getElementById('shelfcount');
+  if (count) {
+    count.textContent = issues.length === 0 ? 'no issues yet'
+      : issues.length + ' issue' + (issues.length === 1 ? '' : 's') + ' on the shelf';
+  }
+  if (openIssueNo && !issueByNo(openIssueNo)) openIssueNo = null;
+  renderReader();
+}
+
+function renderReader() {
+  var box = document.getElementById('shelfreader');
+  if (!box) return;
+  if (!openIssueNo) { box.innerHTML = ''; box.classList.remove('on'); return; }
+  var iss = issueByNo(openIssueNo);
+  if (!iss) return;
+  box.classList.add('on');
+  box.innerHTML = '<div class="reader-bar"><span>Reading №' + esc(iss.no) + '</span>' +
+    '<button class="btn quiet" id="closereader">CLOSE</button></div>' + readingHtml(iss);
+}
+
+function readIssue(no) {
+  openIssueNo = openIssueNo === no ? null : no;
+  renderReader();
+  var box = document.getElementById('shelfreader');
+  if (box && openIssueNo) box.scrollIntoView({ block: 'start' });
+}
+
+// Reprint renders the archived issue into its own print zone rather than
+// loading it over the working draft. A back issue is history; opening it must
+// never cost you the issue you are in the middle of making.
+function reprintIssue(no) {
+  var iss = issueByNo(no);
+  if (!iss) return;
+  var zone = document.getElementById('reprintzone');
+  if (!zone) return;
+  zone.innerHTML = staticSheetHtml(iss.panels, iss.format, iss.hand, null, issueUrl(iss.no));
+  var style = document.getElementById('pagerule');
+  if (style) style.textContent = '@page { size: ' + paperOf(iss.format).css + '; margin: 0; }';
+  document.body.classList.add('reprinting');
+  toast('Reprinting №' + iss.no + ' — your draft is untouched');
+  window.print();
+  setTimeout(function () {
+    document.body.classList.remove('reprinting');
+    zone.innerHTML = '';
+    var ps = pressState();
+    if (style) style.textContent = '@page { size: ' + paperOf(ps.format).css + '; margin: 0; }';
+  }, 500);
+}
+// ---------- the code on the back cover ----------
+// The printed issue carries its own address, so somebody who finds the paper
+// can reach the archive. That means a QR encoder, and the zero-external-
+// requests law means writing one rather than fetching one. Byte mode, error
+// correction L, versions 1 through 10, which covers any address worth putting
+// on a back cover.
+//
+// The matrix this produces is checked against an independent implementation
+// in test/03-qr.js; a symbol that does not scan is a wrong address.
+
+// GF(256) over the QR primitive polynomial, for Reed-Solomon.
+var GF_EXP = new Uint8Array(512);
+var GF_LOG = new Uint8Array(256);
+(function () {
+  var x = 1;
+  for (var i = 0; i < 255; i++) {
+    GF_EXP[i] = x;
+    GF_LOG[x] = i;
+    x <<= 1;
+    if (x & 0x100) x ^= 0x11d;
+  }
+  for (var j = 255; j < 512; j++) GF_EXP[j] = GF_EXP[j - 255];
+})();
+
+function gfMul(a, b) { return (a === 0 || b === 0) ? 0 : GF_EXP[GF_LOG[a] + GF_LOG[b]]; }
+
+function rsGen(n) {
+  var g = [1];
+  for (var i = 0; i < n; i++) {
+    g.push(0);
+    for (var j = g.length - 1; j > 0; j--) g[j] ^= gfMul(g[j - 1], GF_EXP[i]);
+  }
+  return g;
+}
+
+function rsEncode(data, n) {
+  var g = rsGen(n);
+  var res = new Uint8Array(data.length + n);
+  res.set(data);
+  for (var i = 0; i < data.length; i++) {
+    var c = res[i];
+    if (!c) continue;
+    for (var j = 0; j < g.length; j++) res[i + j] ^= gfMul(g[j], c);
+  }
+  return Array.prototype.slice.call(res, data.length);
+}
+
+// Per version at ECC level L: [total codewords, ecc per block, block sizes].
+var QR_L = {
+  1: [26, 7, [19]], 2: [44, 10, [34]], 3: [70, 15, [55]], 4: [100, 20, [80]],
+  5: [134, 26, [108]], 6: [172, 18, [68, 68]], 7: [196, 20, [78, 78]],
+  8: [242, 24, [97, 97]], 9: [292, 30, [116, 116]], 10: [346, 18, [68, 68, 69, 69]]
+};
+var QR_ALIGN = {
+  1: [], 2: [6, 18], 3: [6, 22], 4: [6, 26], 5: [6, 30],
+  6: [6, 34], 7: [6, 22, 38], 8: [6, 24, 42], 9: [6, 26, 46], 10: [6, 28, 50]
+};
+
+function qrCapacity(v) { return QR_L[v][2].reduce(function (a, b) { return a + b; }, 0); }
+
+function utf8Bytes(str) {
+  var out = [], s = unescape(encodeURIComponent(str));
+  for (var i = 0; i < s.length; i++) out.push(s.charCodeAt(i));
+  return out;
+}
+
+function qrBitStream(bytes, version) {
+  var bits = [];
+  function push(val, len) { for (var i = len - 1; i >= 0; i--) bits.push((val >> i) & 1); }
+  push(4, 4);                                   // byte mode
+  push(bytes.length, version < 10 ? 8 : 16);    // character count
+  bytes.forEach(function (b) { push(b, 8); });
+
+  var cap = qrCapacity(version) * 8;
+  for (var t = 0; t < 4 && bits.length < cap; t++) bits.push(0);
+  while (bits.length % 8) bits.push(0);
+  var pad = [0xec, 0x11], p = 0;
+  while (bits.length < cap) { push(pad[p++ % 2], 8); }
+
+  var words = [];
+  for (var i = 0; i < bits.length; i += 8) {
+    var v = 0;
+    for (var j = 0; j < 8; j++) v = (v << 1) | bits[i + j];
+    words.push(v);
+  }
+  return words;
+}
+
+// Split into blocks, encode each, then interleave data then ecc, per spec.
+function qrCodewords(text, version) {
+  var spec = QR_L[version];
+  var words = qrBitStream(utf8Bytes(text), version);
+  var blocks = [], eccs = [], at = 0;
+  spec[2].forEach(function (size) {
+    var block = words.slice(at, at + size);
+    at += size;
+    blocks.push(block);
+    eccs.push(rsEncode(block, spec[1]));
+  });
+
+  var out = [], maxData = Math.max.apply(null, spec[2]);
+  for (var i = 0; i < maxData; i++) {
+    blocks.forEach(function (b) { if (i < b.length) out.push(b[i]); });
+  }
+  for (var k = 0; k < spec[1]; k++) {
+    eccs.forEach(function (e) { out.push(e[k]); });
+  }
+  return out;
+}
+// ---------- drawing the symbol ----------
+// Function patterns, masking, and the penalty rules that choose between the
+// eight masks. Split from the encoder above only to keep both files under the
+// repo's line ceiling; together they are one concern.
+var QR_MASKS = [
+  function (i, j) { return (i + j) % 2 === 0; },
+  function (i) { return i % 2 === 0; },
+  function (i, j) { return j % 3 === 0; },
+  function (i, j) { return (i + j) % 3 === 0; },
+  function (i, j) { return (Math.floor(i / 2) + Math.floor(j / 3)) % 2 === 0; },
+  function (i, j) { return (i * j) % 2 + (i * j) % 3 === 0; },
+  function (i, j) { return ((i * j) % 2 + (i * j) % 3) % 2 === 0; },
+  function (i, j) { return ((i + j) % 2 + (i * j) % 3) % 2 === 0; }
+];
+
+function qrSkeleton(version) {
+  var n = version * 4 + 17;
+  var m = [], res = [];
+  for (var i = 0; i < n; i++) { m.push(new Array(n).fill(0)); res.push(new Array(n).fill(0)); }
+
+  function finder(r, c) {
+    for (var dr = -1; dr <= 7; dr++) {
+      for (var dc = -1; dc <= 7; dc++) {
+        var rr = r + dr, cc = c + dc;
+        if (rr < 0 || cc < 0 || rr >= n || cc >= n) continue;
+        var on = (dr >= 0 && dr <= 6 && (dc === 0 || dc === 6)) ||
+          (dc >= 0 && dc <= 6 && (dr === 0 || dr === 6)) ||
+          (dr >= 2 && dr <= 4 && dc >= 2 && dc <= 4);
+        m[rr][cc] = on ? 1 : 0;
+        res[rr][cc] = 1;
+      }
+    }
+  }
+  finder(0, 0); finder(0, n - 7); finder(n - 7, 0);
+
+  for (var t = 8; t < n - 8; t++) {
+    m[6][t] = res[6][t] = m[t][6] = res[t][6] = 1;
+    if (t % 2) { m[6][t] = 0; m[t][6] = 0; }
+  }
+
+  // Alignment patterns sit at every pairing of the centres except the three
+  // that would land on a finder. They may overlap the timing pattern, and at
+  // version 7 and up they do, so the test is the corner and not the reservation.
+  var centers = QR_ALIGN[version];
+  centers.forEach(function (r) {
+    centers.forEach(function (c) {
+      var corner = (r === 6 && c === 6) || (r === 6 && c === n - 7) || (r === n - 7 && c === 6);
+      if (corner) return;
+      for (var dr = -2; dr <= 2; dr++) {
+        for (var dc = -2; dc <= 2; dc++) {
+          m[r + dr][c + dc] = (Math.max(Math.abs(dr), Math.abs(dc)) !== 1) ? 1 : 0;
+          res[r + dr][c + dc] = 1;
+        }
+      }
+    });
+  });
+
+  for (var f = 0; f < 9; f++) {
+    if (f !== 6) { res[8][f] = 1; res[f][8] = 1; }
+  }
+  for (var g = 0; g < 8; g++) { res[8][n - 1 - g] = 1; res[n - 1 - g][8] = 1; }
+  m[n - 8][8] = 1; res[n - 8][8] = 1;             // the dark module
+
+  if (version >= 7) {
+    var vinfo = qrVersionBits(version);
+    for (var b = 0; b < 18; b++) {
+      var bit = (vinfo >> b) & 1;
+      var rr2 = Math.floor(b / 3), cc2 = b % 3;
+      m[rr2][n - 11 + cc2] = bit; res[rr2][n - 11 + cc2] = 1;
+      m[n - 11 + cc2][rr2] = bit; res[n - 11 + cc2][rr2] = 1;
+    }
+  }
+  return { m: m, res: res, n: n };
+}
+
+function qrVersionBits(v) {
+  var d = v << 12;
+  for (var i = 0; i < 6; i++) {
+    if (d & (1 << (17 - i))) d ^= 0x1f25 << (5 - i);
+  }
+  return (v << 12) | d;
+}
+
+function qrFormatBits(mask) {
+  var data = (1 << 3) | mask;            // ECC level L is 01, then the mask
+  var d = data << 10;
+  for (var i = 0; i < 5; i++) {
+    if (d & (1 << (14 - i))) d ^= 0x537 << (4 - i);
+  }
+  return ((data << 10) | d) ^ 0x5412;
+}
+
+function qrPenalty(m, n) {
+  var score = 0, dark = 0, i, j, run, last;
+  for (i = 0; i < n; i++) {
+    for (var dir = 0; dir < 2; dir++) {
+      run = 1; last = -1;
+      for (j = 0; j < n; j++) {
+        var v = dir ? m[j][i] : m[i][j];
+        if (v === last) { run++; if (run === 5) score += 3; else if (run > 5) score++; }
+        else { run = 1; last = v; }
+      }
+    }
+  }
+  for (i = 0; i < n - 1; i++) {
+    for (j = 0; j < n - 1; j++) {
+      var s = m[i][j] + m[i][j + 1] + m[i + 1][j] + m[i + 1][j + 1];
+      if (s === 0 || s === 4) score += 3;
+    }
+  }
+  // Rule 3: the 1:1:3:1:1 finder ratio with four light modules on either
+  // side, in both orientations. Missing the second orientation still yields a
+  // scannable symbol but picks a worse mask, which is how this was caught.
+  function finderLike(at) {
+    var a = at(0), b = at(1), c = at(2), d = at(3), e = at(4), f = at(5),
+      g = at(6), h = at(7), i2 = at(8), j2 = at(9), k2 = at(10);
+    if (b || !e || f || !g || j2) return false;
+    return (a && c && d && !h && !i2 && !k2) || (!a && !c && !d && h && i2 && k2);
+  }
+  for (i = 0; i < n; i++) {
+    for (j = 0; j + 10 < n; j++) {
+      var row = i, at = j;
+      if (finderLike(function (k) { return m[row][at + k]; })) score += 40;
+      if (finderLike(function (k) { return m[at + k][row]; })) score += 40;
+    }
+  }
+  for (i = 0; i < n; i++) for (j = 0; j < n; j++) if (m[i][j]) dark++;
+  score += Math.floor(Math.abs(dark * 100 / (n * n) - 50) / 5) * 10;
+  return score;
+}
+
+// The public call: a matrix of 0/1, smallest version that fits the text.
+function qrMatrix(text) {
+  var bytes = utf8Bytes(text), version = 0;
+  for (var v = 1; v <= 10; v++) {
+    var header = 4 + (v < 10 ? 8 : 16);
+    if (bytes.length + Math.ceil(header / 8) <= qrCapacity(v)) { version = v; break; }
+  }
+  if (!version) return null;
+
+  var words = qrCodewords(text, version);
+  var sk = qrSkeleton(version), n = sk.n;
+  var bits = [];
+  words.forEach(function (w) { for (var i = 7; i >= 0; i--) bits.push((w >> i) & 1); });
+
+  var idx = 0, up = true;
+  for (var col = n - 1; col > 0; col -= 2) {
+    if (col === 6) col--;
+    for (var step = 0; step < n; step++) {
+      var row = up ? n - 1 - step : step;
+      for (var c = 0; c < 2; c++) {
+        var cc = col - c;
+        if (sk.res[row][cc]) continue;
+        sk.m[row][cc] = idx < bits.length ? bits[idx] : 0;
+        idx++;
+      }
+    }
+    up = !up;
+  }
+
+  // Masks are scored with the format modules and the dark module blanked, so
+  // that only what the mask actually controls is being judged. The winner then
+  // gets its real format bits written in.
+  function writeFormat(cand, mask, live) {
+    var fmt = live ? qrFormatBits(mask) : 0;
+    for (var b = 0; b < 15; b++) {
+      var bit = live ? (fmt >> b) & 1 : 0;
+      if (b < 6) { cand[b][8] = bit; } else if (b < 8) { cand[b + 1][8] = bit; } else { cand[n - 15 + b][8] = bit; }
+      // Column 6 of row 8 is the timing pattern, so bit 8 steps over it to 7.
+      if (b < 8) { cand[8][n - 1 - b] = bit; } else if (b < 9) { cand[8][7] = bit; } else { cand[8][14 - b] = bit; }
+    }
+    cand[n - 8][8] = live ? 1 : 0;
+    if (version < 7) return;
+    var vinfo = live ? qrVersionBits(version) : 0;
+    for (var k = 0; k < 18; k++) {
+      var vbit = live ? (vinfo >> k) & 1 : 0;
+      var r = Math.floor(k / 3), c = k % 3;
+      cand[r][n - 11 + c] = vbit;
+      cand[n - 11 + c][r] = vbit;
+    }
+  }
+
+  var best = null, bestMask = 0, bestScore = Infinity;
+  for (var mask = 0; mask < 8; mask++) {
+    var cand = sk.m.map(function (r) { return r.slice(); });
+    for (var i = 0; i < n; i++) {
+      for (var j = 0; j < n; j++) {
+        if (!sk.res[i][j] && QR_MASKS[mask](i, j)) cand[i][j] ^= 1;
+      }
+    }
+    writeFormat(cand, mask, false);
+    var sc = qrPenalty(cand, n);
+    if (sc < bestScore) { bestScore = sc; bestMask = mask; best = cand; }
+  }
+  writeFormat(best, bestMask, true);
+  return best;
+}
+
+// Matrix to a 1-bit PNG data URL, quiet zone included, no smoothing.
+function qrDataUrl(text, scale) {
+  var m = qrMatrix(text);
+  if (!m) return '';
+  var q = 4, n = m.length, px = scale || 4, size = (n + q * 2) * px;
+  var cv = document.createElement('canvas');
+  cv.width = cv.height = size;
+  var ctx = cv.getContext('2d');
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = '#000';
+  for (var i = 0; i < n; i++) {
+    for (var j = 0; j < n; j++) {
+      if (m[i][j]) ctx.fillRect((j + q) * px, (i + q) * px, px, px);
+    }
+  }
+  return cv.toDataURL('image/png');
+}
+// ---------- the self-carrying issue ----------
+// An exported issue is the reading view, the imposed sheet, the shelf, and a
+// working press for the next issue, in one file. The archive travels with the
+// publication and the tool travels with the archive, which is what makes
+// credible exit a file rather than a promise. The press fits inside its own
+// output because the whole app is smaller than one issue's photographs.
+// SEED_ID is defined in 01-store.js, where the store can already see it.
+
+function sceneSlug() {
+  var a = (state.address || '').replace(/\/+$/, '');
+  var last = a.split('/').filter(Boolean).pop();
+  return (last || 'stoop').toLowerCase().replace(/[^a-z0-9-]+/g, '-');
+}
+
+function issueUrl(no) {
+  var a = (state.address || '').replace(/\/+$/, '');
+  if (!a) return '';
+  return (/^https?:\/\//.test(a) ? a : 'https://' + a) + '/' + no + '/';
+}
+
+function nextCycleAfter(no) {
+  var n = String((parseInt(no, 10) || 1) + 1);
+  var padded = n.length < 2 ? '0' + n : n;
+  return { no: padded, editor: editorFor(padded), bell: Date.now() + 6048e5 };
+}
+
+function photosFor(objs) {
+  var out = {};
+  objs.forEach(function (o) {
+    (o.panels || []).concat(o.pieces || []).forEach(function (p) {
+      if (p && p.photo && photoCache[p.photo]) out[p.photo] = photoCache[p.photo];
+    });
+    if (o.photo && photoCache[o.photo]) out[o.photo] = photoCache[o.photo];
+  });
+  return out;
+}
+
+// Everything the running page put in the DOM comes back out; what ships is the
+// app as built plus a seed. Rendered lists are rebuilt on boot, so carrying
+// them would only add weight and staleness.
+var DYNAMIC = ['loglist', 'journallist', 'projectlist', 'desktray', 'shelflist',
+  'shelfreader', 'sheetzone', 'phototray', 'reprintzone', 'toast', 'importstatus'];
+
+function pageWithSeed(seed) {
+  var doc = document.documentElement.cloneNode(true);
+  DYNAMIC.forEach(function (id) {
+    var el = doc.querySelector('#' + id);
+    if (el) el.innerHTML = '';
+  });
+  var old = doc.querySelector('#' + SEED_ID);
+  if (old) old.parentNode.removeChild(old);
+
+  var body = doc.querySelector('body') || doc;
+  var script = document.createElement('script');
+  script.type = 'application/json';
+  script.id = SEED_ID;
+  // The seed is parsed before the app's own script runs, so it must come first.
+  script.textContent = JSON.stringify(seed).replace(/<\//g, '<\\/');
+  body.insertBefore(script, body.firstChild);
+  return '<!doctype html>\n' + doc.outerHTML;
+}
+
+function download(name, html) {
+  var blob = new Blob([html], { type: 'text/html' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+}
+
+function exportIssueFile(no) {
+  var iss = issueByNo(no);
+  if (!iss) { toast('No such issue on the shelf'); return; }
+  // The shelf travels up to and including this issue: a reader who is handed
+  // №03 gets №01 and №02 with it, because a zine you cannot read back is a
+  // stream with extra steps.
+  var upTo = state.issues.filter(function (i) {
+    return (parseInt(i.no, 10) || 0) <= (parseInt(no, 10) || 0);
+  });
+  var html = pageWithSeed({
+    stoop: 'issue', version: 1, no: no,
+    names: names, address: state.address || '',
+    issues: upTo,
+    // The cycle handed on follows the issue in the file, not the shelf it left
+    // behind. Somebody given №01 is holding the desk for №02, whatever number
+    // the exporting scene has since reached.
+    cycle: nextCycleAfter(no),
+    photos: photosFor(upTo),
+    open: '#shelf', read: no
+  });
+  download(sceneSlug() + '-' + no + '.html', html);
+  toast('Issue №' + no + ' exported — the file is the press as well');
+}
+
+// A contributor opens the issue file, writes a piece, and sends back a few
+// kilobytes. No server anywhere in that loop.
+function exportPieceBundle(id) {
+  var piece = state.pieces.find(function (p) { return p.id === id; });
+  if (!piece) return;
+  var html = pageWithSeed({
+    stoop: 'piece', version: 1,
+    names: names, address: state.address || '',
+    pieces: [piece], photos: photosFor([piece]), open: '#desk'
+  });
+  download('piece-' + nameOf(piece.byline).toLowerCase().replace(/[^a-z0-9]+/g, '-') +
+    '-' + piece.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 24) + '.html', html);
+  toast('Piece exported — send it to whoever holds the desk');
+}
+
+// Reading a bundle back: pull the seed out of the file rather than trusting
+// anything else about it, and merge by id so importing twice is harmless.
+function seedFromHtml(text) {
+  var re = new RegExp('<script[^>]*id="' + SEED_ID + '"[^>]*>([\\s\\S]*?)<\\/script>');
+  var m = text.match(re);
+  if (!m) return null;
+  try { return JSON.parse(m[1].replace(/<\\\//g, '</')); } catch (e) { return null; }
+}
+
+function importSeed(seed) {
+  if (!seed || !seed.stoop) { toast('That file is not a stoop issue or piece'); return; }
+  var photos = seed.photos || {};
+  Object.keys(photos).forEach(function (pid) {
+    if (!photoCache[pid]) photoPut(pid, photos[pid]);
+  });
+
+  var addedPieces = 0, addedIssues = 0;
+  (seed.pieces || []).forEach(function (p) {
+    if (!p || !p.id) return;
+    if (state.pieces.some(function (x) { return x.id === p.id; })) return;
+    state.pieces.push(p);
+    addedPieces++;
+  });
+  (seed.issues || []).forEach(function (i) {
+    if (!i || !i.no) return;
+    if (state.issues.some(function (x) { return x.no === i.no; })) return;
+    state.issues.push(i);
+    addedIssues++;
+  });
+  if (seed.address && !state.address) state.address = seed.address;
+
+  saveState();
+  renderAll();
+  var msg = 'Took in ' + addedIssues + ' issue(s) and ' + addedPieces + ' piece(s)';
+  toast(msg);
+  var status = document.getElementById('importstatus');
+  if (status) status.textContent = msg + '.';
+}
+
+function handleBundleFile(file) {
+  var reader = new FileReader();
+  reader.onload = function (e) { importSeed(seedFromHtml(String(e.target.result))); };
+  reader.onerror = function () { toast('Could not read that file'); };
+  reader.readAsText(file);
+}
+
+// ---------- booting from a seed ----------
+// A file handed to somebody who has never opened this app should show them the
+// issue, not an empty notebook. A device that already has its own work keeps
+// it: the seed is merged, never imposed.
+function readSeed() {
+  var el = document.getElementById(SEED_ID);
+  if (!el) return null;
+  try { return JSON.parse(el.textContent); } catch (e) { return null; }
+}
+
+function hydrateFromSeed(seed) {
+  if (!seed) return;
+  var photos = seed.photos || {};
+  var ids = Object.keys(photos).filter(function (id) { return !photoCache[id]; });
+  ids.forEach(function (id) { photoPut(id, photos[id]); });
+
+  if (seed.names && seed.names.a && seed.names.b && !localStorage.getItem(NAMES_KEY)) {
+    names = { a: String(seed.names.a), b: String(seed.names.b) };
+    saveNames();
+  }
+  if (seed.read) openIssueNo = seed.read;
+  if (seed.open && !location.hash) location.hash = seed.open;
 }
 // ---------- carrying the notebook between devices ----------
 // Two people means two browsers, and a backup that replaces the other person's
 // work is not a sync, it is a coin flip. Import merges by id and keeps the
 // newer copy of anything held in both. Sending it both ways leaves the two
 // devices agreeing, which is as much as a file on a thumb drive can promise.
-var BACKUP_VERSION = 3;
+var BACKUP_VERSION = 4;
 
 function exportBackup() {
   var live = collectPhotoRefs();
@@ -1288,9 +2389,12 @@ function exportBackup() {
     exported: new Date().toISOString(),
     names: names,
     logs: state.logs,
-    todos: state.todos,
     projects: state.projects,
     journal: state.journal,
+    pieces: state.pieces,
+    issues: state.issues,
+    cycle: state.cycle,
+    address: state.address,
     press: state.press,
     photos: photos
   };
@@ -1328,20 +2432,33 @@ function importBackup(raw, mode) {
 
   if (mode === 'replace') {
     state.logs = incoming.logs;
-    state.todos = incoming.todos;
     state.projects = incoming.projects;
     state.journal = incoming.journal;
+    state.pieces = incoming.pieces;
+    state.issues = incoming.issues;
+    state.cycle = incoming.cycle;
+    state.address = incoming.address;
     state.press = incoming.press;
   } else {
-    var before = state.logs.length + state.todos.length + state.projects.length + state.journal.length;
+    var count = function () {
+      return state.logs.length + state.projects.length + state.journal.length +
+        state.pieces.length + state.issues.length;
+    };
+    var before = count();
     state.logs = mergeList(state.logs, incoming.logs);
-    state.todos = mergeList(state.todos, incoming.todos);
     state.projects = mergeList(state.projects, incoming.projects);
     state.journal = mergeList(state.journal, incoming.journal);
+    state.pieces = mergeList(state.pieces, incoming.pieces);
+    // Issues are keyed by number and never overwritten: a published issue is
+    // history, and the copy already on the shelf wins.
+    incoming.issues.forEach(function (iss) {
+      if (!state.issues.some(function (x) { return x.no === iss.no; })) state.issues.push(iss);
+    });
+    if (!state.address) state.address = incoming.address;
     if (incoming.press && (!state.press || (incoming.press.ts || 0) > (state.press.ts || 0))) {
       state.press = incoming.press;
     }
-    var after = state.logs.length + state.todos.length + state.projects.length + state.journal.length;
+    var after = count();
     added = Math.max(0, after - before) + added;
   }
 
@@ -1393,7 +2510,10 @@ function saveNameFields() {
   var b = document.getElementById('nameb');
   names.a = (a && a.value.trim()) || 'Me';
   names.b = (b && b.value.trim()) || 'Partner';
+  var addr = document.getElementById('addressinput');
+  if (addr) state.address = addr.value.trim();
   saveNames();
+  saveState();
   renderAll();
   toast('Names saved');
 }
@@ -1414,6 +2534,7 @@ function showView() {
     views.forEach(function (v) { v.classList.toggle('on', v.getAttribute('data-view') === 'log'); });
   }
   navs.forEach(function (a) { a.classList.toggle('here', a.getAttribute('data-nav') === h); });
+  if (h === 'press') renderPress();
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', showView);
@@ -1452,26 +2573,6 @@ document.addEventListener('click', function (e) {
     return renderLogs();
   }
 
-  if (hit(t, '#todoaddbtn')) return addTodo();
-  if ((el = hit(t, '[data-toggletodo]'))) {
-    var item = state.todos.find(function (i) { return i.id === el.getAttribute('data-toggletodo'); });
-    if (item) { item.done = el.checked; saveState(); renderTodos(); }
-    return;
-  }
-  if ((el = hit(t, '[data-deltodo]'))) {
-    var tid = el.getAttribute('data-deltodo');
-    state.todos = state.todos.filter(function (i) { return i.id !== tid; });
-    saveState(); return renderTodos();
-  }
-  if ((el = hit(t, '[data-todofilter]'))) {
-    activeTodoFilter = el.getAttribute('data-todofilter');
-    document.querySelectorAll('[data-todofilter]').forEach(function (b) {
-      b.classList.toggle('on', b.getAttribute('data-todofilter') === activeTodoFilter);
-    });
-    return renderTodos();
-  }
-  if (hit(t, '#clearcompletedbtn')) return clearCompletedTodos();
-
   if (hit(t, '#projectaddbtn')) return addProject();
   if ((el = hit(t, '[data-delproject]'))) {
     var pid = el.getAttribute('data-delproject');
@@ -1486,35 +2587,68 @@ document.addEventListener('click', function (e) {
     saveState(); return renderJournal();
   }
 
-  if (hit(t, '#compilezinebtn')) return compileZine();
+  // ---------- the desk ----------
+  if (hit(t, '#piecesubmitbtn')) return submitPiece();
+  if (hit(t, '#drawsourcesbtn')) return draftFromSources();
+  if (hit(t, '#savebellbtn')) return saveBell();
+  if ((el = hit(t, '[data-cutpiece]'))) return cutPiece(el.getAttribute('data-cutpiece'), true);
+  if ((el = hit(t, '[data-restorepiece]'))) return cutPiece(el.getAttribute('data-restorepiece'), false);
+  if ((el = hit(t, '[data-droppiece]'))) return dropPiece(el.getAttribute('data-droppiece'));
+  if (hit(t, '#compileissuebtn')) return compileIssue();
+  if (hit(t, '#buildissuebtn')) return buildIssue();
+
+  // ---------- the shelf ----------
+  if ((el = hit(t, '[data-readissue]'))) return readIssue(el.getAttribute('data-readissue'));
+  if ((el = hit(t, '[data-reprintissue]'))) return reprintIssue(el.getAttribute('data-reprintissue'));
+  if ((el = hit(t, '[data-exportissue]'))) return exportIssueFile(el.getAttribute('data-exportissue'));
+  if ((el = hit(t, '[data-piecebundle]'))) return exportPieceBundle(el.getAttribute('data-piecebundle'));
+  if (hit(t, '#closereader')) return readIssue(openIssueNo);
+
   if (hit(t, '#printzinebtn')) { capturePanels(); return window.print(); }
   if (hit(t, '#clearzinebtn')) return clearSheet();
   if (hit(t, '#swaplayoutbtn')) return swapLayout();
   if (hit(t, '#testsheetbtn')) return toggleTestSheet();
 
   if (hit(t, '#exportbtn')) return exportBackup();
+  if (hit(t, '#bundlebtn')) return document.getElementById('bundlefile').click();
   if (hit(t, '#mergebtn')) { document.getElementById('importfile').dataset.mode = 'merge'; return document.getElementById('importfile').click(); }
   if (hit(t, '#replacebtn')) { document.getElementById('importfile').dataset.mode = 'replace'; return document.getElementById('importfile').click(); }
-  if (hit(t, '#savenamesbtn')) return saveNameFields();
+  if (hit(t, '#savenamesbtn') || hit(t, '#savenamesbtn2')) return saveNameFields();
   if (hit(t, '#resetbtn')) return resetData();
 });
+
+function saveBell() {
+  var el = document.getElementById('bellinput');
+  if (!el || !el.value) return;
+  var parts = el.value.split('-');
+  cycleState().bell = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]), 19, 0).getTime();
+  saveState();
+  renderDesk();
+  toast('The bell is set');
+}
 
 document.addEventListener('keydown', function (e) {
   if (e.key !== 'Enter') return;
   if (e.target.id === 'loginput') { e.preventDefault(); addLog(); }
-  else if (e.target.id === 'todoinput') { e.preventDefault(); addTodo(); }
-  else if (e.target.id === 'namea' || e.target.id === 'nameb') { e.preventDefault(); saveNameFields(); }
+  else if (e.target.id === 'piecetitle') { e.preventDefault(); submitPiece(); }
+  else if (e.target.id === 'namea' || e.target.id === 'nameb' || e.target.id === 'addressinput') {
+    e.preventDefault(); saveNameFields();
+  }
+});
+
+document.addEventListener('change', function (e) {
+  if (e.target.id === 'formatsel') setFormat(e.target.value);
 });
 
 // Panel edits save on a debounce so the caret is never yanked mid-word.
 var panelTimer = null;
 document.addEventListener('input', function (e) {
-  if (!e.target.closest || !e.target.closest('#zinesheet')) return;
+  if (!e.target.closest || !e.target.closest('#sheetzone')) return;
   clearTimeout(panelTimer);
   panelTimer = setTimeout(capturePanels, 400);
 });
 document.addEventListener('focusout', function (e) {
-  if (e.target.closest && e.target.closest('#zinesheet')) capturePanels();
+  if (e.target.closest && e.target.closest('#sheetzone')) capturePanels();
 });
 
 var photoInput = document.getElementById('photofile');
@@ -1540,10 +2674,35 @@ if (importInput) {
   });
 }
 
+var bundleInput = document.getElementById('bundlefile');
+if (bundleInput) {
+  bundleInput.addEventListener('change', function (e) {
+    if (e.target.files && e.target.files[0]) handleBundleFile(e.target.files[0]);
+    e.target.value = '';
+  });
+}
+
 // ---------- boot ----------
+function fillFormats() {
+  var sel = document.getElementById('formatsel');
+  if (!sel) return;
+  sel.innerHTML = FORMAT_IDS.map(function (id) {
+    return '<option value="' + id + '">' + esc(FORMATS[id].label) + '</option>';
+  }).join('');
+  sel.value = pressState().format;
+}
+
+function fillSettings() {
+  var addr = document.getElementById('addressinput');
+  if (addr && document.activeElement !== addr) addr.value = state.address || '';
+}
+
 // Photos load before the first paint so renders stay synchronous; the app is
 // usable either way, so a failed store degrades to text rather than a blank page.
 photoLoadAll().then(function () {
+  hydrateFromSeed(readSeed());
+  fillFormats();
+  fillSettings();
   renderAll();
   showView();
 });

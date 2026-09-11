@@ -15,6 +15,7 @@ function showView() {
     views.forEach(function (v) { v.classList.toggle('on', v.getAttribute('data-view') === 'log'); });
   }
   navs.forEach(function (a) { a.classList.toggle('here', a.getAttribute('data-nav') === h); });
+  if (h === 'press') renderPress();
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', showView);
@@ -53,26 +54,6 @@ document.addEventListener('click', function (e) {
     return renderLogs();
   }
 
-  if (hit(t, '#todoaddbtn')) return addTodo();
-  if ((el = hit(t, '[data-toggletodo]'))) {
-    var item = state.todos.find(function (i) { return i.id === el.getAttribute('data-toggletodo'); });
-    if (item) { item.done = el.checked; saveState(); renderTodos(); }
-    return;
-  }
-  if ((el = hit(t, '[data-deltodo]'))) {
-    var tid = el.getAttribute('data-deltodo');
-    state.todos = state.todos.filter(function (i) { return i.id !== tid; });
-    saveState(); return renderTodos();
-  }
-  if ((el = hit(t, '[data-todofilter]'))) {
-    activeTodoFilter = el.getAttribute('data-todofilter');
-    document.querySelectorAll('[data-todofilter]').forEach(function (b) {
-      b.classList.toggle('on', b.getAttribute('data-todofilter') === activeTodoFilter);
-    });
-    return renderTodos();
-  }
-  if (hit(t, '#clearcompletedbtn')) return clearCompletedTodos();
-
   if (hit(t, '#projectaddbtn')) return addProject();
   if ((el = hit(t, '[data-delproject]'))) {
     var pid = el.getAttribute('data-delproject');
@@ -87,35 +68,68 @@ document.addEventListener('click', function (e) {
     saveState(); return renderJournal();
   }
 
-  if (hit(t, '#compilezinebtn')) return compileZine();
+  // ---------- the desk ----------
+  if (hit(t, '#piecesubmitbtn')) return submitPiece();
+  if (hit(t, '#drawsourcesbtn')) return draftFromSources();
+  if (hit(t, '#savebellbtn')) return saveBell();
+  if ((el = hit(t, '[data-cutpiece]'))) return cutPiece(el.getAttribute('data-cutpiece'), true);
+  if ((el = hit(t, '[data-restorepiece]'))) return cutPiece(el.getAttribute('data-restorepiece'), false);
+  if ((el = hit(t, '[data-droppiece]'))) return dropPiece(el.getAttribute('data-droppiece'));
+  if (hit(t, '#compileissuebtn')) return compileIssue();
+  if (hit(t, '#buildissuebtn')) return buildIssue();
+
+  // ---------- the shelf ----------
+  if ((el = hit(t, '[data-readissue]'))) return readIssue(el.getAttribute('data-readissue'));
+  if ((el = hit(t, '[data-reprintissue]'))) return reprintIssue(el.getAttribute('data-reprintissue'));
+  if ((el = hit(t, '[data-exportissue]'))) return exportIssueFile(el.getAttribute('data-exportissue'));
+  if ((el = hit(t, '[data-piecebundle]'))) return exportPieceBundle(el.getAttribute('data-piecebundle'));
+  if (hit(t, '#closereader')) return readIssue(openIssueNo);
+
   if (hit(t, '#printzinebtn')) { capturePanels(); return window.print(); }
   if (hit(t, '#clearzinebtn')) return clearSheet();
   if (hit(t, '#swaplayoutbtn')) return swapLayout();
   if (hit(t, '#testsheetbtn')) return toggleTestSheet();
 
   if (hit(t, '#exportbtn')) return exportBackup();
+  if (hit(t, '#bundlebtn')) return document.getElementById('bundlefile').click();
   if (hit(t, '#mergebtn')) { document.getElementById('importfile').dataset.mode = 'merge'; return document.getElementById('importfile').click(); }
   if (hit(t, '#replacebtn')) { document.getElementById('importfile').dataset.mode = 'replace'; return document.getElementById('importfile').click(); }
-  if (hit(t, '#savenamesbtn')) return saveNameFields();
+  if (hit(t, '#savenamesbtn') || hit(t, '#savenamesbtn2')) return saveNameFields();
   if (hit(t, '#resetbtn')) return resetData();
 });
+
+function saveBell() {
+  var el = document.getElementById('bellinput');
+  if (!el || !el.value) return;
+  var parts = el.value.split('-');
+  cycleState().bell = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]), 19, 0).getTime();
+  saveState();
+  renderDesk();
+  toast('The bell is set');
+}
 
 document.addEventListener('keydown', function (e) {
   if (e.key !== 'Enter') return;
   if (e.target.id === 'loginput') { e.preventDefault(); addLog(); }
-  else if (e.target.id === 'todoinput') { e.preventDefault(); addTodo(); }
-  else if (e.target.id === 'namea' || e.target.id === 'nameb') { e.preventDefault(); saveNameFields(); }
+  else if (e.target.id === 'piecetitle') { e.preventDefault(); submitPiece(); }
+  else if (e.target.id === 'namea' || e.target.id === 'nameb' || e.target.id === 'addressinput') {
+    e.preventDefault(); saveNameFields();
+  }
+});
+
+document.addEventListener('change', function (e) {
+  if (e.target.id === 'formatsel') setFormat(e.target.value);
 });
 
 // Panel edits save on a debounce so the caret is never yanked mid-word.
 var panelTimer = null;
 document.addEventListener('input', function (e) {
-  if (!e.target.closest || !e.target.closest('#zinesheet')) return;
+  if (!e.target.closest || !e.target.closest('#sheetzone')) return;
   clearTimeout(panelTimer);
   panelTimer = setTimeout(capturePanels, 400);
 });
 document.addEventListener('focusout', function (e) {
-  if (e.target.closest && e.target.closest('#zinesheet')) capturePanels();
+  if (e.target.closest && e.target.closest('#sheetzone')) capturePanels();
 });
 
 var photoInput = document.getElementById('photofile');
@@ -141,10 +155,35 @@ if (importInput) {
   });
 }
 
+var bundleInput = document.getElementById('bundlefile');
+if (bundleInput) {
+  bundleInput.addEventListener('change', function (e) {
+    if (e.target.files && e.target.files[0]) handleBundleFile(e.target.files[0]);
+    e.target.value = '';
+  });
+}
+
 // ---------- boot ----------
+function fillFormats() {
+  var sel = document.getElementById('formatsel');
+  if (!sel) return;
+  sel.innerHTML = FORMAT_IDS.map(function (id) {
+    return '<option value="' + id + '">' + esc(FORMATS[id].label) + '</option>';
+  }).join('');
+  sel.value = pressState().format;
+}
+
+function fillSettings() {
+  var addr = document.getElementById('addressinput');
+  if (addr && document.activeElement !== addr) addr.value = state.address || '';
+}
+
 // Photos load before the first paint so renders stay synchronous; the app is
 // usable either way, so a failed store degrades to text rather than a blank page.
 photoLoadAll().then(function () {
+  hydrateFromSeed(readSeed());
+  fillFormats();
+  fillSettings();
   renderAll();
   showView();
 });

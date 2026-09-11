@@ -53,7 +53,7 @@ emit_app_fragment > "$OUT_ROOT/artifact/index.html"
 cp src/press.html "$OUT_ROOT/artifact/press.html"
 
 wrap_doc "$OUT_ROOT/artifact/index.html" \
-  "A private notebook for two: daily log, shared lists, projects, journal, and photos, compiled into a printable 8-page zine. Local-first, no accounts, no server." \
+  "A press for a periodical: submit pieces, assemble an issue at the desk, impose it for paper, and keep every back issue on the shelf. Each exported issue carries the press inside it. Local-first, no accounts, no server." \
   "$OUT_ROOT/index.html"
 
 wrap_doc "$OUT_ROOT/artifact/press.html" \

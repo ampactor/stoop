@@ -24,26 +24,6 @@
 .log-del { background: none; border: none; color: var(--grey); cursor: pointer; font-size: .8rem; }
 .log-del:hover { color: var(--orange); }
 
-/* Todos */
-.todolist-container { margin-top: 1rem; }
-.todolist { display: flex; flex-direction: column; gap: .4rem; }
-.todo-item {
-  background: var(--soot);
-  border: 1px solid var(--grey);
-  padding: .5rem .75rem;
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-  font-family: 'Courier New', monospace;
-  font-size: .88rem;
-}
-.todo-item.done { opacity: .5; background: transparent; border-style: dashed; }
-.todo-item.done .todo-text { text-decoration: line-through; }
-.todo-check { cursor: pointer; width: 1.1rem; height: 1.1rem; accent-color: var(--orange); }
-.todo-text { flex: 1; color: var(--bone); }
-.todo-tag { font-size: .7rem; border: 1px solid var(--grey); padding: .05rem .35rem; color: var(--grey); }
-.todo-footer-row { margin-top: .8rem; display: flex; justify-content: flex-end; }
-
 /* Projects */
 .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
 .project-card {
@@ -59,25 +39,67 @@
 
 /* Journal */
 .journal-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
-.journal-card {
-  background: var(--soot);
-  border: 2px solid var(--bone);
-  padding: 1rem 1.2rem;
-}
+.journal-card { background: var(--soot); border: 2px solid var(--bone); padding: 1rem 1.2rem; }
 .journal-card-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dashed var(--grey); padding-bottom: .4rem; margin-bottom: .6rem; }
 .journal-card-head h2 { margin: 0; font-size: 1.35rem; color: var(--bone); }
 .journal-card-body { font-family: 'Courier New', monospace; font-size: .9rem; color: var(--bone); line-height: 1.55; white-space: pre-wrap; }
 
-/* Zine Sheet */
-.press-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+/* The desk: the tray of submitted pieces */
+.sub-row { display: flex; align-items: center; gap: .6rem; border-bottom: 1px dashed var(--ink); padding: .45rem 0; font-family: 'Courier New', monospace; font-size: .85rem; }
+.sub-row:last-of-type { border-bottom: none; }
+.sub-row .ord { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 1.3rem; width: 1.4rem; text-align: center; }
+.sub-row .meta { flex: 1; display: flex; flex-direction: column; }
+.sub-row .meta small { color: #5a5348; }
+.sub-row.cut { opacity: .55; }
+.sub-row.cut .meta b { text-decoration: line-through; }
+.subbtn { font-family: 'Courier New', monospace; font-size: .7rem; background: none; border: 1px solid var(--ink); color: var(--ink); padding: .2rem .5rem; cursor: pointer; }
+.subbtn:hover { background: var(--ink); color: var(--paper); }
+
+/* The shelf */
+.shelf-list { display: flex; flex-direction: column; }
+.shelf-row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; border-bottom: 1px dashed var(--ink); padding: .55rem 0; }
+.shelf-row:last-child { border-bottom: none; }
+.shelf-no { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 1.5rem; min-width: 3rem; }
+.shelf-meta { flex: 1; display: flex; flex-direction: column; font-family: 'Courier New', monospace; font-size: .85rem; min-width: 12rem; }
+.shelf-meta small { color: #5a5348; }
+.shelfreader { display: none; }
+.shelfreader.on { display: block; }
+.reader-bar { display: flex; justify-content: space-between; align-items: center; font-family: 'Courier New', monospace; font-size: .8rem; color: var(--grey); margin: 1.2rem 0 .4rem; }
+
+/* The reading view: the other substrate, no imposition */
+.reading { background: var(--paper); color: var(--ink); border: 2px solid var(--ink); padding: 1.4rem 1.3rem; box-shadow: 5px 5px 0 rgba(0,0,0,.55); max-width: 38rem; margin: 0 auto; }
+.reading img { width: 100%; image-rendering: pixelated; margin: .6rem 0; }
+.reading-head { border-bottom: 3px solid var(--ink); padding-bottom: .6rem; margin-bottom: 1rem; }
+.reading-head h1 { font-size: 2.2rem; margin: 0; }
+.reading-meta { font-family: 'Courier New', monospace; font-size: .75rem; margin: .3rem 0 0; }
+.reading-note { border-left: 3px solid var(--ink); padding-left: .8rem; margin-bottom: 1.2rem; }
+.reading-piece { margin-bottom: 1.4rem; }
+.reading-piece h2 { font-size: 1.4rem; margin: 0 0 .3rem; }
+.reading h2, .reading p { color: var(--ink); }
+.reading p { font-family: 'Courier New', monospace; font-size: .9rem; line-height: 1.6; white-space: pre-wrap; }
+.reading-foot { border-top: 1px dashed var(--ink); padding-top: .6rem; font-size: .8rem; }
+
+/* The press */
+.press-actions { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+.fitmeter { font-family: 'Courier New', monospace; font-size: .8rem; border: 1px solid var(--ink); padding: .35rem .6rem; margin: .7rem 0 0; }
+.fitmeter.bad { background: var(--ink); color: var(--paper); }
 .sheetzone { margin-top: 1rem; overflow-x: auto; padding-bottom: 1rem; }
-.sheetwrap { transform-origin: top left; min-width: 1056px; }
-.sheet { width: 11in; height: 8.5in; background: #fff; color: var(--ink); display: flex; flex-wrap: wrap; box-shadow: 0 0 0 1px #000, 8px 8px 0 rgba(0,0,0,.6); }
-.panel { width: 25%; height: 50%; border: 1px dashed #bbb; padding: .28in .3in; overflow: hidden; position: relative; background: #fff; box-sizing: border-box; display: flex; flex-direction: column; }
+.sheetwrap { transform-origin: top left; margin-bottom: 1.2rem; width: max-content; }
+.sheetlabel { font-family: 'Courier New', monospace; font-size: .7rem; color: var(--grey); letter-spacing: .1em; text-transform: uppercase; margin-bottom: .25rem; }
+.sheet {
+  background: #fff; color: var(--ink);
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), 1fr);
+  grid-template-rows: repeat(var(--rows, 2), 1fr);
+  box-shadow: 0 0 0 1px #000, 8px 8px 0 rgba(0,0,0,.6);
+}
+.panel { border: 1px dashed #bbb; padding: .28in .3in; overflow: hidden; position: relative; background: #fff; box-sizing: border-box; display: flex; flex-direction: column; }
 .panel.flip { transform: rotate(180deg); }
+.panel.over { outline: 2px solid var(--red); outline-offset: -2px; }
 .panel h3 { font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: 20px; letter-spacing: .04em; margin: 0 0 6px; text-transform: uppercase; color: var(--ink); outline: none; }
 .panel .body { font-family: 'Courier New', monospace; font-size: 11.5px; line-height: 1.45; color: var(--ink); outline: none; white-space: pre-wrap; flex: 1; overflow: hidden; }
 .panel .pgtag { position: absolute; bottom: 4px; right: 8px; font-size: 9px; color: #aaa; font-family: 'Courier New', monospace; }
+.panel .fitwarn:not(:empty) { position: absolute; bottom: 3px; left: 6px; font-family: 'Courier New', monospace; font-size: 9px; background: var(--red); color: #fff; padding: 1px 4px; }
 .panel-photo { display: block; width: 100%; max-height: 46%; object-fit: contain; object-position: left top; margin: 0 0 5px; image-rendering: pixelated; }
 .panel-unpic { position: absolute; top: 3px; right: 5px; background: #fff; border: 1px solid var(--ink); color: var(--ink); font-size: 10px; line-height: 1; padding: 2px 4px; cursor: pointer; }
 .cover h3 { font-size: 24px; }
@@ -85,6 +107,9 @@
 .cover .no span { outline: none; }
 .cover .rule { border-top: 3px solid var(--ink); margin: 6px 0; }
 .backcover .body { font-size: 10.5px; }
+.addr { display: flex; align-items: center; gap: 6px; margin-top: auto; }
+.addr .qr { width: 64px; height: 64px; image-rendering: pixelated; }
+.addr span { font-family: 'Courier New', monospace; font-size: 8.5px; word-break: break-all; }
 
 /* Numbered test sheet: fold this first and read the page numbers in order. */
 .testnum { display: none; position: absolute; inset: 0; background: #fff; z-index: 2; align-items: center; justify-content: center; flex-direction: column; gap: 6px; }
@@ -96,18 +121,25 @@
 .fold-steps { font-family: 'Courier New', monospace; font-size: .85rem; line-height: 1.5; padding-left: 1.2rem; }
 .fold-steps li { margin-bottom: .5rem; }
 
+/* Reprinting a back issue renders into its own zone, so opening history never
+   costs you the issue you are in the middle of making. */
+.reprintzone { display: none; }
+
 /* Toast */
 .toast { position: fixed; left: 50%; bottom: 1.2rem; transform: translateX(-50%); background: var(--orange); color: var(--night); font-family: 'Courier New', monospace; font-size: .85rem; padding: .5rem .9rem; border: 2px solid var(--night); display: none; z-index: 50; }
 
 @media print {
-  @page { size: letter landscape; margin: 0; }
   body { background: #fff; color: #000; }
-  header.chrome, .view-head, .paper, .pgtag, .panel-unpic, .toast { display: none !important; }
+  header.chrome, .view-head, .paper, .pgtag, .panel-unpic, .toast,
+  .fitwarn, .sheetlabel, .shelfreader { display: none !important; }
   main { max-width: none; padding: 0; margin: 0; }
   section[data-view]:not([data-view="press"]) { display: none !important; }
   section[data-view="press"] { display: block !important; }
   .sheetzone { margin: 0; padding: 0; overflow: visible; }
-  .sheetwrap { transform: none !important; min-width: 0; }
-  .sheet { box-shadow: none; width: 11in; height: 8.5in; }
+  .sheetwrap { transform: none !important; margin: 0; break-after: page; page-break-after: always; }
+  .sheetwrap:last-child { break-after: auto; page-break-after: auto; }
+  .sheet { box-shadow: none; }
   .panel { border-color: #eee; }
+  body.reprinting main, body.reprinting header.chrome { display: none !important; }
+  body.reprinting .reprintzone { display: block !important; }
 }

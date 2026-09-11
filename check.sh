@@ -43,19 +43,37 @@ fi
 
 # 5. Imposition agreement: the app's press and the hand kit in press/ must
 # fold the same way. Two presses that disagree is a stack of ruined paper.
-kit=$(grep -oE 'presetA=\[[0-9, ]+\]' src/press.html | tr -d ' ' | sed 's/presetA=//')
-app=$(grep -oE 'PRESET_A = \[[0-9, ]+\]' src/js/04-press.js | tr -d ' ' | sed 's/PRESET_A=//')
-if [ -z "$kit" ] || [ -z "$app" ]; then
-  echo "FAIL: could not read an imposition preset from src/press.html or src/js/04-press.js"
+for hand in A B; do
+  lower=$(printf '%s' "$hand" | tr 'AB' 'ab')
+  kit=$(grep -oE "preset$hand=\[[0-9, ]+\]" src/press.html | tr -d ' ' | sed "s/preset$hand=//")
+  app=$(grep -oE "PRESET_$hand = \[[0-9, ]+\]" src/js/04-impose.js | tr -d ' ' | sed "s/PRESET_$hand=//")
+  if [ -z "$kit" ] || [ -z "$app" ]; then
+    echo "FAIL: could not read imposition preset $hand from src/press.html or src/js/04-impose.js"
+    fail=1
+  elif [ "$kit" != "$app" ]; then
+    echo "FAIL: imposition mismatch on fold $hand — kit $kit, app $app"
+    fail=1
+  fi
+  : "$lower"
+done
+
+# 6. The self-carrying budget. Every issue this app exports carries the app
+# inside it, so the press has to stay a minority of the payload it rides in.
+# An issue with a few dithered photographs runs 200-500 KB; 256 KB is the point
+# past which the press stops being a rounding error on its own output.
+bytes=$(wc -c < artifact/index.html)
+if [ "$bytes" -gt 262144 ]; then
+  echo "FAIL: app fragment is $((bytes / 1024)) KB; the self-carrying ceiling is 256 KB"
   fail=1
-elif [ "$kit" != "$app" ]; then
-  echo "FAIL: imposition mismatch — kit $kit, app $app"
-  fail=1
+elif [ "$bytes" -gt 131072 ]; then
+  echo "WARN: app fragment over 128 KB; half the self-carrying budget is spent"
 fi
 
-# 6. Weight budget: warn when the app fragment crosses 64 KB.
-if [ "$(wc -c < artifact/index.html)" -gt 65536 ]; then
-  echo "WARN: app fragment over 64 KB; the pamphlet is getting heavy"
+# 8. Portability: built output names no host, so a scene directory survives
+# being copied to another host, a thumb drive, or a tarball.
+if grep -qE '(src|href)="https?:' artifact/index.html artifact/press.html; then
+  echo "FAIL: built output contains an absolute URL"
+  fail=1
 fi
 
 # 7. Licenses present (charter III.4).

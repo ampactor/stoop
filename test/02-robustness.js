@@ -54,8 +54,8 @@ module.exports = async function robustness(browser, ok) {
       localStorage.setItem('stoop_data_v2', JSON.stringify({
         logs: [{ id: 'o1', author: 'Together', tag: 'idea', text: 'legacy joint note', time: 'Aug 24 · 4:30 PM' },
                { id: 'o2', author: 'Suds', tag: 'moment', text: 'legacy solo note', time: 'Aug 24 · 5:00 PM' }],
-        todos: [{ id: 'ot', cat: 'Partner', text: 'legacy task', done: false }],
-        projects: [], journal: []
+        projects: [{ id: 'op', title: 'legacy project', desc: 'from a v2 file' }],
+        journal: []
       }));
     });
     await page.click('[data-logfilter="both"]');
@@ -63,8 +63,8 @@ module.exports = async function robustness(browser, ok) {
     ok('a v2 "Together" entry migrates and stays filterable',
        (await page.locator('.log-card').count()) === 1 &&
        /legacy joint/.test(await page.locator('#loglist').innerText()));
-    await go(page, '#todos');
-    ok('a v2 "Partner" category migrates', /legacy task/.test(await page.locator('#todolist').innerText()));
+    await go(page, '#projects');
+    ok('a v2 entry survives the upgrade', /legacy project/.test(await page.locator('#projectlist').innerText()));
     ok('the v2 upgrade throws nothing', errs.length === 0, errs.join('|'));
     await ctx.close();
   }
@@ -72,8 +72,8 @@ module.exports = async function robustness(browser, ok) {
   {
     const { page, errs, ctx } = await withSeed(() => localStorage.setItem('stoop_data_v3', JSON.stringify({
       logs: [{ id: 'g1', author: 'a', tag: 'photo', text: 'caption without its picture', photo: 'ph_missing', ts: Date.now() }],
-      todos: [], projects: [], journal: [],
-      press: { layout: 'A', issue: '01', ts: 1, panels: Array.from({ length: 8 }, () => ({ h: 'H', body: 'B', photo: 'ph_missing' })) }
+      projects: [], journal: [],
+      press: { format: 'fold8', hand: 'A', issue: '01', ts: 1, panels: Array.from({ length: 8 }, () => ({ h: 'H', body: 'B', photo: 'ph_missing' })) }
     })));
     const logImgs = await page.locator('.log-photo').count();
     const text = await page.locator('#loglist').innerText();
@@ -105,8 +105,8 @@ module.exports = async function robustness(browser, ok) {
   // older backup imported afterwards cannot walk it back.
   {
     const sheet = (issue, ts, label) => ({
-      version: 3, logs: [], todos: [], projects: [], journal: [], photos: {},
-      press: { layout: 'A', issue, ts, panels: Array.from({ length: 8 }, () => ({ h: label, body: label, photo: null })) }
+      version: 4, logs: [], projects: [], journal: [], pieces: [], issues: [], photos: {},
+      press: { format: 'fold8', hand: 'A', issue, ts, panels: Array.from({ length: 8 }, () => ({ h: label, body: label, photo: null })) }
     });
     const older = path.join(os.tmpdir(), 'stoop-older.json');
     const newer = path.join(os.tmpdir(), 'stoop-newer.json');

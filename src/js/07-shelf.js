@@ -1,0 +1,136 @@
+// ---------- the shelf ----------
+// Streams forget; shelves remember. An issue is archived whole — its panels,
+// its format, its fold hand — so a back issue reprints exactly as it shipped
+// rather than as the current draft happens to be configured.
+
+// A sheet with nothing editable about it. The press draws its own; this one
+// serves the shelf and the exported issue, which must render identically on a
+// machine that has never seen this app.
+function staticSheetHtml(panels, formatId, hand, photos, url) {
+  var plan = impose(formatId, hand);
+  var paper = paperOf(formatId);
+  var pages = plan.format.pages;
+  var pics = photos || photoCache;
+  var addr = url ? '<div class="addr"><img class="qr" src="' + esc(qrDataUrl(url, 3)) +
+    '" alt=""><span>' + esc(url.replace(/^https?:\/\//, '')) + '</span></div>' : '';
+  return plan.sheets.map(function (sheet, i) {
+    return '<div class="sheetwrap"><div class="sheetlabel">' + esc(sheet.side) + '</div>' +
+      '<div class="sheet" data-sheet="' + i + '" style="width:' + paper.w + ';height:' + paper.h +
+      ';--cols:' + sheet.cols + ';--rows:' + sheet.rows + '">' +
+      sheet.slots.map(function (slot) {
+        var p = panels[slot.page - 1] || { h: '', body: '', photo: null };
+        var cover = slot.page === 1 ? ' cover' : (slot.page === pages ? ' backcover' : '');
+        return '<div class="panel' + cover + (slot.flip ? ' flip' : '') + '" data-page="' + slot.page + '">' +
+          '<h3>' + esc(p.h || '') + '</h3>' +
+          (p.photo && pics[p.photo] ? '<img class="panel-photo" src="' + esc(pics[p.photo]) + '" alt="">' : '') +
+          '<div class="body">' + esc(p.body || '') + '</div>' +
+          (slot.page === pages ? addr : '') +
+          '</div>';
+      }).join('') + '</div></div>';
+  }).join('');
+}
+
+// The other substrate. Same source, no imposition: this is the issue you open
+// on a phone at the bus stop, and nothing in it needs a network to mean
+// something.
+function readingHtml(issue, photos) {
+  var pics = photos || photoCache;
+  var panels = issue.panels || [];
+  var cover = panels[0] || { h: 'STOOP ZINE' };
+  var out = '<article class="reading">' +
+    '<header class="reading-head"><h1>' + esc(cover.h || 'STOOP ZINE') + '</h1>' +
+    '<p class="reading-meta">№' + esc(issue.no) + ' · ' + esc(fmtDay(issue.ts)) +
+    ' · edited by ' + esc(nameOf(issue.editor)) + '</p>' +
+    (cover.photo && pics[cover.photo] ? '<img src="' + esc(pics[cover.photo]) + '" alt="">' : '') +
+    '</header>';
+  if (issue.note) out += '<section class="reading-note"><h2>Editor\'s note</h2><p>' + esc(issue.note) + '</p></section>';
+  panels.slice(1, -1).forEach(function (p, i) {
+    if (!p || (!p.body && !p.photo)) return;
+    out += '<section class="reading-piece"><h2>' + esc(p.h || ('Page ' + (i + 2))) + '</h2>' +
+      (p.photo && pics[p.photo] ? '<img src="' + esc(pics[p.photo]) + '" alt="">' : '') +
+      '<p>' + esc(p.body || '') + '</p></section>';
+  });
+  var back = panels[panels.length - 1];
+  if (back && back.body) out += '<footer class="reading-foot"><p>' + esc(back.body) + '</p></footer>';
+  return out + '</article>';
+}
+
+// ---------- the view ----------
+var openIssueNo = null;
+
+function issueByNo(no) {
+  return state.issues.find(function (i) { return i.no === no; });
+}
+
+function renderShelf() {
+  var list = document.getElementById('shelflist');
+  if (!list) return;
+  var issues = state.issues.slice().sort(function (x, y) {
+    return (parseInt(y.no, 10) || 0) - (parseInt(x.no, 10) || 0);
+  });
+
+  if (!issues.length) {
+    list.innerHTML = '<p class="sub">Nothing published yet. Assemble an issue at the desk and ring the bell; ' +
+      'it lands here and stays exactly as it shipped.</p>';
+  } else {
+    list.innerHTML = issues.map(function (iss) {
+      return '<div class="shelf-row">' +
+        '<span class="shelf-no">№' + esc(iss.no) + '</span>' +
+        '<span class="shelf-meta"><b>' + esc(iss.title) + '</b>' +
+        '<small>' + esc(fmtDay(iss.ts)) + ' · edited by ' + esc(nameOf(iss.editor)) +
+        ' · ' + esc(formatOf(iss.format).label) + ' · ' + (iss.pieces || []).length + ' pieces</small></span>' +
+        '<button class="btn quiet" data-readissue="' + esc(iss.no) + '">READ</button>' +
+        '<button class="btn quiet" data-reprintissue="' + esc(iss.no) + '">REPRINT</button>' +
+        '<button class="btn quiet" data-exportissue="' + esc(iss.no) + '">EXPORT</button>' +
+        '</div>';
+    }).join('');
+  }
+
+  var count = document.getElementById('shelfcount');
+  if (count) {
+    count.textContent = issues.length === 0 ? 'no issues yet'
+      : issues.length + ' issue' + (issues.length === 1 ? '' : 's') + ' on the shelf';
+  }
+  if (openIssueNo && !issueByNo(openIssueNo)) openIssueNo = null;
+  renderReader();
+}
+
+function renderReader() {
+  var box = document.getElementById('shelfreader');
+  if (!box) return;
+  if (!openIssueNo) { box.innerHTML = ''; box.classList.remove('on'); return; }
+  var iss = issueByNo(openIssueNo);
+  if (!iss) return;
+  box.classList.add('on');
+  box.innerHTML = '<div class="reader-bar"><span>Reading №' + esc(iss.no) + '</span>' +
+    '<button class="btn quiet" id="closereader">CLOSE</button></div>' + readingHtml(iss);
+}
+
+function readIssue(no) {
+  openIssueNo = openIssueNo === no ? null : no;
+  renderReader();
+  var box = document.getElementById('shelfreader');
+  if (box && openIssueNo) box.scrollIntoView({ block: 'start' });
+}
+
+// Reprint renders the archived issue into its own print zone rather than
+// loading it over the working draft. A back issue is history; opening it must
+// never cost you the issue you are in the middle of making.
+function reprintIssue(no) {
+  var iss = issueByNo(no);
+  if (!iss) return;
+  var zone = document.getElementById('reprintzone');
+  if (!zone) return;
+  zone.innerHTML = staticSheetHtml(iss.panels, iss.format, iss.hand, null, issueUrl(iss.no));
+  var style = document.getElementById('pagerule');
+  if (style) style.textContent = '@page { size: ' + paperOf(iss.format).css + '; margin: 0; }';
+  document.body.classList.add('reprinting');
+  toast('Reprinting №' + iss.no + ' — your draft is untouched');
+  window.print();
+  setTimeout(function () {
+    document.body.classList.remove('reprinting');
+    zone.innerHTML = '';
+    var ps = pressState();
+    if (style) style.textContent = '@page { size: ' + paperOf(ps.format).css + '; margin: 0; }';
+  }, 500);
+}
