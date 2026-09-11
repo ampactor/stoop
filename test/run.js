@@ -20,7 +20,8 @@ const suites = [
   ['robustness', require('./02-robustness.js')],
   ['publication', require('./03-publication.js')],
   ['self-carrying issue', require('./04-selfcarry.js')],
-  ['qr', require('./05-qr.js')]
+  ['qr', require('./05-qr.js')],
+  ['pdf', require('./06-pdf.js')]
 ];
 
 (async () => {

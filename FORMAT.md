@@ -119,6 +119,10 @@ Print both sides, nest the sheets in order, staple twice through the spine. No r
 
 Letter is 11 × 8.5 inches, A4 is 297 × 210 mm, both landscape. An implementation SHOULD support both; supporting only one excludes most of the world or most of North America, and neither is a good trade.
 
+### On PDF
+
+An implementation MAY write the imposed sheet as a PDF, and the reference one does, because a print dialog negotiates margins and scale somewhere the press cannot see and a zine that comes out at 94% does not fold. Nothing in this specification requires it: the imposition above is the contract, and a sheet is a sheet however it reaches the paper.
+
 ### The budget
 
 One letter sheet folded to eight panels holds roughly twelve hundred words. An implementation MUST NOT silently discard text that does not fit — it must say how much will not print. Clipping is acceptable; clipping in silence is not. This is the one requirement here that is about honesty rather than geometry, and it is the one most worth keeping.

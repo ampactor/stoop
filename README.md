@@ -33,6 +33,7 @@ Two layers, and it is worth being plain about which is which. There is a **worki
 - **Nothing is clipped in silence.** The panel drops what will not fit, because a printer will too — but the fit meter counts the words that will not print and says so.
 - **Photos are dithered to 1-bit on intake**, so a page-sized photo costs tens of kilobytes, stays on the device, and is already in the only form a photocopier can honestly reproduce.
 - **The back cover carries the address**, as text and as a QR code generated on the page rather than fetched. The paper points at the archive; the archive points at the paper.
+- **The PDF is written by hand**, so the sheet comes out at exactly the right size with nothing for a print dialog to negotiate — and it is a file you can mail to a copy shop, which is the difference between a print run of two and a print run of fifty. There is also a **flyer** with tear-off tabs, because the way a paper invitation works is that somebody takes a piece of it away.
 - **Every issue it exports carries the press inside it.** An exported issue is the reading view, the imposed sheet, the shelf behind it, *and a working press for the next issue*, in one file. Open it on a machine that has never seen this app and you can read the issue, write the next one, and hand that on in turn. No server is involved at any point in that loop.
 - **Sync is a file, not a service.** Export carries everything including photos; import **merges** by id. Published issues are never overwritten by a merge, because a published issue is history.
 
@@ -61,7 +62,7 @@ Hosting the page publicly does not publish what you write in it. The page is pub
 
 **The app is a working press.** Two people can submit pieces, assemble an issue at a desk, ring a bell, print it as a folded sheet or a stapled signature, keep every back issue on a shelf, and hand the whole thing to somebody as a single file that is also a press. It is local-first and account-free by construction, which is the honest version of a privacy policy.
 
-Verified in a real browser by the suites in `test/`: two issues coexist and keep their own words; the same pieces re-flow into a different format with nothing retyped; the fit meter names what will not print; an exported issue opens on a machine with no storage of its own and produces the next issue; and the QR encoder matches an independent implementation module for module.
+Verified in a real browser by the suites in `test/`: two issues coexist and keep their own words; the same pieces re-flow into a different format with nothing retyped; the fit meter names what will not print; an exported issue opens on a machine with no storage of its own and produces the next issue; the QR encoder matches an independent implementation module for module; and the PDF is parsed back byte by byte — every xref offset landing on its object, every stream length matching its bytes, the top row of the sheet genuinely rotated for the fold.
 
 **The federation is paper, and staying that way.** `PLAN.md` retires it. No rooms, no vouching, no flyers, no protocol, no cooperative, no court. If the format spreads, federation is somebody else's problem and `DESIGN.md` is the gift we left them.
 

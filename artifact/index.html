@@ -485,11 +485,13 @@
     <div class="press-actions">
       <select id="formatsel" class="text-input"></select>
       <button class="btn done" id="printzinebtn">PRINT</button>
+      <button class="btn" id="pdfzinebtn">SAVE PDF</button>
+      <button class="btn quiet" id="flyerbtn">FLYER + TEAR TABS</button>
       <button class="btn quiet" id="testsheetbtn">TEST SHEET: OFF</button>
       <button class="btn quiet" id="swaplayoutbtn">SWAP FOLD (A)</button>
       <button class="btn quiet" id="clearzinebtn">CLEAR SHEET</button>
     </div>
-    <p class="sub">Print at <strong>100% scale, margins none</strong>, in the orientation the format names. Click any heading or body to edit it; edits save as you type. Fold a numbered test sheet before committing good paper — printers and folding hands vary, and if the numbers come out shuffled, hit SWAP FOLD and test again.</p>
+    <p class="sub">The PDF is exact: right paper, no margins, nothing for a print dialog to argue with, and a file you can hand to a copy shop. Printing from the browser works too, at <strong>100% scale, margins none</strong>, in the orientation the format names. Click any heading or body to edit it; edits save as you type. Fold a numbered test sheet before committing good paper — printers and folding hands vary, and if the numbers come out shuffled, hit SWAP FOLD and test again.</p>
     <p class="fitmeter" id="fitmeter">Everything fits on the paper.</p>
   </div>
 
@@ -585,7 +587,7 @@
 </section>
 </main>
 <div class="toast" id="toast"></div>
-<p class="pageweight">STOOP · a press for a periodical · one file · zero requests · no trackers · no accounts · 105 KB before compression · everything stays on your device · every issue it prints carries a copy of it</p>
+<p class="pageweight">STOOP · a press for a periodical · one file · zero requests · no trackers · no accounts · 127 KB before compression · everything stays on your device · every issue it prints carries a copy of it</p>
 <script>
 (function(){
 // ---------- identity ----------
@@ -1144,8 +1146,8 @@ function saddleSheets(pages) {
 // Paper, in the units the printer thinks in. Landscape throughout: the one-cut
 // fold needs it, and a saddle signature is two portrait pages side by side.
 var PAPER = {
-  letter: { w: '11in', h: '8.5in', css: 'letter landscape', label: 'Letter' },
-  a4: { w: '297mm', h: '210mm', css: 'A4 landscape', label: 'A4' }
+  letter: { w: '11in', h: '8.5in', wpt: 792, hpt: 612, css: 'letter landscape', label: 'Letter' },
+  a4: { w: '297mm', h: '210mm', wpt: 841.89, hpt: 595.28, css: 'A4 landscape', label: 'A4' }
 };
 
 var FORMATS = {
@@ -1835,6 +1837,7 @@ function renderShelf() {
         ' · ' + esc(formatOf(iss.format).label) + ' · ' + (iss.pieces || []).length + ' pieces</small></span>' +
         '<button class="btn quiet" data-readissue="' + esc(iss.no) + '">READ</button>' +
         '<button class="btn quiet" data-reprintissue="' + esc(iss.no) + '">REPRINT</button>' +
+        '<button class="btn quiet" data-pdfissue="' + esc(iss.no) + '">PDF</button>' +
         '<button class="btn quiet" data-exportissue="' + esc(iss.no) + '">EXPORT</button>' +
         '</div>';
     }).join('');
@@ -2212,6 +2215,477 @@ function qrDataUrl(text, scale) {
     }
   }
   return cv.toDataURL('image/png');
+}
+// ---------- a PDF, written by hand ----------
+// The browser's print dialog is a negotiation: margins, scale, and paper get
+// decided somewhere the press cannot see, and a zine that comes out at 94%
+// does not fold. A PDF is not a negotiation. It is also the thing you can mail
+// to a copy shop, which is the difference between a print run of two and a
+// print run of fifty.
+//
+// Written rather than fetched, per the zero-external-requests law. Only what
+// this press actually puts on paper is supported: two of the standard
+// fourteen fonts, which need no embedding, and 1-bit images, which are the
+// only kind this app makes.
+
+var PT_PER_PX = 0.75;     // CSS pixels at 96dpi into PDF points at 72dpi
+var PT_PER_IN = 72;
+
+// The standard fonts speak WinAnsi. Anything outside it becomes a character
+// that prints rather than a mystery box.
+var PDF_SUBS = {
+  '—': '-', '–': '-', '‘': "'", '’': "'",
+  '“': '"', '”': '"', '№': 'No.', '·': '-',
+  '•': '*', '★': '*', '✕': 'x', '…': '...',
+  ' ': ' ', '✓': 'v'
+};
+
+function pdfSafe(s) {
+  var out = '';
+  for (var i = 0; i < s.length; i++) {
+    var ch = s.charAt(i);
+    if (PDF_SUBS[ch]) { out += PDF_SUBS[ch]; continue; }
+    var code = s.charCodeAt(i);
+    if (code === 9) { out += '    '; continue; }
+    if (code < 32 || (code > 126 && code < 161) || code > 255) { out += code < 32 ? ' ' : '?'; continue; }
+    out += ch;
+  }
+  return out;
+}
+
+function pdfEsc(s) {
+  return pdfSafe(s).replace(/([\\()])/g, '\\$1');
+}
+
+function pdfBytes(str) {
+  var out = new Uint8Array(str.length);
+  for (var i = 0; i < str.length; i++) out[i] = str.charCodeAt(i) & 0xff;
+  return out;
+}
+
+// ---------- metrics ----------
+// Courier is 600/1000 for every glyph, which is why the body text wraps
+// exactly. Helvetica-Bold is not, so it carries a table; headings are short
+// and shrink to fit rather than spilling.
+var COURIER_W = 0.6;
+var HELV_BOLD_W = [278, 333, 474, 556, 556, 889, 722, 238, 333, 333, 389, 584, 278, 333, 278, 278,
+  556, 556, 556, 556, 556, 556, 556, 556, 556, 556, 333, 333, 584, 584, 584, 611, 975,
+  722, 722, 722, 722, 667, 611, 778, 722, 278, 556, 722, 611, 833, 722, 778, 667, 778,
+  722, 667, 611, 722, 667, 944, 667, 667, 611, 333, 278, 333, 584, 556, 333, 556, 611,
+  556, 611, 556, 333, 611, 611, 278, 278, 556, 278, 889, 611, 611, 611, 611, 389, 556,
+  333, 611, 556, 778, 556, 556, 500, 389, 280, 389, 584];
+
+function helvBoldWidth(text, size) {
+  var total = 0;
+  var s = pdfSafe(text);
+  for (var i = 0; i < s.length; i++) {
+    var c = s.charCodeAt(i);
+    total += (c >= 32 && c <= 126) ? HELV_BOLD_W[c - 32] : 556;
+  }
+  return total * size / 1000;
+}
+
+// Monospace wrapping, newlines respected: the body is typed, not flowed.
+function wrapMono(text, size, width) {
+  var cols = Math.max(4, Math.floor(width / (size * COURIER_W)));
+  var lines = [];
+  String(text || '').split('\n').forEach(function (para) {
+    if (!para.length) { lines.push(''); return; }
+    var line = '';
+    para.split(/(\s+)/).forEach(function (bit) {
+      if (!bit.length) return;
+      if ((line + bit).length <= cols) { line += bit; return; }
+      if (line.trim().length) lines.push(line.replace(/\s+$/, ''));
+      while (bit.length > cols) { lines.push(bit.slice(0, cols)); bit = bit.slice(cols); }
+      line = /^\s+$/.test(bit) ? '' : bit;
+    });
+    lines.push(line.replace(/\s+$/, ''));
+  });
+  return lines;
+}
+
+// ---------- the document ----------
+function pdfDoc() {
+  var objects = [];
+  return {
+    obj: function (chunks) { objects.push(chunks); return objects.length; },
+    // A page tree has to name its kids and the kids have to name the tree, so
+    // one object is reserved first and filled in once the pages exist.
+    replace: function (num, chunks) { objects[num - 1] = chunks; },
+    stream: function (dict, data) {
+      return this.obj(['<<' + dict + '/Length ' + data.length + '>>\nstream\n', data, '\nendstream']);
+    },
+    // Offsets are counted in bytes as they are written, because an xref table
+    // that disagrees with the file by one byte is a file no reader will open.
+    build: function (root) {
+      var parts = [], at = 0, offsets = [];
+      function push(chunk) {
+        var b = typeof chunk === 'string' ? pdfBytes(chunk) : chunk;
+        parts.push(b);
+        at += b.length;
+      }
+      push('%PDF-1.4\n%âãÏÓ\n');
+      objects.forEach(function (chunks, i) {
+        offsets[i + 1] = at;
+        push((i + 1) + ' 0 obj\n');
+        chunks.forEach(push);
+        push('\nendobj\n');
+      });
+      var xrefAt = at;
+      var count = objects.length + 1;
+      var xref = 'xref\n0 ' + count + '\n0000000000 65535 f \n';
+      for (var i = 1; i < count; i++) {
+        xref += ('0000000000' + offsets[i]).slice(-10) + ' 00000 n \n';
+      }
+      push(xref);
+      push('trailer\n<</Size ' + count + '/Root ' + root + ' 0 R>>\nstartxref\n' + xrefAt + '\n%%EOF\n');
+      return new Blob(parts, { type: 'application/pdf' });
+    }
+  };
+}
+
+// ---------- images ----------
+// Everything this press prints is already 1-bit, so the samples pack eight to
+// a byte and the PDF carries the same black and white the photocopier will.
+function deflate(bytes) {
+  if (typeof CompressionStream === 'undefined') return Promise.resolve(null);
+  try {
+    var stream = new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate'));
+    return new Response(stream).arrayBuffer().then(function (buf) { return new Uint8Array(buf); });
+  } catch (e) { return Promise.resolve(null); }
+}
+
+function packBitmap(dataUrl) {
+  return new Promise(function (resolve) {
+    var img = new Image();
+    img.onload = function () {
+      var w = img.naturalWidth, h = img.naturalHeight;
+      var canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      var d = ctx.getImageData(0, 0, w, h).data;
+      var rowBytes = Math.ceil(w / 8);
+      var out = new Uint8Array(rowBytes * h);
+      for (var y = 0; y < h; y++) {
+        for (var x = 0; x < w; x++) {
+          // 1 is white in DeviceGray; the sample byte is the red channel
+          // because the intake already collapsed the image to grey.
+          if (d[(y * w + x) * 4] >= 128) out[y * rowBytes + (x >> 3)] |= 0x80 >> (x & 7);
+        }
+      }
+      resolve({ w: w, h: h, bits: out });
+    };
+    img.onerror = function () { resolve(null); };
+    img.src = dataUrl;
+  });
+}
+
+function pdfAddImage(doc, dataUrl) {
+  return packBitmap(dataUrl).then(function (bm) {
+    if (!bm) return null;
+    return deflate(bm.bits).then(function (packed) {
+      var dict = '/Type/XObject/Subtype/Image/Width ' + bm.w + '/Height ' + bm.h +
+        '/ColorSpace/DeviceGray/BitsPerComponent 1' + (packed ? '/Filter/FlateDecode' : '');
+      var num = doc.stream(dict, packed || bm.bits);
+      return { num: num, w: bm.w, h: bm.h };
+    });
+  });
+}
+// ---------- the sheet, as a PDF ----------
+// The same imposition the screen draws, laid onto paper at exact coordinates.
+// PDF puts its origin at the bottom left and CSS at the top left, so every
+// vertical here is measured down from the panel's top edge and flipped once,
+// at the end, rather than reasoned about twice.
+
+var PAD_X = 0.3 * PT_PER_IN;     // the panel padding from views.css, in points
+var PAD_Y = 0.28 * PT_PER_IN;
+
+function pdfLayout(formatId) {
+  var paper = paperOf(formatId);
+  return { w: paper.wpt, h: paper.hpt };
+}
+
+// A panel's content box, in PDF coordinates.
+function panelBox(geom, sheet, index) {
+  var pw = geom.w / sheet.cols;
+  var ph = geom.h / sheet.rows;
+  var col = index % sheet.cols;
+  var row = Math.floor(index / sheet.cols);
+  var left = col * pw;
+  var top = geom.h - row * ph;
+  return {
+    left: left, top: top, w: pw, h: ph,
+    cx: left + pw / 2, cy: top - ph / 2,
+    x: left + PAD_X, y: top - PAD_Y,
+    cw: pw - PAD_X * 2, ch: ph - PAD_Y * 2
+  };
+}
+
+function pdfLine(text, font, size, x, y) {
+  return 'BT /' + font + ' ' + size + ' Tf 1 0 0 1 ' + x.toFixed(2) + ' ' + y.toFixed(2) +
+    ' Tm (' + pdfEsc(text) + ') Tj ET\n';
+}
+
+// Headings shrink to fit rather than spilling off the panel, which is what the
+// screen does by clipping and what a reader would rather have.
+function pdfHeading(text, x, y, width, size) {
+  var s = size;
+  while (s > 7 && helvBoldWidth(text, s) > width) s -= 0.5;
+  return { op: pdfLine(text, 'F2', s, x, y - s), drop: s * 1.15 };
+}
+
+function pdfPanel(panel, page, pages, box, images, url) {
+  var ops = '';
+  var y = box.y;
+  var isCover = page === 1;
+  var isBack = page === pages;
+
+  var head = pdfHeading(String(panel.h || '').toUpperCase(), box.x, y, box.cw, isCover ? 18 : 15);
+  ops += head.op;
+  y -= head.drop;
+
+  if (isCover) {
+    var no = pdfHeading('No.' + (panel.issue || ''), box.x, y - 4, box.cw, 51);
+    ops += no.op;
+    y -= no.drop + 4;
+    ops += 'q 2 w 0 G ' + box.x.toFixed(2) + ' ' + (y - 2).toFixed(2) + ' m ' +
+      (box.x + box.cw).toFixed(2) + ' ' + (y - 2).toFixed(2) + ' l S Q\n';
+    y -= 10;
+  }
+
+  var pic = panel.photo && images[panel.photo];
+  if (pic) {
+    var iw = box.cw;
+    var ih = iw * (pic.h / pic.w);
+    var cap = box.h * 0.46;
+    if (ih > cap) { ih = cap; iw = ih * (pic.w / pic.h); }
+    ops += 'q ' + iw.toFixed(2) + ' 0 0 ' + ih.toFixed(2) + ' ' + box.x.toFixed(2) + ' ' +
+      (y - ih).toFixed(2) + ' cm /Im' + pic.num + ' Do Q\n';
+    y -= ih + 4;
+  }
+
+  var size = isBack ? 7.875 : 8.625;
+  var leading = size * 1.45;
+  var floorY = box.top - box.h + PAD_Y + (isBack && url ? 52 : 0);
+  wrapMono(panel.body || '', size, box.cw).forEach(function (line) {
+    if (y - leading < floorY) return;
+    y -= leading;
+    if (line.length) ops += pdfLine(line, 'F1', size, box.x, y);
+  });
+
+  if (isBack && url) {
+    var qr = images['__qr'];
+    var qy = box.top - box.h + PAD_Y;
+    if (qr) {
+      ops += 'q 48 0 0 48 ' + box.x.toFixed(2) + ' ' + qy.toFixed(2) + ' cm /Im' + qr.num + ' Do Q\n';
+    }
+    var tx = box.x + (qr ? 54 : 0);
+    var shown = url.replace(/^https?:\/\//, '');
+    wrapMono(shown, 6.375, box.cw - (qr ? 54 : 0)).slice(0, 4).forEach(function (line, i) {
+      ops += pdfLine(line, 'F1', 6.375, tx, qy + 34 - i * 8);
+    });
+  }
+  return ops;
+}
+
+// A flipped panel is the same drawing rotated half a turn about its own
+// centre, which is the one place this file has to think in two directions at
+// once. Everything inside the q/Q pair is drawn as though it were upright.
+function pdfSheetContent(sheet, panels, geom, images, url, issue) {
+  var ops = '';
+  sheet.slots.forEach(function (slot, i) {
+    var box = panelBox(geom, sheet, i);
+    var panel = panels[slot.page - 1] || { h: '', body: '', photo: null };
+    if (slot.page === 1) panel = { h: panel.h, body: panel.body, photo: panel.photo, issue: issue };
+    var inner = pdfPanel(panel, slot.page, panels.length, box, images, url);
+    if (slot.flip) {
+      ops += 'q -1 0 0 -1 ' + (2 * box.cx).toFixed(2) + ' ' + (2 * box.cy).toFixed(2) + ' cm\n' +
+        inner + 'Q\n';
+    } else {
+      ops += inner;
+    }
+  });
+  return ops;
+}
+
+// ---------- the public call ----------
+// Gathers every image the sheet needs, then writes one page per printed side.
+function buildSheetPdf(panels, formatId, hand, url, issue) {
+  var doc = pdfDoc();
+  var plan = impose(formatId, hand);
+  var geom = pdfLayout(formatId);
+  var wanted = [];
+
+  panels.forEach(function (p) {
+    if (p && p.photo && photoCache[p.photo] && wanted.indexOf(p.photo) < 0) wanted.push(p.photo);
+  });
+
+  var images = {};
+  var chain = Promise.resolve();
+  wanted.forEach(function (id) {
+    chain = chain.then(function () {
+      return pdfAddImage(doc, photoCache[id]).then(function (ref) { if (ref) images[id] = ref; });
+    });
+  });
+  if (url) {
+    chain = chain.then(function () {
+      return pdfAddImage(doc, qrDataUrl(url, 4)).then(function (ref) { if (ref) images['__qr'] = ref; });
+    });
+  }
+
+  return chain.then(function () {
+    var xobjects = Object.keys(images).map(function (k) {
+      return '/Im' + images[k].num + ' ' + images[k].num + ' 0 R';
+    }).join('');
+    var courier = doc.obj(['<</Type/Font/Subtype/Type1/BaseFont/Courier/Encoding/WinAnsiEncoding>>']);
+    var helv = doc.obj(['<</Type/Font/Subtype/Type1/BaseFont/Helvetica-Bold/Encoding/WinAnsiEncoding>>']);
+    var resources = '/Font<</F1 ' + courier + ' 0 R/F2 ' + helv + ' 0 R>>' +
+      (xobjects ? '/XObject<<' + xobjects + '>>' : '');
+
+    var pagesNum = doc.obj(['']);          // reserved: the page tree needs its kids first
+    var kids = plan.sheets.map(function (sheet) {
+      var content = doc.stream('', pdfBytes(pdfSheetContent(sheet, panels, geom, images, url, issue)));
+      return doc.obj(['<</Type/Page/Parent ' + pagesNum + ' 0 R/MediaBox[0 0 ' +
+        geom.w.toFixed(2) + ' ' + geom.h.toFixed(2) + ']/Resources<<' + resources +
+        '>>/Contents ' + content + ' 0 R>>']);
+    });
+    doc.replace(pagesNum, ['<</Type/Pages/Count ' + kids.length + '/Kids[' +
+      kids.map(function (k) { return k + ' 0 R'; }).join(' ') + ']>>']);
+    var root = doc.obj(['<</Type/Catalog/Pages ' + pagesNum + ' 0 R>>']);
+    return doc.build(root);
+  });
+}
+
+function savePdf(panels, formatId, hand, url, issue, name) {
+  toast('Writing the PDF…');
+  return buildSheetPdf(panels, formatId, hand, url, issue).then(function (blob) {
+    var href = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = href;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(href); }, 1000);
+    toast('PDF saved — exact size, no print dialog to argue with');
+  }).catch(function (e) {
+    toast('Could not write the PDF: ' + e.message);
+  });
+}
+
+// ---------- the flyer ----------
+// The only object in DESIGN.md that travels between scenes is an invitation,
+// and the way a paper invitation works is that somebody takes a piece of it
+// away. Tear-off tabs belong here rather than on a back cover: tearing a tab
+// off a folded zine would destroy the zine.
+var FLYER = { w: 612, h: 792, pad: 54, strip: 96, tabs: 8 };
+
+function pdfFlyerContent(title, issue, url, photo, images) {
+  var F = FLYER;
+  var ops = '';
+  var y = F.h - F.pad;
+  var width = F.w - F.pad * 2;
+
+  var head = pdfHeading(String(title || 'A ZINE').toUpperCase(), F.pad, y, width, 42);
+  ops += head.op;
+  y -= head.drop + 6;
+
+  ops += 'q 3 w 0 G ' + F.pad + ' ' + y.toFixed(2) + ' m ' + (F.pad + width) + ' ' +
+    y.toFixed(2) + ' l S Q\n';
+  y -= 22;
+  ops += pdfLine('Issue No.' + issue + ' - take one, leave one.', 'F1', 12, F.pad, y);
+  y -= 26;
+
+  var pic = photo && images[photo];
+  if (pic) {
+    var iw = width, ih = iw * (pic.h / pic.w);
+    var room = y - (F.pad + F.strip) - 90;
+    if (ih > room) { ih = room; iw = ih * (pic.w / pic.h); }
+    if (ih > 40) {
+      ops += 'q ' + iw.toFixed(2) + ' 0 0 ' + ih.toFixed(2) + ' ' + F.pad + ' ' +
+        (y - ih).toFixed(2) + ' cm /Im' + pic.num + ' Do Q\n';
+      y -= ih + 20;
+    }
+  }
+
+  var qr = images['__qr'];
+  var stripTop = F.pad + F.strip;
+  if (qr) {
+    ops += 'q 96 0 0 96 ' + F.pad + ' ' + (stripTop + 16).toFixed(2) + ' cm /Im' + qr.num + ' Do Q\n';
+  }
+  if (url) {
+    var shown = url.replace(/^https?:\/\//, '');
+    wrapMono(shown, 10, width - (qr ? 112 : 0)).slice(0, 3).forEach(function (line, i) {
+      ops += pdfLine(line, 'F1', 10, F.pad + (qr ? 112 : 0), stripTop + 92 - i * 13);
+    });
+  }
+
+  // The strip: one dashed rule across, then a comb of cuts, then the address
+  // turned on its side in every tab.
+  ops += 'q 1 w 0 G [4 3] 0 d ' + F.pad + ' ' + stripTop.toFixed(2) + ' m ' +
+    (F.pad + width) + ' ' + stripTop.toFixed(2) + ' l S Q\n';
+  var tabW = width / F.tabs;
+  for (var i = 0; i <= F.tabs; i++) {
+    var x = F.pad + i * tabW;
+    ops += 'q 1 w 0 G [4 3] 0 d ' + x.toFixed(2) + ' ' + stripTop.toFixed(2) + ' m ' +
+      x.toFixed(2) + ' ' + F.pad.toFixed(2) + ' l S Q\n';
+  }
+  var tab = (url || '').replace(/^https?:\/\//, '') || String(title || '');
+  for (var t = 0; t < F.tabs; t++) {
+    var tx = F.pad + t * tabW + tabW / 2 + 3;
+    ops += 'BT /F1 7 Tf 0 1 -1 0 ' + tx.toFixed(2) + ' ' + (F.pad + 6).toFixed(2) +
+      ' Tm (' + pdfEsc(tab.slice(0, 20)) + ') Tj ET\n';
+  }
+  return ops;
+}
+
+function buildFlyerPdf(title, issue, url, photoId) {
+  var doc = pdfDoc();
+  var images = {};
+  var chain = Promise.resolve();
+  if (photoId && photoCache[photoId]) {
+    chain = chain.then(function () {
+      return pdfAddImage(doc, photoCache[photoId]).then(function (r) { if (r) images[photoId] = r; });
+    });
+  }
+  if (url) {
+    chain = chain.then(function () {
+      return pdfAddImage(doc, qrDataUrl(url, 4)).then(function (r) { if (r) images['__qr'] = r; });
+    });
+  }
+  return chain.then(function () {
+    var xo = Object.keys(images).map(function (k) {
+      return '/Im' + images[k].num + ' ' + images[k].num + ' 0 R';
+    }).join('');
+    var courier = doc.obj(['<</Type/Font/Subtype/Type1/BaseFont/Courier/Encoding/WinAnsiEncoding>>']);
+    var helv = doc.obj(['<</Type/Font/Subtype/Type1/BaseFont/Helvetica-Bold/Encoding/WinAnsiEncoding>>']);
+    var pagesNum = doc.obj(['']);
+    var content = doc.stream('', pdfBytes(pdfFlyerContent(title, issue, url, photoId, images)));
+    var pageNum = doc.obj(['<</Type/Page/Parent ' + pagesNum + ' 0 R/MediaBox[0 0 ' +
+      FLYER.w + ' ' + FLYER.h + ']/Resources<</Font<</F1 ' + courier + ' 0 R/F2 ' + helv +
+      ' 0 R>>' + (xo ? '/XObject<<' + xo + '>>' : '') + '>>/Contents ' + content + ' 0 R>>']);
+    doc.replace(pagesNum, ['<</Type/Pages/Count 1/Kids[' + pageNum + ' 0 R]>>']);
+    return doc.build(doc.obj(['<</Type/Catalog/Pages ' + pagesNum + ' 0 R>>']));
+  });
+}
+
+function saveFlyer(title, issue, url, photoId, name) {
+  toast('Writing the flyer…');
+  return buildFlyerPdf(title, issue, url, photoId).then(function (blob) {
+    var href = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = href;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(href); }, 1000);
+    toast('Flyer saved — print it, cut the tabs, staple it somewhere');
+  }).catch(function (e) {
+    toast('Could not write the flyer: ' + e.message);
+  });
 }
 // ---------- the self-carrying issue ----------
 // An exported issue is the reading view, the imposed sheet, the shelf, and a
@@ -2624,10 +3098,29 @@ document.addEventListener('click', function (e) {
   if ((el = hit(t, '[data-readissue]'))) return readIssue(el.getAttribute('data-readissue'));
   if ((el = hit(t, '[data-reprintissue]'))) return reprintIssue(el.getAttribute('data-reprintissue'));
   if ((el = hit(t, '[data-exportissue]'))) return exportIssueFile(el.getAttribute('data-exportissue'));
+  if ((el = hit(t, '[data-pdfissue]'))) {
+    var iss = issueByNo(el.getAttribute('data-pdfissue'));
+    if (iss) savePdf(iss.panels, iss.format, iss.hand, issueUrl(iss.no), iss.no,
+      sceneSlug() + '-' + iss.no + '.pdf');
+    return;
+  }
   if ((el = hit(t, '[data-piecebundle]'))) return exportPieceBundle(el.getAttribute('data-piecebundle'));
   if (hit(t, '#closereader')) return readIssue(openIssueNo);
 
   if (hit(t, '#printzinebtn')) { capturePanels(); return window.print(); }
+  if (hit(t, '#pdfzinebtn')) {
+    capturePanels();
+    var ps = pressState();
+    return savePdf(ps.panels, ps.format, ps.hand, issueUrl(ps.issue), ps.issue,
+      sceneSlug() + '-' + ps.issue + '.pdf');
+  }
+  if (hit(t, '#flyerbtn')) {
+    capturePanels();
+    var fps = pressState();
+    var cover = fps.panels[0] || {};
+    return saveFlyer(cover.h, fps.issue, issueUrl(fps.issue), cover.photo,
+      sceneSlug() + '-' + fps.issue + '-flyer.pdf');
+  }
   if (hit(t, '#clearzinebtn')) return clearSheet();
   if (hit(t, '#swaplayoutbtn')) return swapLayout();
   if (hit(t, '#testsheetbtn')) return toggleTestSheet();

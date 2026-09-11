@@ -15,10 +15,10 @@ Phases 0 through 5 are built, and phase 6's documentation is written. Every gate
 | 2 · the desk, the bell, alternating editors | **Landed.** Cut-with-restore, an editor's note, a chair that alternates on parity. |
 | 3 · reading view, imposition solver, A4, saddle-stitch | **Landed.** One-cut at Letter and A4, signatures at 8, 12 and 16 pages. |
 | 4 · the self-carrying issue, piece bundles | **Landed.** An exported issue opens on a machine with no storage of its own and makes the next issue. |
-| 5 · the address on the paper | **Landed** for the QR and the printed address, checked module for module against an independent encoder. The PDF writer and tear-off tabs are **not built**; the browser's print dialog is still the path to paper. |
+| 5 · the paper is the network | **Landed.** The QR and printed address, checked module for module against an independent encoder; a hand-written PDF writer so the sheet is byte-exact and mailable to a copy shop; and a flyer with tear-off tabs. |
 | 6 · the specification, the demotion, the giving away | **Written** — `FORMAT.md`, the charter demoted, stages 2 and 3 struck. Its gate is not ours to close. |
 
-The one phase-5 item deliberately left undone is the minimal PDF writer. It would make the sheet byte-exact and mailable to a copy shop, and it is the obvious next piece of work; nothing else in the plan depends on it.
+Everything phases 0 through 5 called for is built. What remains is phase 6's gate, which is not ours to close: a scene we did not found shipping its Issue #2.
 
 ## Why this document exists
 
@@ -115,6 +115,8 @@ This is sneakernet publishing. The digital object propagates exactly the way the
 The two substrates have to point at each other or the loop is open.
 
 A hand-rolled QR code on the back cover — a few hundred lines, no external request, no library. The issue's address in text beside it. Tear-off tabs, the flyer idiom, printable. And a minimal PDF writer: text plus 1-bit images is a narrow enough problem to write by hand, and it makes the sheet byte-exact instead of hostage to a print dialog, which means an issue can be mailed to a copy shop.
+
+Built as described, with one correction the work made obvious: tear-off tabs do not belong on a zine's back cover, because tearing one off would destroy the zine. They belong on a flyer, which is the only object in `DESIGN.md` that travels between scenes anyway, so the press writes one of those too.
 
 **Gate:** somebody who found the paper opened the archive.
 

@@ -82,10 +82,29 @@ document.addEventListener('click', function (e) {
   if ((el = hit(t, '[data-readissue]'))) return readIssue(el.getAttribute('data-readissue'));
   if ((el = hit(t, '[data-reprintissue]'))) return reprintIssue(el.getAttribute('data-reprintissue'));
   if ((el = hit(t, '[data-exportissue]'))) return exportIssueFile(el.getAttribute('data-exportissue'));
+  if ((el = hit(t, '[data-pdfissue]'))) {
+    var iss = issueByNo(el.getAttribute('data-pdfissue'));
+    if (iss) savePdf(iss.panels, iss.format, iss.hand, issueUrl(iss.no), iss.no,
+      sceneSlug() + '-' + iss.no + '.pdf');
+    return;
+  }
   if ((el = hit(t, '[data-piecebundle]'))) return exportPieceBundle(el.getAttribute('data-piecebundle'));
   if (hit(t, '#closereader')) return readIssue(openIssueNo);
 
   if (hit(t, '#printzinebtn')) { capturePanels(); return window.print(); }
+  if (hit(t, '#pdfzinebtn')) {
+    capturePanels();
+    var ps = pressState();
+    return savePdf(ps.panels, ps.format, ps.hand, issueUrl(ps.issue), ps.issue,
+      sceneSlug() + '-' + ps.issue + '.pdf');
+  }
+  if (hit(t, '#flyerbtn')) {
+    capturePanels();
+    var fps = pressState();
+    var cover = fps.panels[0] || {};
+    return saveFlyer(cover.h, fps.issue, issueUrl(fps.issue), cover.photo,
+      sceneSlug() + '-' + fps.issue + '-flyer.pdf');
+  }
   if (hit(t, '#clearzinebtn')) return clearSheet();
   if (hit(t, '#swaplayoutbtn')) return swapLayout();
   if (hit(t, '#testsheetbtn')) return toggleTestSheet();

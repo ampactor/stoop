@@ -40,8 +40,8 @@ function saddleSheets(pages) {
 // Paper, in the units the printer thinks in. Landscape throughout: the one-cut
 // fold needs it, and a saddle signature is two portrait pages side by side.
 var PAPER = {
-  letter: { w: '11in', h: '8.5in', css: 'letter landscape', label: 'Letter' },
-  a4: { w: '297mm', h: '210mm', css: 'A4 landscape', label: 'A4' }
+  letter: { w: '11in', h: '8.5in', wpt: 792, hpt: 612, css: 'letter landscape', label: 'Letter' },
+  a4: { w: '297mm', h: '210mm', wpt: 841.89, hpt: 595.28, css: 'A4 landscape', label: 'A4' }
 };
 
 var FORMATS = {
