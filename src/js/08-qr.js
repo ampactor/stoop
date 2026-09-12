@@ -1,12 +1,10 @@
 // ---------- the code on the back cover ----------
-// The printed issue carries its own address, so somebody who finds the paper
-// can reach the archive. That means a QR encoder, and the zero-external-
-// requests law means writing one rather than fetching one. Byte mode, error
-// correction L, versions 1 through 10, which covers any address worth putting
-// on a back cover.
+// The printed issue carries its own address, which needs a QR encoder, and the
+// zero-external-requests law means writing one rather than fetching one. Byte
+// mode, error correction L, versions 1 through 10.
 //
-// The matrix this produces is checked against an independent implementation
-// in test/03-qr.js; a symbol that does not scan is a wrong address.
+// The matrix is checked module for module against fixtures from an independent
+// implementation in test/05-qr.js.
 
 // GF(256) over the QR primitive polynomial, for Reed-Solomon.
 var GF_EXP = new Uint8Array(512);

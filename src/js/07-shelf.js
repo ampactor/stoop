@@ -1,7 +1,6 @@
 // ---------- the shelf ----------
-// Streams forget; shelves remember. An issue is archived whole — its panels,
-// its format, its fold hand — so a back issue reprints exactly as it shipped
-// rather than as the current draft happens to be configured.
+// An issue is archived whole — its panels, its format, its fold hand — so a
+// back issue reprints as it shipped rather than as the current draft is set.
 
 // A sheet with nothing editable about it. The press draws its own; this one
 // serves the shelf and the exported issue, which must render identically on a

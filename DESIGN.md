@@ -147,7 +147,7 @@ Written before any of it existed. Kept because the reasoning is still worth read
 
 - **Stage 0, one scene, hand tools.** Two people, a folded sheet, and a directory of static files at a real address. Gate: Issue #2 ships. *This is where the project is, and the tooling turned out to be worth building properly: see `PLAN.md`.*
 - **Stage 1, the scene tool.** The composer, the editor's board, issue build, the room editor, corkboard, shelf. *The desk, the issue build and the shelf exist in the app now. The room editor and skin sandbox are struck — they are the social product, not the press.*
-- **Stage 2, federation.** ~~The lexicons, vouch records, rounds registry, credible-exit export, POSSE bridges.~~ **Struck.** Credible exit is a file (`FORMAT.md` §1); the rest is somebody else's problem if the format ever spreads.
+- **Stage 2, federation.** ~~The lexicons, vouch records, rounds registry, credible-exit export, POSSE bridges.~~ **Struck.** Credible exit is a file (`FORMAT.md` §1); the rest belongs to whoever picks the format up.
 - **Stage 3, the cooperative.** ~~Charter ratified, court seated, flagship host.~~ **Struck.** A format cannot be sold, advertised on, or acquired, which is what Article III was reaching for by other means.
 
 ## Open questions

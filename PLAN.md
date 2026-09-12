@@ -1,6 +1,6 @@
 # The Plan
 
-`CHARTER.md` was the law. `DESIGN.md` is the machine. This is the work: the route from a 62 KB notebook for two people to a format that outlives the people who wrote it — and, since it is this document that demotes the charter, the reason that first sentence is in the past tense.
+`CHARTER.md` was the law until this document demoted it. `DESIGN.md` is the machine. This is the work: the route from a 62 KB notebook for two people to a format that does not need us.
 
 It is a proposal, not a ratification. Where it contradicts `DESIGN.md` it says so plainly, and adopting it means editing that file rather than quietly diverging from it.
 
@@ -52,15 +52,19 @@ That is why the size discipline matters. The app was 61,612 bytes when this was 
 
 `DESIGN.md` stages the work as: Stage 0 hand tools, Stage 1 the scene tool, Stage 2 federation, Stage 3 the cooperative. This plan keeps Stage 0, absorbs the useful half of Stage 1, and retires Stages 2 and 3.
 
-The lexicons, the rounds registry, the vouch records, the POSSE bridges, the flagship host, the court, the treasury, and the membership roll are not deferred. They are struck. If the format spreads, federation is somebody else's problem and `DESIGN.md` is the gift we left them.
+The lexicons, the rounds registry, the vouch records, the POSSE bridges, the flagship host, the court, the treasury, and the membership roll are not deferred. They are struck. If the format spreads, federation is somebody else's to build, and `DESIGN.md` is there for them.
 
 `CHARTER.md` is demoted from **the law** to **a constitution in the box**: a template a scene adopts if it ever grows enough to need one. Article III moves to where it is already enforceable and already enforced — the license, and the mechanical laws in `check.sh`. That file does more constitutional work in seventy lines than Article VI will ever do.
 
 The gate is unchanged and this plan lives inside it. `CONTRIBUTING.md` says Stage 0 "may grow whatever a scene of two needs to actually publish," and that everything a second scene would touch is what waits. Phases 0 through 4 below are all things a scene of two needs in order to publish. None of them require the gate to open.
 
+## The phases
+
+What follows is the plan as it was proposed, kept in its original tense. The table above says what became of each one; the file paths below are the ones that existed when it was written.
+
 ## Phase 0 — Make the press honest
 
-The application cannot currently hold two issues. `state.press` is a single object (`src/js/01-store.js:70`) with no issue list anywhere in `src/js/`, so compiling №02 overwrites №01. `compileZine` takes the five newest log entries regardless of what already shipped (`src/js/04-press.js:168`), so the second issue reprints the first. And `.panel .body` ends in `overflow: hidden` (`src/views.css:79`), so copy past the panel silently disappears.
+The application cannot hold two issues. `state.press` is a single object with no issue list anywhere in `src/js/`, so compiling №02 overwrites №01. The compile step takes the five newest log entries regardless of what already shipped, so the second issue reprints the first. And `.panel .body` ends in `overflow: hidden`, so copy past the panel silently disappears.
 
 The project's only respected metric is whether the first scene ships Issue #2, and the press has no memory of Issue #1. Nothing else in this plan matters until that is false.
 

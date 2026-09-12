@@ -181,10 +181,8 @@ function savePdf(panels, formatId, hand, url, issue, name) {
 }
 
 // ---------- the flyer ----------
-// The only object in DESIGN.md that travels between scenes is an invitation,
-// and the way a paper invitation works is that somebody takes a piece of it
-// away. Tear-off tabs belong here rather than on a back cover: tearing a tab
-// off a folded zine would destroy the zine.
+// Tear-off tabs go here rather than on a back cover, because tearing a tab off
+// a folded zine destroys the zine.
 var FLYER = { w: 612, h: 792, pad: 54, strip: 96, tabs: 8 };
 
 function pdfFlyerContent(title, issue, url, photo, images) {

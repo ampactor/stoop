@@ -1,8 +1,7 @@
 // ---------- the desk ----------
-// The algorithm is a person, and this is where they sit. One accountable
-// neighbour holds the final cut for one cycle; at two people the chair
-// alternates by issue parity, which is cleaner than rotation and keeps the
-// rule that exactly one person owns any given issue.
+// Exactly one person holds the final cut on any given issue. At two people the
+// chair alternates by issue parity, which is simpler than rotation and needs
+// no administering.
 var PIECE_KINDS = ['essay', 'photos', 'log', 'mix', 'recipe', 'letters'];
 
 function cycleState() {

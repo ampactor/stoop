@@ -1,10 +1,8 @@
 // ---------- the self-carrying issue ----------
 // An exported issue is the reading view, the imposed sheet, the shelf, and a
-// working press for the next issue, in one file. The archive travels with the
-// publication and the tool travels with the archive, which is what makes
-// credible exit a file rather than a promise. The press fits inside its own
-// output because the whole app is smaller than one issue's photographs.
-// SEED_ID is defined in 01-store.js, where the store can already see it.
+// working press for the next issue, in one file: the app's own HTML plus a
+// seed it boots from. It fits because the app is smaller than one issue's
+// photographs. SEED_ID lives in 01-store.js, where the store can see it.
 
 function sceneSlug() {
   var a = (state.address || '').replace(/\/+$/, '');

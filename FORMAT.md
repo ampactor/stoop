@@ -115,6 +115,10 @@ back  of sheet k:   [ 2 + 2k , n - 1 - 2k ]
 
 Print both sides, nest the sheets in order, staple twice through the spine. No rotation is applied.
 
+### Format names
+
+`format` in an issue is one of `fold8`, `fold8a4` (one sheet, eight panels, one cut) or `saddle8`, `saddle12`, `saddle16`, `saddle16a4` (a stitched signature of that many pages). `hand` is `"A"` or `"B"` and is meaningful only for the one-cut formats. An implementation MAY define others; a reader that does not know a format SHOULD say so rather than impose the pages wrongly.
+
 ### Paper
 
 Letter is 11 × 8.5 inches, A4 is 297 × 210 mm, both landscape. An implementation SHOULD support both; supporting only one excludes most of the world or most of North America, and neither is a good trade.
@@ -158,4 +162,4 @@ No federation, no protocol namespace, no registry, and no permission from anybod
 
 ## 6. On copying this
 
-The software is AGPL-3.0-or-later; this document is CC BY-SA 4.0. Implement it, fork it, rename it, and do not ask. A format nobody can take is the only part of this project designed to outlive the people who wrote it, and the way that works is that you do not need us for any of it.
+The software is AGPL-3.0-or-later; this document is CC BY-SA 4.0. Implement it, fork it, rename it, and do not ask. The point of specifying it is that you do not need us for any of it.

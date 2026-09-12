@@ -1,6 +1,8 @@
 # Stage 1: the scene tool
 
-Status: paper. The gate in README.md holds; nothing in this file gets built until a real scene ships Issue #2. It is written now so that the unlock is a start, not a planning session.
+**Superseded.** This specified a scene tool before `PLAN.md` existed. Half of it was built and lives in the app — the composer is the desk, the issue build is the bell, the press and the shelf are views — and the other half, the federation, is struck rather than deferred: no rooms, no vouching, no corkboard, no intake endpoint, no lexicons. It is kept because the reasoning about a scene as a repository is still worth reading, and because `FORMAT.md` inherited its best idea: that the data layer should be plain files anybody can read.
+
+What follows is the original, unedited.
 
 ## The load-bearing decision
 

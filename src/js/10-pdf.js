@@ -1,14 +1,12 @@
 // ---------- a PDF, written by hand ----------
-// The browser's print dialog is a negotiation: margins, scale, and paper get
-// decided somewhere the press cannot see, and a zine that comes out at 94%
-// does not fold. A PDF is not a negotiation. It is also the thing you can mail
-// to a copy shop, which is the difference between a print run of two and a
-// print run of fifty.
+// A browser print dialog decides margins, scale and paper somewhere the press
+// cannot see, and a sheet that comes out at 94% does not fold. A PDF fixes all
+// three, and is also what a copy shop will accept.
 //
 // Written rather than fetched, per the zero-external-requests law. Only what
-// this press actually puts on paper is supported: two of the standard
-// fourteen fonts, which need no embedding, and 1-bit images, which are the
-// only kind this app makes.
+// this press puts on paper is supported: two of the standard fourteen fonts,
+// which need no embedding, and 1-bit images, which are the only kind the
+// intake produces.
 
 var PT_PER_PX = 0.75;     // CSS pixels at 96dpi into PDF points at 72dpi
 var PT_PER_IN = 72;

@@ -587,7 +587,7 @@
 </section>
 </main>
 <div class="toast" id="toast"></div>
-<p class="pageweight">STOOP · a press for a periodical · one file · zero requests · no trackers · no accounts · 127 KB before compression · everything stays on your device · every issue it prints carries a copy of it</p>
+<p class="pageweight">STOOP · a press for a periodical · one file · zero requests · no trackers · no accounts · 125 KB before compression · everything stays on your device · every issue it prints carries a copy of it</p>
 <script>
 (function(){
 // ---------- identity ----------
@@ -1410,10 +1410,9 @@ function renderPress() {
 }
 
 // ---------- the fit meter ----------
-// The panel clips what does not fit, because a printer will too. Silently
-// eating a paragraph is the one thing a press must never do, so measure the
-// overflow in words and say so. Binary search over the word list: about nine
-// reflows per over-full panel, on demand rather than per keystroke.
+// The panel clips what does not fit, because a printer will too — but it must
+// not do so silently. Binary search the word list for the last line that fits:
+// about nine reflows per over-full panel, on demand rather than per keystroke.
 function measureOverflow(body) {
   if (body.scrollHeight <= body.clientHeight + 1) return 0;
   var original = body.innerText;
@@ -1513,10 +1512,9 @@ function clearSheet() {
   toast('Cleared the sheet');
 }
 // ---------- the desk ----------
-// The algorithm is a person, and this is where they sit. One accountable
-// neighbour holds the final cut for one cycle; at two people the chair
-// alternates by issue parity, which is cleaner than rotation and keeps the
-// rule that exactly one person owns any given issue.
+// Exactly one person holds the final cut on any given issue. At two people the
+// chair alternates by issue parity, which is simpler than rotation and needs
+// no administering.
 var PIECE_KINDS = ['essay', 'photos', 'log', 'mix', 'recipe', 'letters'];
 
 function cycleState() {
@@ -1755,9 +1753,8 @@ function renderDesk() {
   }).join('');
 }
 // ---------- the shelf ----------
-// Streams forget; shelves remember. An issue is archived whole — its panels,
-// its format, its fold hand — so a back issue reprints exactly as it shipped
-// rather than as the current draft happens to be configured.
+// An issue is archived whole — its panels, its format, its fold hand — so a
+// back issue reprints as it shipped rather than as the current draft is set.
 
 // A sheet with nothing editable about it. The press draws its own; this one
 // serves the shelf and the exported issue, which must render identically on a
@@ -1892,14 +1889,12 @@ function reprintIssue(no) {
   }, 500);
 }
 // ---------- the code on the back cover ----------
-// The printed issue carries its own address, so somebody who finds the paper
-// can reach the archive. That means a QR encoder, and the zero-external-
-// requests law means writing one rather than fetching one. Byte mode, error
-// correction L, versions 1 through 10, which covers any address worth putting
-// on a back cover.
+// The printed issue carries its own address, which needs a QR encoder, and the
+// zero-external-requests law means writing one rather than fetching one. Byte
+// mode, error correction L, versions 1 through 10.
 //
-// The matrix this produces is checked against an independent implementation
-// in test/03-qr.js; a symbol that does not scan is a wrong address.
+// The matrix is checked module for module against fixtures from an independent
+// implementation in test/05-qr.js.
 
 // GF(256) over the QR primitive polynomial, for Reed-Solomon.
 var GF_EXP = new Uint8Array(512);
@@ -2217,16 +2212,14 @@ function qrDataUrl(text, scale) {
   return cv.toDataURL('image/png');
 }
 // ---------- a PDF, written by hand ----------
-// The browser's print dialog is a negotiation: margins, scale, and paper get
-// decided somewhere the press cannot see, and a zine that comes out at 94%
-// does not fold. A PDF is not a negotiation. It is also the thing you can mail
-// to a copy shop, which is the difference between a print run of two and a
-// print run of fifty.
+// A browser print dialog decides margins, scale and paper somewhere the press
+// cannot see, and a sheet that comes out at 94% does not fold. A PDF fixes all
+// three, and is also what a copy shop will accept.
 //
 // Written rather than fetched, per the zero-external-requests law. Only what
-// this press actually puts on paper is supported: two of the standard
-// fourteen fonts, which need no embedding, and 1-bit images, which are the
-// only kind this app makes.
+// this press puts on paper is supported: two of the standard fourteen fonts,
+// which need no embedding, and 1-bit images, which are the only kind the
+// intake produces.
 
 var PT_PER_PX = 0.75;     // CSS pixels at 96dpi into PDF points at 72dpi
 var PT_PER_IN = 72;
@@ -2576,10 +2569,8 @@ function savePdf(panels, formatId, hand, url, issue, name) {
 }
 
 // ---------- the flyer ----------
-// The only object in DESIGN.md that travels between scenes is an invitation,
-// and the way a paper invitation works is that somebody takes a piece of it
-// away. Tear-off tabs belong here rather than on a back cover: tearing a tab
-// off a folded zine would destroy the zine.
+// Tear-off tabs go here rather than on a back cover, because tearing a tab off
+// a folded zine destroys the zine.
 var FLYER = { w: 612, h: 792, pad: 54, strip: 96, tabs: 8 };
 
 function pdfFlyerContent(title, issue, url, photo, images) {
@@ -2689,11 +2680,9 @@ function saveFlyer(title, issue, url, photoId, name) {
 }
 // ---------- the self-carrying issue ----------
 // An exported issue is the reading view, the imposed sheet, the shelf, and a
-// working press for the next issue, in one file. The archive travels with the
-// publication and the tool travels with the archive, which is what makes
-// credible exit a file rather than a promise. The press fits inside its own
-// output because the whole app is smaller than one issue's photographs.
-// SEED_ID is defined in 01-store.js, where the store can already see it.
+// working press for the next issue, in one file: the app's own HTML plus a
+// seed it boots from. It fits because the app is smaller than one issue's
+// photographs. SEED_ID lives in 01-store.js, where the store can see it.
 
 function sceneSlug() {
   var a = (state.address || '').replace(/\/+$/, '');

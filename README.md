@@ -21,34 +21,54 @@ Each of these is a measured fact from mid-2026, not a mood:
 
 ## What is in this repo
 
-Two layers, and it is worth being plain about which is which. There is a **working app** for one scene of two people, and there is a **paper design** for the federation that app would one day join. The app is real and running; the federation is an argument on paper and stays that way until the gate below opens.
+A working press, and the documents that argue for it.
 
 ### The app
 
-- [`index.html`](index.html): the whole thing. One self-contained file, zero external requests, no accounts, no server, nothing uploaded anywhere. Seven views: a daily **log**, a **journal**, **project** spaces, **the desk**, **the press**, **the shelf**, and settings & sync.
-- **It is a press for a periodical, not a document editor.** A piece is a title, a byline, a kind and a body. Pieces arrive at the desk; the editor sequences them, cuts what will not run, writes the note, and rings the bell; the issue lands on the shelf and stays exactly as it shipped. The log, journal and projects are *sources* that mint pieces, never destinations.
-- **A cut is a conversation, not a deletion.** Cutting a piece keeps it with its maker, struck through in the tray, ready to run next cycle.
-- **The shelf remembers.** Every published issue keeps its own pages, format and fold, so a back issue reprints as it shipped rather than as today's draft happens to be set. Issue two cannot reprint issue one: the compile window is bounded by the last issue's timestamp.
-- **The imposition is computed.** One sheet, eight panels, one cut (Letter or A4), or saddle-stitch signatures at eight, twelve and sixteen pages. Changing the format re-flows the same pieces onto different paper without a word being retyped. Print a numbered **test sheet** and fold it before committing good paper; if the numbers come out shuffled, **swap the fold** and test again.
-- **Nothing is clipped in silence.** The panel drops what will not fit, because a printer will too — but the fit meter counts the words that will not print and says so.
-- **Photos are dithered to 1-bit on intake**, so a page-sized photo costs tens of kilobytes, stays on the device, and is already in the only form a photocopier can honestly reproduce.
-- **The back cover carries the address**, as text and as a QR code generated on the page rather than fetched. The paper points at the archive; the archive points at the paper.
-- **The PDF is written by hand**, so the sheet comes out at exactly the right size with nothing for a print dialog to negotiate — and it is a file you can mail to a copy shop, which is the difference between a print run of two and a print run of fifty. There is also a **flyer** with tear-off tabs, because the way a paper invitation works is that somebody takes a piece of it away.
-- **Every issue it exports carries the press inside it.** An exported issue is the reading view, the imposed sheet, the shelf behind it, *and a working press for the next issue*, in one file. Open it on a machine that has never seen this app and you can read the issue, write the next one, and hand that on in turn. No server is involved at any point in that loop.
-- **Sync is a file, not a service.** Export carries everything including photos; import **merges** by id. Published issues are never overwritten by a merge, because a published issue is history.
+[`index.html`](index.html) is the whole thing: one file, zero external requests, no accounts, no server, nothing uploaded anywhere. Seven views — **log**, **journal**, **projects**, **the desk**, **the press**, **the shelf**, and settings & sync.
 
-### The paper
+The first three are sources. You write in them, and they mint pieces; a piece is a title, a byline, a kind and a body.
 
-- [`CHARTER.md`](CHARTER.md): the law. Membership, scenes, the five unamendable clauses, governance, money, dissolution. Capture-resistance as structure rather than intention.
-- [`DESIGN.md`](DESIGN.md): the machine. Every primitive (room, scene, issue, flyer, staple, vouch, guestbook, light, commons, quest), every loop, the data model, moderation, energy, economics, staging. The app above is Stage 0 of the staging plan in that file, at n=2.
-- [`PLAN.md`](PLAN.md): the route from here to a format that outlives us, in seven phases with gates the build can check. It supersedes Stages 2 and 3 of `DESIGN.md`.
-- [`FORMAT.md`](FORMAT.md): the specification — the issue file, the imposition, the address — written so somebody can implement a stoop press without reading our source. This is the part designed to outlive the project.
-- [`tool/SPEC.md`](tool/SPEC.md): the Stage 1 scene tool as it was imagined before `PLAN.md`. Kept for its reasoning; the desk it describes now exists in the app.
-- [`press/`](press/index.html): the hand toolchain. The same one-sheet, eight-page, one-cut layout with editable panels, fold diagrams, a test-sheet mode, and starter prompts. Print it, fold it, hand it to somebody, with no app involved at all.
+At **the desk**, whoever holds the chair this cycle reads the tray, cuts what will not run, writes the editor's note, and rings the bell. A cut is not a deletion: the piece stays with its maker and can run next cycle. Publishing archives the issue whole and passes the chair to the other pair of hands, odd issues to one and even to the other.
+
+**The press** imposes that issue for paper — one sheet of eight panels with a single cut, at Letter or A4, or a saddle-stitch signature at eight, twelve or sixteen pages. The imposition is computed rather than hardcoded, so changing format re-flows the same pieces without a word being retyped. A panel clips what will not fit, because a printer will too, and the fit meter says how many words that is rather than letting them vanish.
+
+**The shelf** keeps every issue as it shipped, with its own pages, format and fold, so a back issue reprints correctly however the current draft happens to be set. The compile window is bounded by the last issue's timestamp, so issue two cannot reprint issue one.
+
+Paper comes out four ways: a browser print, a hand-written PDF at exact paper size with nothing for a print dialog to negotiate, a flyer with tear-off tabs, or a single HTML file that is the issue, the archive behind it, and a working press for the next one. That last file is the point: open it on a machine that has never seen this app and you can read the issue, make the next one, and hand it on.
+
+Photos dither to 1-bit on intake, so a page-sized photo costs tens of kilobytes and is already in the form a photocopier reproduces. The back cover carries the scene's address as text and as a QR code generated on the page. Sync is a file that merges by id, and a published issue is never overwritten by a merge.
+
+### One cycle
+
+```
+write things down          log, journal, projects
+     |
+the desk                   SUBMIT a piece, or DRAW FROM LOG, JOURNAL & PROJECTS
+     |                     CUT what does not run, write the editor's note
+     |                     COMPILE ONTO THE SHEET
+     |                     RING THE BELL - PUBLISH
+     |
+the press                  TEST SHEET, SWAP FOLD, then SAVE PDF and fold it
+     |
+the shelf                  EXPORT, and hand that file to somebody
+```
+
+Then again next cycle. The second issue is the whole project.
+
+### The documents
+
+- [`FORMAT.md`](FORMAT.md): the specification. The issue file, the imposition, the address, written so somebody can implement a stoop press without reading our source.
+- [`PLAN.md`](PLAN.md): the route, in seven phases with gates the build can check. Phases 0 through 6 are built; the last gate is not ours to close.
+- [`DESIGN.md`](DESIGN.md): the machine as it was imagined before anything shipped. Its objects and loops still describe the app; its staging is superseded by `PLAN.md`.
+- [`CHARTER.md`](CHARTER.md): a constitution in the box. Written as the law of a federation that was never built, kept as a template a scene may adopt if it ever needs one. Article III still binds, through the license and through `check.sh`.
+- [`CONTRIBUTING.md`](CONTRIBUTING.md): how to work on it, and why each law in `check.sh` exists.
+- [`press/`](press/index.html): the hand kit. The same one-sheet layout with fold diagrams and starter prompts, printable with no app involved at all.
+- [`tool/SPEC.md`](tool/SPEC.md): superseded. It specified a scene tool before `PLAN.md`; the desk and the shelf it describes now exist in the app, and the federation half is struck.
 
 ### The build
 
-[`src/`](src/) with [`build.sh`](build.sh) and [`check.sh`](check.sh): the development format. Parts under 300 lines, split at view and concern boundaries, assembled into the shipped one-file artifacts the way SQLite's hundred source files ship as one amalgamation. `check.sh` makes the laws mechanical: outputs reproducible from source, the size ceiling, the zero-external-requests rule, the page-weight badge telling the truth, and the two presses folding the same way. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+[`src/`](src/) with [`build.sh`](build.sh) and [`check.sh`](check.sh). Parts under 300 lines, split at view and concern boundaries, assembled into the shipped one-file artifacts the way SQLite's hundred source files ship as one amalgamation. `check.sh` makes the laws mechanical: outputs reproducible from source, zero external requests, an honest page-weight badge, both presses folding the same way, the app small enough to ride inside its own output, and no absolute URL in built output. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Where it lives
 
@@ -60,16 +80,16 @@ Hosting the page publicly does not publish what you write in it. The page is pub
 
 ## Status
 
-**The app is a working press.** Two people can submit pieces, assemble an issue at a desk, ring a bell, print it as a folded sheet or a stapled signature, keep every back issue on a shelf, and hand the whole thing to somebody as a single file that is also a press. It is local-first and account-free by construction, which is the honest version of a privacy policy.
+The app is a working press. Two people can submit pieces, assemble an issue, publish it, print it as a folded sheet or a stapled signature, keep every back issue, and hand the whole thing on as one file that is also a press. It is local-first and account-free by construction, which is the honest version of a privacy policy.
 
-Verified in a real browser by the suites in `test/`: two issues coexist and keep their own words; the same pieces re-flow into a different format with nothing retyped; the fit meter names what will not print; an exported issue opens on a machine with no storage of its own and produces the next issue; the QR encoder matches an independent implementation module for module; and the PDF is parsed back byte by byte — every xref offset landing on its object, every stream length matching its bytes, the top row of the sheet genuinely rotated for the fold.
+The browser suites in `test/` check the parts that would be easy to fake: that two issues coexist and keep their own words, that the same pieces re-flow into another format untouched, that the fit meter names what will not print, that an exported issue opens on a machine with no storage of its own and produces the next issue, that the QR encoder matches an independent implementation module for module, and that the PDF survives being parsed back byte by byte.
 
-**The federation is paper, and staying that way.** `PLAN.md` retires it. No rooms, no vouching, no flyers, no protocol, no cooperative, no court. If the format spreads, federation is somebody else's problem and `DESIGN.md` is the gift we left them.
+The federation is not being built. `PLAN.md` struck it: no rooms, no vouching, no protocol, no cooperative, no court. If the format spreads, that is somebody else's to build, and `DESIGN.md` is there for them.
 
-The founding gate is unchanged and is not signups or retention: it is whether the first scene ships **Issue #2**. Publication continuity is the only metric this project respects.
+The gate is unchanged, and it is not signups or retention: it is whether the first scene ships **Issue #2**. Publication continuity is the only measure this project keeps.
 
 Two people are a scene. There is no minimum size anywhere in this design: the editor's chair alternates instead of rotating, and a scene with no costs owes no dues. The first scene is expected to be two people and a copier, because two people ship on a deadline and eight people with no habit miss the first bell.
 
-The name is provisional. Naming it is an argument to have with the people who will live in it, on principle.
+The name is provisional. Naming it is an argument to have with the people who will live in it.
 
 Licenses, landed: software under AGPL-3.0-or-later ([LICENSE](LICENSE)), per Charter Article III; prose and design documents under CC BY-SA 4.0 ([LICENSE-docs](LICENSE-docs)). Copy this repo; that is what it is for.

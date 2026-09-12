@@ -172,10 +172,9 @@ function renderPress() {
 }
 
 // ---------- the fit meter ----------
-// The panel clips what does not fit, because a printer will too. Silently
-// eating a paragraph is the one thing a press must never do, so measure the
-// overflow in words and say so. Binary search over the word list: about nine
-// reflows per over-full panel, on demand rather than per keystroke.
+// The panel clips what does not fit, because a printer will too — but it must
+// not do so silently. Binary search the word list for the last line that fits:
+// about nine reflows per over-full panel, on demand rather than per keystroke.
 function measureOverflow(body) {
   if (body.scrollHeight <= body.clientHeight + 1) return 0;
   var original = body.innerText;
